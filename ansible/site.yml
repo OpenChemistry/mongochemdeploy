@@ -1,0 +1,5 @@
+- name: Create users
+  hosts: all
+  user: ubuntu
+  roles:
+    - users
