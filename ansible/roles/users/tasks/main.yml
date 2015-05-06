@@ -13,5 +13,5 @@
   authorized_key: user=mongochemdev
                   key="{{ lookup('file', item)}}"
   with_fileglob:
-    - ../public_keys/*
+    - "{{ keys_directory }}/public_keys/*"
   tags: users
