@@ -15,3 +15,9 @@
   user: mongochemdev
   roles:
     - girder
+
+- name: Install and configure nginx
+  hosts: mongochem
+  user: mongochemdev
+  roles:
+    - nginx

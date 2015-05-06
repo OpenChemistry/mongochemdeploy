@@ -1,0 +1,37 @@
+- name: Install nginx
+  apt: name=nginx state=present
+  register: nginxinstalled
+  sudo: yes
+  tags: nginx
+
+- name: Copy over SSL key
+  copy: src="{{ keys_directory }}/ssl_keys/openchemistry.key" dest=/etc/ssl/openchemistry.key mode=600 owner=root
+  sudo: yes
+  tags: nginx
+
+- name: Copy over SSL pem
+  copy: src="{{ keys_directory }}/ssl_keys/openchemistry.pem" dest=/etc/ssl/openchemistry.pem mode=600 owner=root
+  sudo: yes
+  tags: nginx
+
+- name: Copy over site configuration
+  copy: src=../files/mongochem dest=/etc/nginx/sites-available/mongochem mode=611 owner=root
+  sudo: yes
+  tags: nginx
+  notify:
+    - restart nginx
+    
+- name: Disable default configuration
+  when: nginxinstalled|success
+  file: dest=/etc/nginx/sites-enabled/default state=absent
+  sudo: yes
+  tags: nginx
+  notify:
+    - restart nginx
+
+- name: Enable mongochem configuration
+  file: src=/etc/nginx/sites-available/mongochem dest=/etc/nginx/sites-enabled/mongochem state=link
+  sudo: yes
+  tags: nginx
+  notify:
+    - restart nginx
