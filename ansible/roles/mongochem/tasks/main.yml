@@ -1,0 +1,21 @@
+- name: Clone client from GitHub
+  git: repo=https://github.com/openchemistry/mongochemclient.git version=master dest=/opt/mongochem/client
+  tags: mongochem
+
+- name: Run npm install for client
+  npm: path=/opt/mongochem/client
+  tags: mongochem
+
+- name: Build the client HTML5 code
+  command: npm run build chdir=/opt/mongochem/client
+  tags: mongochem
+
+- name: Clone server from GitHub
+  git: repo=https://github.com/openchemistry/mongochemserver.git version=master dest=/opt/mongochem/server
+  tags: mongochem
+
+- name: Symlink molecules Girder plugin
+  file: src=/opt/mongochem/server/girder/molecules dest=/opt/mongochem/girder/plugins/molecules state=link
+  tags: mongochem
+  notify:
+    - restart girder

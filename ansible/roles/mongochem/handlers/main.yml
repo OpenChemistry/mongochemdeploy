@@ -1,0 +1,3 @@
+- name: restart girder
+  service: name=girder state=restarted
+  sudo: yes

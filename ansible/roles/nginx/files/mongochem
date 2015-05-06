@@ -7,8 +7,8 @@ server {
 server {
         listen              443;
 
-        root                /usr/share/nginx/html;
-        index               index.html index.htm;
+        root                /opt/mongochem/client/dist;
+        index               index.html;
 
         server_name         openchemistry.kitware.com;
 

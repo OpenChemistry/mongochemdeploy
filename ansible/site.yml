@@ -4,7 +4,7 @@
   roles:
     - users
 
-- name: Creat/install base system
+- name: Create/install base system
   hosts: all
   user: mongochemdev
   roles:
@@ -15,6 +15,12 @@
   user: mongochemdev
   roles:
     - girder
+
+- name: Install and configure MongoChem components
+  hosts: girder
+  user: mongochemdev
+  roles:
+    - mongochem
 
 - name: Install and configure nginx
   hosts: mongochem
