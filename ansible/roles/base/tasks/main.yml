@@ -1,0 +1,18 @@
+- name: Create base application directory
+  sudo: yes
+  file: dest=/opt/mongochem mode=755 owner=mongochemdev group=mongochemdev state=directory
+  tags:
+    - base
+
+- name: Update package manager
+  apt: update_cache=yes
+  sudo: yes
+
+- name: Install base packages
+  apt: name={{ item }} state=present
+  sudo: yes
+  with_items:
+    - git
+    - python-dev
+    - python-pip
+    - nginx

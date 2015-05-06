@@ -1,0 +1,81 @@
+- name: Add nodejs PPA
+  apt_repository: repo='ppa:chris-lea/node.js' update_cache=no
+  sudo: yes
+  tags: girder
+
+- name: Add MongoDB repo key
+  command: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+  sudo: yes
+  tags: girder
+
+- name: Add MongoDB PPA
+  apt_repository: repo='deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' update_cache=yes
+  sudo: yes
+  tags: girder
+
+- name: Install package dependencies
+  apt: name={{ item }} state=present
+  sudo: yes
+  tags: girder
+  with_items:
+    - curl
+    - g++
+    - libffi-dev
+    - nodejs
+    - mongodb-org-server
+    - mongodb-org-shell
+    - python-pymongo
+    - python-gridfs
+    - python-bson
+
+- name: Install grunt and grunt-cli globally
+  npm: name={{ item }} global=yes
+  sudo: yes
+  tags: girder
+  with_items:
+    - grunt
+    - grunt-cli
+
+- name: Enable MongoDB full-text search
+  lineinfile: dest=/etc/mongodb.conf regexp=^setParameter= line=setParameter=textSearchEnabled=true
+  sudo: yes
+  tags: girder
+  notify:
+    - restart mongodb
+
+- name: Clone Girder from GitHub
+  git: repo=https://github.com/girder/girder.git version=master dest=/opt/mongochem/girder
+  sudo: no
+  tags: girder
+
+- name: Install Girder specified requirements
+  pip: requirements=/opt/mongochem/girder/requirements.txt
+  sudo: yes
+  tags: girder
+
+- name: Compile bcrypt (see https://github.com/pyca/bcrypt/issues/15)
+  command: python -c "import bcrypt"
+  sudo: yes
+  tags: girder
+
+- name: Install Girder web frameworks using npm
+  npm: path=/opt/mongochem/girder
+  tags: girder
+
+- name: Run grunt init
+  command: grunt init chdir=/opt/mongochem/girder
+  tags: girder
+
+- name: Run grunt
+  command: grunt chdir=/opt/mongochem/girder
+  tags: girder
+
+- name: Install Girder as a service
+  copy: src=../files/girder.conf dest=/etc/init/girder.conf mode=644 owner=root
+  sudo: yes
+  tags: girder
+
+- name: Start Girder as a service
+  service: name=girder state=restarted enabled=yes
+  sudo: yes
+  tags: girder

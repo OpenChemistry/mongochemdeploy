@@ -3,3 +3,15 @@
   user: ubuntu
   roles:
     - users
+
+- name: Creat/install base system
+  hosts: all
+  user: mongochemdev
+  roles:
+    - base
+
+- name: Install and configure Girder
+  hosts: girder
+  user: mongochemdev
+  roles:
+    - girder
