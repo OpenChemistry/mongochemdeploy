@@ -17,6 +17,20 @@ MongoChem is being developed as part of the [Open Chemistry][OpenChemistry]
 project at [Kitware][Kitware], along with companion tools and libraries to
 support the work.
 
+### Requirements
+
+- [Ansible] (http://www.ansible.com/)
+
+### Example Deployment
+
+Install the required packages, and then run:
+
+    ansible-playbook -i ansible/inventory/production ansible/site.yml \
+      -e keys_directory=<path_to_keys>
+
+Note that this is an example playbook that will require adaptation for your
+particular deployment.
+
 Contributing
 ------------
 
