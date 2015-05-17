@@ -58,6 +58,10 @@
   sudo: yes
   tags: girder
 
+- name: Install Girder local configuration file
+  copy: src=../files/girder.local.cfg dest=/opt/mongochem/girder/girder/conf/girder.local.cfg
+  tags: girder
+
 - name: Install Girder web frameworks using npm
   npm: path=/opt/mongochem/girder
   tags: girder
