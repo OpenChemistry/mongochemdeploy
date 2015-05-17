@@ -24,9 +24,9 @@
     - nodejs
     - mongodb-org-server
     - mongodb-org-shell
-    - python-pymongo
-    - python-gridfs
-    - python-bson
+    - python3-pymongo
+    - python3-gridfs
+    - python3-bson
 
 - name: Install grunt and grunt-cli globally
   npm: name={{ item }} global=yes
@@ -49,12 +49,12 @@
   tags: girder
 
 - name: Install Girder specified requirements
-  pip: requirements=/opt/mongochem/girder/requirements.txt
+  pip: executable=pip3 requirements=/opt/mongochem/girder/requirements.txt
   sudo: yes
   tags: girder
 
 - name: Compile bcrypt (see https://github.com/pyca/bcrypt/issues/15)
-  command: python -c "import bcrypt"
+  command: python3 -c "import bcrypt"
   sudo: yes
   tags: girder
 
