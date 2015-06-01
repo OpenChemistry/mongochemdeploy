@@ -19,3 +19,4 @@
     - python3-pip
   tags:
     - base
+    - girder
