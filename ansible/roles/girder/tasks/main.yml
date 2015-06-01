@@ -24,6 +24,7 @@
     - nodejs
     - mongodb-org-server
     - mongodb-org-shell
+    - mongodb-org-tools
     - python3-pymongo
     - python3-gridfs
     - python3-bson
@@ -166,3 +167,16 @@
   tags:
     - girder
     - girder_setup
+
+# Add some sample data
+- name: Copy sample data to remote host
+  copy: src=../files/mongodump_molecules dest=/tmp
+  tags: test
+
+- name: Add sample molecules to database
+  shell: "mongorestore --drop /tmp/mongodump_molecules"
+  tags: test
+
+- name: Cleanup sample data from remote host
+  file: path=/tmp/mongodump_molecules state=absent
+  tags: test
