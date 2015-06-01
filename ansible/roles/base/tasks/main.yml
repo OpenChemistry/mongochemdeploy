@@ -7,6 +7,8 @@
 - name: Update package manager
   apt: update_cache=yes
   sudo: yes
+  tags:
+    - base
 
 - name: Install base packages
   apt: name={{ item }} state=present
@@ -15,3 +17,5 @@
     - git
     - python3-dev
     - python3-pip
+  tags:
+    - base
