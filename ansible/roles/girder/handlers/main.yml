@@ -1,3 +1,7 @@
 - name: restart mongodb
   service: name=mongodb state=restarted
   sudo: yes
+
+- name: restart girder
+  service: name=girder state=restarted
+  sudo: yes
