@@ -1,0 +1,9 @@
+girder_host: localhost
+girder_port: 8080
+mongochem_admin_user:
+mongochem_admin_email:
+girder_plugins: ['oauth', 'gravatar', 'molecules']
+oauth_google_client_id:
+oauth_google_client_secret:
+file_system_asset_store_name: MolecularAssetStore
+file_system_asset_store_root: /opt/mongochem/assetstore

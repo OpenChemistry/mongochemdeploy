@@ -83,3 +83,86 @@
   service: name=girder state=restarted enabled=yes
   sudo: yes
   tags: girder
+
+# Now setup the require users/plugins/resources
+- name: Setup Girder base URL fact
+  set_fact:
+    girder_base_url: http://{{girder_host}}:{{girder_port}}
+  tags:
+    - girder
+    - girder_setup
+
+- name: Setup Girder api URL fact
+  set_fact:
+    girder_api_url: "{{girder_base_url}}/api/v1"
+  tags:
+    - girder
+    - girder_setup
+
+- name: Log in as mongochem admin
+  shell: "curl -u {{mongochem_admin_user}}:{{mongochem_admin_password}} {{girder_api_url}}/user/authentication"
+  register: token_response
+  tags:
+    - girder
+    - girder_setup
+
+- name: Create admin mongochem user if we don't already have the user
+  shell: "curl --data \"login={{mongochem_admin_user}}&firstName=mongochem&lastName=admin&password={{mongochem_admin_password}}&email={{mongochem_admin_email}}&admin=true\" {{girder_api_url}}/user"
+  register: admin_user_response
+  tags:
+    - girder
+    - girder_setup
+  when: (token_response.stdout|from_json).authToken is not defined
+
+# Logging in again to ensure that we have a valid token regardless if we needed to create the user
+- name: Log in as mongo admin
+  shell: "curl -u {{mongochem_admin_user}}:{{mongochem_admin_password}} {{girder_api_url}}/user/authentication"
+  register: token_response
+  tags:
+    - girder
+    - girder_setup
+
+# Set Girder token as a fact for easy access
+- name: Setup Girder token fact
+  set_fact:
+    girder_token: "{{(token_response.stdout|from_json).authToken.token}}"
+  tags:
+    - girder
+    - girder_setup
+
+# Enable plugins require for mongochem
+- name: Enable girder plugins
+  shell: "curl -X PUT --data 'plugins={{girder_plugins|to_json}}&token={{girder_token}}' {{girder_api_url}}/system/plugins"
+  notify:
+    - restart girder
+  tags:
+    - girder
+    - girder_setup
+
+- name: Setup OAuth fact
+  set_fact:
+    oauth_settings: [{"key":"oauth.google_client_id","value": "{{oauth_google_client_id}}"}, {"key":"oauth.google_client_secret","value": "{{oauth_google_client_secret}}"}]
+  tags:
+    - girder
+    - girder_setup
+
+# Now configure that OAuth plugin
+- name: Configure OAuth plugin
+  shell: "curl -X PUT --data 'list={{oauth_settings|to_json}}&token={{girder_token}}' {{girder_api_url}}/system/setting"
+  tags:
+    - girder
+    - girder_setup
+
+- name: Create directory for asset store
+  sudo: yes
+  file: dest={{file_system_asset_store_root}} mode=755 owner=mongochemdev group=mongochemdev state=directory
+  tags:
+    - girder
+    - girder_setup
+
+# Create a filesystem asset store
+- name: Create an filesystem asset store
+  shell: "curl --data 'type=0&name={{file_system_asset_store_name}}&root={{file_system_asset_store_root}}&token={{girder_token}}' {{girder_api_url}}/assetstore"
+  tags:
+    - girder
+    - girder_setup
