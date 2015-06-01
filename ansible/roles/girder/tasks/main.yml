@@ -37,7 +37,7 @@
     - grunt-cli
 
 - name: Enable MongoDB full-text search
-  lineinfile: dest=/etc/mongodb.conf regexp=^setParameter= line=setParameter=textSearchEnabled=true
+  lineinfile: dest=/etc/mongod.conf regexp=^setParameter= line=setParameter=textSearchEnabled=true
   sudo: yes
   tags: girder
   notify:
