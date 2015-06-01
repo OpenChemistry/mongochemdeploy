@@ -15,12 +15,12 @@
   tags: nginx
 
 - name: Copy over site configuration
-  copy: src=../files/mongochem dest=/etc/nginx/sites-available/mongochem mode=611 owner=root
+  template: src=../files/mongochem.j2 dest=/etc/nginx/sites-available/mongochem mode=611 owner=root
   sudo: yes
   tags: nginx
   notify:
     - restart nginx
-    
+
 - name: Disable default configuration
   when: nginxinstalled|success
   file: dest=/etc/nginx/sites-enabled/default state=absent
