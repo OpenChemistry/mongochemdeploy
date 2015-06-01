@@ -10,17 +10,18 @@
   roles:
     - base
 
+- name: Install and configure MongoChem components
+  hosts: girder
+  user: mongochemdev
+  roles:
+    - mongochem
+
 - name: Install and configure Girder
   hosts: girder
   user: mongochemdev
   roles:
     - girder
 
-- name: Install and configure MongoChem components
-  hosts: girder
-  user: mongochemdev
-  roles:
-    - mongochem
 
 - name: Install and configure nginx
   hosts: mongochem

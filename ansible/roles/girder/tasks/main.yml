@@ -75,6 +75,10 @@
   command: grunt chdir=/opt/mongochem/girder
   tags: girder
 
+- name: Symlink molecules Girder plugin
+  file: src=/opt/mongochem/server/girder/molecules dest=/opt/mongochem/girder/plugins/molecules state=link
+  tags: girder
+
 - name: Install Girder as a service
   copy: src=../files/girder.conf dest=/etc/init/girder.conf mode=644 owner=root
   sudo: yes
