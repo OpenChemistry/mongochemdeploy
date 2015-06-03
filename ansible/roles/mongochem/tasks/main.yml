@@ -13,3 +13,8 @@
 - name: Clone server from GitHub
   git: repo=https://github.com/openchemistry/mongochemserver.git version=master dest=/opt/mongochem/server
   tags: mongochem
+
+- name: Install required python packages
+  pip: executable=pip3 requirements=/opt/mongochem/server/requirements.txt
+  sudo: yes
+  tags: mongochem
