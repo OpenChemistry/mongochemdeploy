@@ -10,6 +10,12 @@
   roles:
     - base
 
+- name: Install Open Babel
+  hosts: girder
+  user: mongochemdev
+  roles:
+    - openbabel
+
 - name: Install and configure MongoChem components
   hosts: girder
   user: mongochemdev
@@ -22,9 +28,9 @@
   roles:
     - girder
 
-
 - name: Install and configure nginx
   hosts: mongochem
   user: mongochemdev
   roles:
     - nginx
+

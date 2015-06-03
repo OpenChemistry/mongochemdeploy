@@ -1,0 +1,8 @@
+- name: Install swig and Open Babel binary package
+  apt: name={{ item }} state=present
+  sudo: yes
+  with_items:
+    - swig
+    - pkg-config
+    - libopenbabel-dev
+  tags: openbabel
