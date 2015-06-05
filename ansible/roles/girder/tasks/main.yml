@@ -175,12 +175,18 @@
 # Add some sample data
 - name: Copy sample data to remote host
   copy: src=../files/mongodump_molecules dest=/tmp
-  tags: test
+  tags:
+    - girder
+    - girder_setup
 
 - name: Add sample molecules to database
   shell: "mongorestore --drop /tmp/mongodump_molecules"
-  tags: test
+  tags:
+    - girder
+    - girder_setup
 
 - name: Cleanup sample data from remote host
   file: path=/tmp/mongodump_molecules state=absent
-  tags: test
+  tags:
+    - girder
+    - girder_setup
