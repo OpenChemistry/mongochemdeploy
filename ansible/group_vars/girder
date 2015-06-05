@@ -1,6 +1,7 @@
 girder_host: localhost
 girder_port: 8080
 mongochem_admin_user:
+mongochem_admin_password:
 mongochem_admin_email:
 girder_plugins: ['oauth', 'gravatar', 'molecules']
 oauth_google_client_id:
