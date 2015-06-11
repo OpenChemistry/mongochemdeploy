@@ -1,8 +1,3 @@
-- name: Add nodejs PPA
-  apt_repository: repo='ppa:chris-lea/node.js' update_cache=no
-  sudo: yes
-  tags: girder
-
 - name: Add MongoDB repo key
   command: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
   sudo: yes
@@ -21,7 +16,6 @@
     - curl
     - g++
     - libffi-dev
-    - nodejs
     - mongodb-org-server
     - mongodb-org-shell
     - mongodb-org-tools
