@@ -36,7 +36,7 @@
   sudo: yes
   tags: girder
   notify:
-    - restart mongodb
+    - restart mongod
 
 - name: Clone Girder from GitHub
   git: repo=https://github.com/girder/girder.git version=master dest=/opt/mongochem/girder
