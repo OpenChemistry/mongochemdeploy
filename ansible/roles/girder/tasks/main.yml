@@ -132,8 +132,12 @@
 # Enable plugins require for mongochem
 - name: Enable girder plugins
   shell: "curl -X PUT --data 'plugins={{girder_plugins|to_json}}&token={{girder_token}}' {{girder_api_url}}/system/plugins"
-  notify:
-    - restart girder
+  tags:
+    - girder
+    - girder_setup
+
+- name: Restart Girder
+  shell: "curl -X PUT --data 'token={{girder_token}}' {{girder_api_url}}/system/restart"
   tags:
     - girder
     - girder_setup
@@ -141,6 +145,12 @@
 - name: Setup OAuth fact
   set_fact:
     oauth_settings: [{"key":"oauth.google_client_id","value": "{{oauth_google_client_id}}"}, {"key":"oauth.google_client_secret","value": "{{oauth_google_client_secret}}"}]
+  tags:
+    - girder
+    - girder_setup
+
+- name: Wait for Girder to restart
+  wait_for: port=8080 delay=5
   tags:
     - girder
     - girder_setup
