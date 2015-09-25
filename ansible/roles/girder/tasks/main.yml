@@ -38,6 +38,13 @@
   notify:
     - restart mongod
 
+- name: Enable MongoDB smallfile support
+  lineinfile: dest=/etc/mongod.conf regexp=^smallfiles= line=smallfiles=true
+  sudo: yes
+  tags: girder
+  notify:
+    - restart mongod
+
 - name: Clone Girder from GitHub
   git: repo=https://github.com/girder/girder.git version=master dest=/opt/mongochem/girder
   sudo: no
