@@ -1,0 +1,29 @@
+- name: Create avogadrolibs directory
+  file: dest=/opt/mongochem/avogadrolibs mode=755 owner=mongochemdev group=mongochemdev state=directory
+  tags: avogadrolibs
+
+- name: Install avogadrolibs prerequisites
+  sudo: yes
+  apt: name={{ item }} state=present
+  with_items:
+    - cmake
+    - libboost-all-dev
+    - libeigen3-dev
+    - libpython3-dev
+  tags: avogadrolibs
+
+- name: Get avogadrolibs from GitHub
+  git: repo=https://github.com/openchemistry/avogadrolibs.git version=boost-python dest=/opt/mongochem/avogadrolibs/src
+  tags: avogadrolibs
+
+- name: Create avogadrolibs build directory
+  file: dest=/opt/mongochem/avogadrolibs/build mode=755 owner=mongochemdev group=mongochemdev state=directory
+  tags: avogadrolibs
+
+- name: Create script to build avogadrolibs
+  action: template src=build.sh.j2 dest=/opt/mongochem/avogadrolibs/build/build.sh mode=700 owner=mongochemdev
+  tags: avogadrolibs
+
+- name: Build avogadrolibs
+  shell: /opt/mongochem/avogadrolibs/build/build.sh chdir=/opt/mongochem/avogadrolibs/build
+  tags: avogadrolibs
