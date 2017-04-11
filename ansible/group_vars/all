@@ -1,3 +1,4 @@
+ssl: no
 girder_version: master
 mongochemserver_version: girder-upgrade
 mongochemclient_version: updates
