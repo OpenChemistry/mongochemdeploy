@@ -7,7 +7,7 @@
   tags: mongochem
 
 - name: Clone client from GitHub
-  git: repo=https://github.com/openchemistry/mongochemclient.git version=master dest=/opt/mongochem/client
+  git: repo=https://github.com/openchemistry/mongochemclient.git version={{mongochemclient_version}} dest=/opt/mongochem/client
   tags: mongochem
 
 - name: Run npm install for client
