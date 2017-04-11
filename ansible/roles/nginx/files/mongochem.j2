@@ -23,7 +23,7 @@ server {
                 proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
                 proxy_pass          http://localhost:8080/api/v1;
         }
-        location /static {
+        location /api/static {
                 proxy_pass          http://localhost:8080/static;
         }
 }
