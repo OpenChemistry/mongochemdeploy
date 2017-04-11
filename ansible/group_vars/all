@@ -1,3 +1,6 @@
 girder_version: master
-mongochemserver_version: master
-keys_directory:
+mongochemserver_version: girder-upgrade
+mongochemclient_version: updates
+keys_directory: /home/cjh/mongochemweb_keys
+mongochem_virtualenv_dir: "{{ ansible_user_dir }}/.virtualenvs/mongochem"
+girder_virtualenv: "{{ mongochem_virtualenv_dir }}"
