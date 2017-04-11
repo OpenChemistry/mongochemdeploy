@@ -27,3 +27,9 @@
 - name: Build avogadrolibs
   shell: /opt/mongochem/avogadrolibs/build/build.sh chdir=/opt/mongochem/avogadrolibs/build
   tags: avogadrolibs
+
+- name: Symlink library into virtualenv
+  file:
+    src: /opt/mongochem/avogadrolibs/build/lib/avogadro2.so
+    dest: "{{ mongochem_virtualenv_dir }}/lib/python3.5/site-packages/avogadro2.so"
+    state: link

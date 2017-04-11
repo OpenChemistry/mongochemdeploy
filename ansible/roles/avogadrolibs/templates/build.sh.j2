@@ -7,10 +7,8 @@ cmake -DBUILD_TESTING:BOOL=OFF \
       -DUSE_MOLEQUEUE:BOOL=OFF \
       -DUSE_BOOST_PYTHON:BOOL=ON \
       -DCMAKE_INSTALL_PREFIX:PATH=/opt/mongochem/avogadrolibs/install \
-      -DPYTHON_INCLUDE_DIR:PATH=/usr/include/python3.4m \
-      -DPYTHON_INCLUDE_DIR2:PATH=/usr/include/python3.4m \
-      -DPYTHON_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libpython3.4m.so \
-      -Dboost_python_suffix:STRING=-py34 \
+      -DPYTHON_EXECUTABLE:PATH={{ mongochem_virtualenv_dir }}/bin/python \
+      -Dboost_python_suffix:STRING=-py35 \
       ../src
 
 make -j{{ ansible_processor_cores }}
