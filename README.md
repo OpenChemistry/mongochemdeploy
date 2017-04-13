@@ -24,7 +24,9 @@ support the work.
 ### Example Deployment
 
 Install the required packages, and then run:
-
+    
+    ansible-galaxy install -p ansible/roles/ -r ansible/requirements.yml
+    
     ansible-playbook -i ansible/inventory/production ansible/site.yml \
       -e keys_directory=<path_to_keys>
 
