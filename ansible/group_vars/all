@@ -1,3 +1,7 @@
-girder_version: master
+ssl: no
+girder_version: v2.2.0 
 mongochemserver_version: master
+mongochemclient_version: master
 keys_directory:
+mongochem_virtualenv_dir: "{{ ansible_user_dir }}/.virtualenvs/mongochem"
+girder_virtualenv: "{{ mongochem_virtualenv_dir }}"

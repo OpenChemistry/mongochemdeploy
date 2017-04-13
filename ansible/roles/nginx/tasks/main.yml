@@ -7,21 +7,35 @@
 - name: Copy over SSL key
   copy: src="{{ keys_directory }}/ssl_keys/openchemistry.key" dest=/etc/ssl/openchemistry.key mode=600 owner=root
   sudo: yes
+  when: ssl
   tags: nginx
 
 - name: Copy over SSL pem
   copy: src="{{ keys_directory }}/ssl_keys/openchemistry.pem" dest=/etc/ssl/openchemistry.pem mode=600 owner=root
   sudo: yes
+  when: ssl
   tags: nginx
+
 
 - name: Generate DHE with 4096 bit parameter
   command: openssl dhparam -out dhparam.pem 4096 chdir=/etc/ssl/certs
   sudo: yes
+  when: ssl
   tags: nginx
+
+
+- name: Copy over site configuration ( SSL )
+  template: src=../files/mongochem.ssl.j2 dest=/etc/nginx/sites-available/mongochem mode=611 owner=root
+  sudo: yes
+  when: ssl
+  tags: nginx
+  notify:
+    - restart nginx
 
 - name: Copy over site configuration
   template: src=../files/mongochem.j2 dest=/etc/nginx/sites-available/mongochem mode=611 owner=root
   sudo: yes
+  when: not ssl
   tags: nginx
   notify:
     - restart nginx
