@@ -36,6 +36,7 @@ RUN git clone https://github.com/openchemistry/avogadrolibs.git /avogadrolibs/so
 # Install cumulus
 RUN git clone https://github.com/Kitware/cumulus.git /cumulus && \
   pip install --no-cache-dir -r /cumulus/requirements.txt && \
+  pip install --no-cache-dir -e /cumulus && \
   girder-install plugin /cumulus/girder/cumulus && \
   girder-install plugin /cumulus/girder/sftp && \
   girder-install plugin /cumulus/girder/newt && \
