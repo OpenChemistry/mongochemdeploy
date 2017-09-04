@@ -1,0 +1,16 @@
+version: '2'
+services:
+  girder:
+    build:
+      context: .
+      dockerfile: Dockerfile.girder
+    command: -d mongodb://192.168.30.153:27017/girder-test
+
+  nginx:
+      build:
+       context: .
+       dockerfile: Dockerfile.nginx
+      ports:
+          - 8080:80
+      depends_on:
+        - 'girder'
