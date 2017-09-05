@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.girder
-    command: -d mongodb://192.168.30.153:27017/girder-test
+    command: -d ${MONGODB_URL}
 
   nginx:
       build:
@@ -14,3 +14,24 @@ services:
           - 8080:80
       depends_on:
         - 'girder'
+
+  rabbitmq:
+      image: rabbitmq
+
+  celery-command:
+    build:
+      context: .
+      dockerfile: Dockerfile.celery
+    command: celery worker --app=cumulus -b ${RABBITMQ_URL} -n command --config=cumulus.celery.commandconfig --loglevel=INFO
+    depends_on:
+      - 'rabbitmq'
+
+  celery-monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile.celery
+    command: celery worker --app=cumulus -b ${RABBITMQ_URL} -n monitor -Q monitor --config=cumulus.celery.monitorconfig --loglevel=INFO
+    depends_on:
+      - 'rabbitmq'
+
+
