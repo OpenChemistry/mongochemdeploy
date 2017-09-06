@@ -1,7 +1,6 @@
 version: '2'
 services:
   girder:
-    network_mode: "host"
     build:
       context: . 
       dockerfile: girder/Dockerfile
