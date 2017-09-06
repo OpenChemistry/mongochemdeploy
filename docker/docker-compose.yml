@@ -2,9 +2,11 @@ version: '2'
 services:
   girder:
     build:
-      context: . 
+      context: .
       dockerfile: girder/Dockerfile
     command: -d ${MONGODB_URL}
+    volumes:
+     - assetstore:/assetstore
 
   nginx:
       build:
@@ -34,4 +36,6 @@ services:
     depends_on:
       - 'rabbitmq'
 
+volumes:
+    assetstore:
 
