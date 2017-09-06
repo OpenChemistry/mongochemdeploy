@@ -1,4 +1,4 @@
-FROM girder/girder:python3
+FROM girder/girder:py3
 
 # Build CMake
 RUN git clone https://github.com/Kitware/CMake.git /cmake && \
