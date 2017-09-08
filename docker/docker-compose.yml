@@ -20,15 +20,17 @@ services:
   rabbitmq:
       image: rabbitmq
 
-  celery-command:
+  celery_command:
     build:
       context: .
       dockerfile: celery/Dockerfile
+    env_file:
+      - celery/celery.env
     command: celery worker --app=cumulus -b ${RABBITMQ_URL} -n command --config=cumulus.celery.commandconfig --loglevel=INFO
     depends_on:
       - 'rabbitmq'
 
-  celery-monitor:
+  celery_monitor:
     build:
       context: .
       dockerfile: celery/Dockerfile
