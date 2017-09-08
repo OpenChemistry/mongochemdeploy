@@ -56,6 +56,15 @@
           - taskflow
         state: present
 
+    - name: Enable OC plugin
+      girder:
+        port: 8080
+        username: "mongochem"
+        password: "{{ mongochem_password }}"
+        plugins:
+          - molecule
+        state: present
+
     - name: Create filesystem assetstore
       girder:
         port: 8080
