@@ -1,0 +1,43 @@
+version: '2'
+services:
+  girder:
+    build:
+      context: .
+      dockerfile: girder/Dockerfile
+    command: -d ${MONGODB_URL}
+    volumes:
+     - assetstore:/assetstore
+
+  nginx:
+      build:
+       context: nginx
+       dockerfile: Dockerfile
+      ports:
+          - 8080:80
+      depends_on:
+        - 'girder'
+
+  rabbitmq:
+      image: rabbitmq
+
+  celery_command:
+    build:
+      context: .
+      dockerfile: celery/Dockerfile
+    env_file:
+      - celery/celery.env
+    command: celery worker --app=cumulus -b ${RABBITMQ_URL} -n command --config=cumulus.celery.commandconfig --loglevel=INFO
+    depends_on:
+      - 'rabbitmq'
+
+  celery_monitor:
+    build:
+      context: .
+      dockerfile: celery/Dockerfile
+    command: celery worker --app=cumulus -b ${RABBITMQ_URL} -n monitor -Q monitor --config=cumulus.celery.monitorconfig --loglevel=INFO
+    depends_on:
+      - 'rabbitmq'
+
+volumes:
+    assetstore:
+

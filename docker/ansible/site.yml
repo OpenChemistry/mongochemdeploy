@@ -1,0 +1,78 @@
+- name: Setting up Girder
+  hosts: localhost
+  vars:
+    required_ansible_version: 2.1.0
+  tasks:
+    - fail: msg="Playbook requires ansible >= {{required_ansible_version}}"
+      when: ansible_version.string|version_compare(required_ansible_version, '<')
+
+    - name: Create Girder monogchem user
+      girder:
+        port: 8080
+        user:
+          firstName: "mongochem"
+          lastName: "mongochem"
+          login: "mongochem"
+          password: "{{ mongochem_password }}"
+          email: "mongochem@kitware.com"
+          admin: yes
+        state: present
+
+    - name: Create Girder cumulus user
+      girder:
+        port: 8080
+        username: "mongochem"
+        password: "{{ mongochem_password }}"
+        user:
+          firstName: "cumulus"
+          lastName: "cumulus"
+          login: "cumulus"
+          password: "{{ cumulus_password }}"
+          email: "cumulus@kitware.com"
+          admin: yes
+        state: present
+
+    - name: Create Girder cumulus group
+      girder:
+        port: 8080
+        username: "mongochem"
+        password: "{{ mongochem_password }}"
+        group:
+          name: "cumulus"
+          description: "The cumulus group"
+          users:
+            - login: cumulus
+              type: member
+
+    - name: Enable cumulus plugins
+      girder:
+        port: 8080
+        username: "mongochem"
+        password: "{{ mongochem_password }}"
+        plugins:
+          - cumulus
+          - sftp
+          - newt
+          - taskflow
+        state: present
+
+    - name: Enable OC plugin
+      girder:
+        port: 8080
+        username: "mongochem"
+        password: "{{ mongochem_password }}"
+        plugins:
+          - molecule
+        state: present
+
+    - name: Create filesystem assetstore
+      girder:
+        port: 8080
+        username: "mongochem"
+        password: "{{ mongochem_password }}"
+        assetstore:
+          name: "Filesystem Assetstore"
+          type: "filesystem"
+          root: "/assetstore"
+          current: true
+        state: present
