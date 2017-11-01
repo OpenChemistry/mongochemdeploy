@@ -27,6 +27,7 @@ c.DockerSpawner.extra_host_config = { 'network_mode': network_name }
 girder_api_url = os.environ.get('GIRDER_API_URL', 'http://localhost:8080/api/v1')
 
 spawn_cmd = os.environ.get('DOCKER_SPAWN_CMD', "start-singleuser.sh")
+spawn_cmd += ' --NotebookApp.allow_origin=%s' % os.environ['ORIGIN']
 spawn_cmd += " --SingleUserNotebookApp.default_url=/lab"
 spawn_cmd += " --NotebookApp.contents_manager_class='girder_jupyter.contents.girderfilemanager.GirderFileManager'"
 spawn_cmd += " --GirderFileManager.api_url=%s" % girder_api_url
