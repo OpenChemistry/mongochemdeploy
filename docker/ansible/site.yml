@@ -83,7 +83,7 @@
         username: "mongochem"
         password: "{{ mongochem_password }}"
         plugins:
-          - molecule
+          - molecules
         state: present
 
     - name: Enable NEWT plugin
