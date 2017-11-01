@@ -5,10 +5,19 @@
   tasks:
     - fail: msg="Playbook requires ansible >= {{required_ansible_version}}"
       when: ansible_version.string|version_compare(required_ansible_version, '<')
+    - name: Set some facts
+      set_fact:
+        girder_host: "{{girder_host|default('localhost')}}"
+        girder_port: "{{girder_port|default(8080)}}"
+        girder_scheme: "{{girder_scheme|default(http)}}"
+        girder_api_root: "{{girder_api_root|default('/api/v1')}}"
 
     - name: Create Girder monogchem user
       girder:
-        port: 8080
+        host: "{{girder_host}}"
+        port: "{{girder_port}}"
+        scheme: "{{girder_scheme}}"
+        apiRoot: "{{girder_api_root}}"
         user:
           firstName: "mongochem"
           lastName: "mongochem"
@@ -20,7 +29,10 @@
 
     - name: Create Girder cumulus user
       girder:
-        port: 8080
+        host: "{{girder_host}}"
+        port: "{{girder_port}}"
+        scheme: "{{girder_scheme}}"
+        apiRoot: "{{girder_api_root}}"
         username: "mongochem"
         password: "{{ mongochem_password }}"
         user:
@@ -34,7 +46,10 @@
 
     - name: Create Girder cumulus group
       girder:
-        port: 8080
+        host: "{{girder_host}}"
+        port: "{{girder_port}}"
+        scheme: "{{girder_scheme}}"
+        apiRoot: "{{girder_api_root}}"
         username: "mongochem"
         password: "{{ mongochem_password }}"
         group:
@@ -46,7 +61,10 @@
 
     - name: Enable cumulus plugins
       girder:
-        port: 8080
+        host: "{{girder_host}}"
+        port: "{{girder_port}}"
+        scheme: "{{girder_scheme}}"
+        apiRoot: "{{girder_api_root}}"
         username: "mongochem"
         password: "{{ mongochem_password }}"
         plugins:
@@ -58,16 +76,35 @@
 
     - name: Enable OC plugin
       girder:
-        port: 8080
+        host: "{{girder_host}}"
+        port: "{{girder_port}}"
+        scheme: "{{girder_scheme}}"
+        apiRoot: "{{girder_api_root}}"
         username: "mongochem"
         password: "{{ mongochem_password }}"
         plugins:
           - molecule
         state: present
 
+    - name: Enable NEWT plugin
+      girder:
+        host: "{{girder_host}}"
+        port: "{{girder_port}}"
+        scheme: "{{girder_scheme}}"
+        apiRoot: "{{girder_api_root}}"
+        username: "mongochem"
+        password: "{{ mongochem_password }}"
+        plugins:
+          - newt
+        state: present
+      when: nersc is defined
+
     - name: Create filesystem assetstore
       girder:
-        port: 8080
+        host: "{{girder_host}}"
+        port: "{{girder_port}}"
+        scheme: "{{girder_scheme}}"
+        apiRoot: "{{girder_api_root}}"
         username: "mongochem"
         password: "{{ mongochem_password }}"
         assetstore:
@@ -79,7 +116,10 @@
 
     - name: Restart the server
       girder:
-        port: 8080
+        host: "{{girder_host}}"
+        port: "{{girder_port}}"
+        scheme: "{{girder_scheme}}"
+        apiRoot: "{{girder_api_root}}"
         username: "mongochem"
         password: "{{ mongochem_password }}"
         put:
@@ -87,5 +127,5 @@
 
     - name: Wait until server restarts
       wait_for:
-        port=8080
+        port="{{girder_port}}"
         delay=5
