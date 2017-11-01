@@ -9,14 +9,15 @@
       set_fact:
         girder_host: "{{girder_host|default('localhost')}}"
         girder_port: "{{girder_port|default(8080)}}"
-        girder_scheme: "http"
-
+        girder_scheme: "{{girder_scheme|default(http)}}"
+        girder_api_root: "{{girder_api_root|default('/api/v1')}}"
 
     - name: Create Girder monogchem user
       girder:
         host: "{{girder_host}}"
         port: "{{girder_port}}"
         scheme: "{{girder_scheme}}"
+        apiRoot: "{{girder_api_root}}"
         user:
           firstName: "mongochem"
           lastName: "mongochem"
@@ -31,6 +32,7 @@
         host: "{{girder_host}}"
         port: "{{girder_port}}"
         scheme: "{{girder_scheme}}"
+        apiRoot: "{{girder_api_root}}"
         username: "mongochem"
         password: "{{ mongochem_password }}"
         user:
@@ -47,6 +49,7 @@
         host: "{{girder_host}}"
         port: "{{girder_port}}"
         scheme: "{{girder_scheme}}"
+        apiRoot: "{{girder_api_root}}"
         username: "mongochem"
         password: "{{ mongochem_password }}"
         group:
@@ -61,6 +64,7 @@
         host: "{{girder_host}}"
         port: "{{girder_port}}"
         scheme: "{{girder_scheme}}"
+        apiRoot: "{{girder_api_root}}"
         username: "mongochem"
         password: "{{ mongochem_password }}"
         plugins:
@@ -75,17 +79,32 @@
         host: "{{girder_host}}"
         port: "{{girder_port}}"
         scheme: "{{girder_scheme}}"
+        apiRoot: "{{girder_api_root}}"
         username: "mongochem"
         password: "{{ mongochem_password }}"
         plugins:
           - molecule
         state: present
 
+    - name: Enable NEWT plugin
+      girder:
+        host: "{{girder_host}}"
+        port: "{{girder_port}}"
+        scheme: "{{girder_scheme}}"
+        apiRoot: "{{girder_api_root}}"
+        username: "mongochem"
+        password: "{{ mongochem_password }}"
+        plugins:
+          - newt
+        state: present
+      when: nersc is defined
+
     - name: Create filesystem assetstore
       girder:
         host: "{{girder_host}}"
         port: "{{girder_port}}"
         scheme: "{{girder_scheme}}"
+        apiRoot: "{{girder_api_root}}"
         username: "mongochem"
         password: "{{ mongochem_password }}"
         assetstore:
@@ -100,6 +119,7 @@
         host: "{{girder_host}}"
         port: "{{girder_port}}"
         scheme: "{{girder_scheme}}"
+        apiRoot: "{{girder_api_root}}"
         username: "mongochem"
         password: "{{ mongochem_password }}"
         put:
