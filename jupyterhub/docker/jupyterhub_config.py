@@ -31,6 +31,7 @@ spawn_cmd += ' --NotebookApp.allow_origin=%s' % os.environ['ORIGIN']
 spawn_cmd += " --SingleUserNotebookApp.default_url=/lab"
 spawn_cmd += " --NotebookApp.contents_manager_class='girder_jupyter.contents.girderfilemanager.GirderFileManager'"
 spawn_cmd += " --GirderFileManager.api_url=%s" % girder_api_url
+spawn_cmd += " --GirderFileManager.root=user/{login}/Private/oc/notebooks"
 
 c.DockerSpawner.extra_create_kwargs.update({ 'command': spawn_cmd })
 
