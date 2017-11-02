@@ -3,3 +3,7 @@ nersc.openchemistry.org
 
 [docker_compose_jupyterhub]
 nersc.openchemistry.org
+
+[mongochemclient]
+nersc.openchemistry.org
+~
