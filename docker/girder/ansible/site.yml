@@ -83,7 +83,7 @@
         username: "mongochem"
         password: "{{ mongochem_password }}"
         plugins:
-          - molecule
+          - molecules
         state: present
 
     - name: Enable NEWT plugin
@@ -113,6 +113,42 @@
           root: "/assetstore"
           current: true
         state: present
+
+    - name: Close registration
+      girder:
+        host: "{{girder_host}}"
+        port: "{{girder_port}}"
+        scheme: "{{girder_scheme}}"
+        apiRoot: "{{girder_api_root}}"
+        username: "mongochem"
+        password: "{{ mongochem_password }}"
+        setting:
+          key: "{{item.key}}"
+          value: "{{item.value}}"
+        state: present
+      with_items:
+        - {
+          "key": "core.registration_policy",
+          "value": "closed"
+        }
+
+    - name: Allow NEWT users to login even though registration is closed
+      girder:
+        host: "{{girder_host}}"
+        port: "{{girder_port}}"
+        scheme: "{{girder_scheme}}"
+        apiRoot: "{{girder_api_root}}"
+        username: "mongochem"
+        password: "{{ mongochem_password }}"
+        setting:
+          key: "{{item.key}}"
+          value: "{{item.value}}"
+        state: present
+      with_items:
+        - {
+          "key": "newt.ignore_registration_policy",
+          "value": true
+        }
 
     - name: Restart the server
       girder:
