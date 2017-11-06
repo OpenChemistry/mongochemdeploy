@@ -1,9 +1,9 @@
-[nginx]
-nersc.openchemistry.org
-
-[docker_compose_jupyterhub]
+[jupyterhub]
 nersc.openchemistry.org
 
 [mongochemclient]
 nersc.openchemistry.org
-~
+
+[nginx]
+nersc.openchemistry.org
+

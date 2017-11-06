@@ -1,0 +1,7 @@
+oc_site: 'NERSC'
+girder_host: '{{inventory_hostname}}'
+girder_internal_host: 'portal-auth.nersc.gov'
+girder_port: 443
+girder_internal_api_root: 'girder/api/v1'
+girder_api_root: 'api/v1'
+girder_scheme: 'https'

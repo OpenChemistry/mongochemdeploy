@@ -27,7 +27,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.jupyterhub
-    image: jupyterhub
+    image: openchemistry/jupyterhub:oc
     container_name: jupyterhub
     volumes:
       # Bind Docker socket on the host so we can connect to the daemon from
@@ -49,6 +49,10 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_HOST: hub-db
       GIRDER_API_URL: ${GIRDER_API_URL}
+      GIRDER_SCHEME: ${GIRDER_SCHEME}
+      GIRDER_HOST: ${GIRDER_HOST}
+      GIRDER_PORT: ${GIRDER_PORT}
+      OC_SITE: ${OC_SITE}
       ORIGIN: ${ORIGIN}
     env_file:
       - secrets/postgres.env

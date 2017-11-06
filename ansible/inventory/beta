@@ -4,10 +4,10 @@ beta.openchemistry.org
 [mongo]
 beta.openchemistry.org
 
-[docker_compose_jupyterhub]
+[jupyterhub]
 beta.openchemistry.org
 
-[docker_compose_girder]
+[girder]
 beta.openchemistry.org
 
 [mongochemclient]

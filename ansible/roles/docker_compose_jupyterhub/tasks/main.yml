@@ -1,0 +1,40 @@
+- name: Copy over jupyterhub docker-compose configuration
+  synchronize:
+    src: ../../docker/jupyterhub
+    dest: /home/mongochemdev/
+
+- name: Change ownership to mongochemdev
+  file:
+    path: /home/mongochemdev/jupyterhub
+    owner: mongochemdev
+    group: mongochemdev
+    state: directory
+    recurse: yes
+  become: yes
+  become_user: root
+
+- name: Template docker-compose configuration
+  template:
+    src: env.j2
+    dest: /home/mongochemdev/jupyterhub/.env
+    owner: mongochemdev
+    group: mongochemdev
+
+- name: Template postgres secret
+  template:
+    src: postgres.env.j2
+    dest: /home/mongochemdev/jupyterhub/secrets/postgres.env
+    owner: mongochemdev
+    group: mongochemdev
+
+
+- name: Bring up jupyterhub stack
+  docker_service:
+    project_src: /home/mongochemdev/jupyterhub
+    pull: yes
+    state: present
+
+- name: Pull jupyterlab image
+  docker_image:
+    name: openchemistry/jupyterlab:latest
+    force: yes
