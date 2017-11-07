@@ -57,10 +57,11 @@ RUN apt-get update && apt-get -y install \
 # Enable proxy support
 COPY girder/girder.local.conf /girder/girder/conf/girder.local.cfg
 
-# Install mongochemserver plugin
+# Install mongochemserver plugins
 RUN git clone https://github.com/OpenChemistry/mongochemserver.git /mongochemserver && \
   pip install --no-cache-dir -r /mongochemserver/requirements.txt && \
-  girder-install plugin /mongochemserver/girder/molecules
+  girder-install plugin /mongochemserver/girder/molecules && \
+  girder-install plugin /mongochemserver/girder/notebooks
 
 # Install clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
