@@ -1,208 +1,135 @@
-- name: Create users
-  hosts: all
-  user: ubuntu
-  roles:
-    - users
+- hosts: all
+  gather_facts: no
 
-- name: Create/install base system
-  hosts: all
-  user: mongochemdev
-  roles:
-    - base
+  tasks:
+  - name: Install python 2
+    raw: test -e /usr/bin/python || (apt -y update && apt install -y python2.7)
+    become: yes
+    become_user: root
+    tags: bootstrap
 
-- name: Compile/install avogadrolibs
-  hosts: girder
-  user: mongochemdev
-  roles:
-    - avogadrolibs
+- hosts: all
+  vars:
+    ansible_python_interpreter: "/usr/bin/python2.7"
 
-- name: Install Open Babel
-  hosts: girder
-  user: mongochemdev
-  roles:
-    - openbabel
-
-- name: Install and configure MongoChem components
-  hosts: girder
-  user: mongochemdev
-  roles:
-    - mongochem
-
-- name: Setup Mongo
-  become: yes
-  become_user: root
-  hosts: girder
-  roles:
-    - role: mongodb
-
-- name: Install Girder
-  become: yes
-  become_user: mongochemdev
-  hosts: girder
-  roles:
-  - role: girder
-    girder_path: /opt/mongochem/girder
-
-  post_tasks:
-    - name: Symlink molecules Girder plugin
-      file:
-        src: /opt/mongochem/server/girder/molecules
-        dest: /opt/mongochem/girder/plugins/molecules
-        state: link
-      tags:
-        - girder
-        - girder_setup
-
-    - name: Restart the Girder server
-      girder:
-        username: "{{mongochem_admin_user}}"
-        password: "{{mongochem_admin_password }}"
-        put:
-          path: "system/restart"
-      tags:
-        - girder
-        - girder_setup
-
-    - name: Wait for Girder to restart
-      wait_for: port=8080 delay=5
-      tags:
-        - girder
-        - girder_setup
-
-    - name: Install girder_client (needed by ansible module)
+  pre_tasks:
+    - name: Update packages
+      apt:
+        only_upgrade: yes
+        update_cache: yes
       become: yes
       become_user: root
-      pip:
-        name: file:///opt/mongochem/girder/clients/python
-      tags:
-        - girder
-        - girder_setup
-
-    - name: Create Girder mongochem user
-      girder:
-        user:
-          firstName: "mongochem"
-          lastName: "admin"
-          login: "{{mongochem_admin_user}}"
-          password: "{{mongochem_admin_password}}"
-          email: "{{mongochem_admin_email}}"
-          admin: yes
-        state: present
-      tags:
-        - girder
-        - girder_setup
-
-    - name: Enable Girder plugins
-      girder:
-        username: "{{mongochem_admin_user}}"
-        password: "{{mongochem_admin_password }}"
-        plugins:
-          - "{{item}}"
-        state: present
-      with_items: "{{girder_plugins}}"
-      tags:
-        - girder
-        - girder_setup
-
-    - name: Restart the Girder server
-      girder:
-        username: "{{mongochem_admin_user}}"
-        password: "{{mongochem_admin_password }}"
-        put:
-          path: "system/restart"
-      tags:
-        - girder
-        - girder_setup
-
-    - name: Wait for Girder to restart
-      wait_for: port=8080 delay=5
-      tags:
-        - girder
-        - girder_setup
-
-    - name: Configure OAuth plugin
-      girder:
-        username: "{{mongochem_admin_user}}"
-        password: "{{mongochem_admin_password }}"
-        setting:
-          key: "{{item.key}}"
-          value: "{{item.value}}"
-        state: present
-      with_items:
-        - {
-            key: "oauth.google_client_id",
-            value: "{{oauth_google_client_id}}"
-          }
-        - {
-            key: "oauth.google_client_secret",
-            value: "{{oauth_google_client_secret}}"
-          }
-      tags:
-        - girder
-        - girder_setup
-
-    - name: Create directory for asset store
+  roles:
+    - role: users
       become: yes
       become_user: root
-      file: dest={{file_system_asset_store_root}} mode=755 owner=mongochemdev group=mongochemdev state=directory
-      tags:
-        - girder
-        - girder_setup
 
-    - name: Create filesystem assetstore
-      girder:
-        username: "{{mongochem_admin_user}}"
-        password: "{{mongochem_admin_password }}"
-        assetstore:
-          name: "{{file_system_asset_store_name}}"
-          type: "filesystem"
-          root: "{{file_system_asset_store_root}}"
-          current: true
-        state: present
-      tags:
-        - girder
-        - girder_setup
+- hosts: mongochemclient
+  vars:
+    ansible_python_interpreter: "/usr/bin/python2.7"
 
-    # Add some sample data
-    - name: Download sample data to remote host
-      get_url:
-        url: https://data.kitware.com/api/v1/file/58ed16868d777f16d095fd73/download
-        dest: /tmp/dump.tar.gz
-        checksum: sha512:2664dd609a7a3452cb3b7d7fd47d59e9e82ef4f4810285a677bf22a3e01ba0c993a73c16f8095394dacb8c3ae71ad5934d6d95af042f2b11a3a740ab576b3016
-      tags:
-        - girder
-        - girder_setup
+  pre_tasks:
+    - name: Create base application directory
+      become: yes
+      become_user: root
+      file: dest=/opt/mongochem mode=755 owner=mongochemdev group=mongochemdev state=directory
 
-    - name: Extract sample data
-      command: tar zxvf /tmp/dump.tar.gz
-      args:
-        chdir: /tmp
-        creates: /tmp/dump
-      tags:
-        - girder
-        - girder_setup
+    - name: Add PPA key for nodejs
+      become: yes
+      become_user: root
+      command: "apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 68576280"
 
-    - name: Add sample molecules to database
-      shell: "mongorestore -d girder /tmp/dump/girder/"
-      tags:
-        - girder
-        - girder_setup
+    - name: Add PPA for nodejs
+      become: yes
+      become_user: root
+      apt_repository:
+        repo: "deb https://deb.nodesource.com/node_6.x {{ ansible_distribution_release }} main"
 
-    - name: Cleanup sample data from remote host
-      file: path={{item}} state=absent
+    - name: Update package manager
+      become: yes
+      become_user: root
+      apt: update_cache=yes
+
+    - name: Install nodejs
+      become: yes
+      become_user: root
+      apt:
+        name: nodejs
+
+    - name: Update npm
+      become: yes
+      become_user: root
+      command: "npm install -g npm@4"
+
+    - name: Install base packages
+      become: yes
+      become_user: root
+      apt: name={{ item }} state=present
       with_items:
-        - /tmp/dump
-        - /tmp/dump.tar.gz
-      tags:
-        - girder
-        - girder_setup
+        - git
 
-  handlers:
-    - include: handlers/girder.yml
-
-- name: Install and configure nginx
-  hosts: mongochem
-  user: mongochemdev
   roles:
-    - nginx
+    - role: mongochemclient
+      become: yes
+      become_user: mongochemdev
+      tags:
+        - mongochemclient
+
+- hosts: mongo
+  vars:
+    ansible_python_interpreter: "/usr/bin/python2.7"
+
+  roles:
+    - role: Stouts.mongodb
+      mongodb_conf_journal: yes
+      become: yes
+      become_user: root
+
+- hosts: jupyterhub
+  vars:
+    ansible_python_interpreter: "/usr/bin/python2.7"
+    girder_api_url: "{{girder_scheme}}://{{girder_host}}:{{girder_port}}/{{girder_api_root}}"
+  roles:
+    - role: angstwad.docker_ubuntu
+      become: yes
+      become_user: root
+
+    - role: docker_compose_jupyterhub
+      become: yes
+      become_user: mongochemdev
+  tags: jupyterhub
+
+- hosts: girder
+  vars:
+    ansible_python_interpreter: "/usr/bin/python2.7"
+    girder_api_url: "{{girder_scheme}}://{{girder_host}}:{{girder_port}}/{{girder_api_root}}"
+  roles:
+    - role: angstwad.docker_ubuntu
+      become: yes
+      become_user: root
+
+    - role: docker_compose_girder
+
+- hosts: nginx
+  vars:
+    ansible_python_interpreter: "/usr/bin/python2.7"
+    certbot_install_from_source: yes
+    girder_url: "{{girder_internal_scheme|default(girder_scheme)}}://{{girder_internal_host|default(girder_host)}}:{{girder_internal_port|default(girder_port)}}"
+    girder_api_url: "{{girder_internal_url}}/{{girder_internal_api_root|default(girder_internal_api_root)}}"
+  roles:
+    - role: geerlingguy.nginx
+      become: yes
+      become_user: root
+    - role: geerlingguy.certbot
+      become: yes
+      become_user: root
+    - role: nginx
+      become: yes
+      become_user: root
+  tags: nginx
+
+#- hosts: local
+#  roles:
+#    - role: girder
+
 

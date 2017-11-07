@@ -1,0 +1,14 @@
+[nginx]
+beta.openchemistry.org
+
+[mongo]
+beta.openchemistry.org
+
+[jupyterhub]
+beta.openchemistry.org
+
+[girder]
+beta.openchemistry.org
+
+[mongochemclient]
+beta.openchemistry.org

@@ -1,0 +1,9 @@
+[jupyterhub]
+nersc.openchemistry.org
+
+[mongochemclient]
+nersc.openchemistry.org
+
+[nginx]
+nersc.openchemistry.org
+

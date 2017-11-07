@@ -1,0 +1,32 @@
+- name: Copy over girder docker-compose configuration
+  synchronize:
+    src: ../../docker/girder
+    dest: /home/mongochemdev/
+
+- name: Change ownership to mongochemdev
+  file:
+    path: /home/mongochemdev/girder
+    owner: mongochemdev
+    group: mongochemdev
+    state: directory
+    recurse: yes
+  become: yes
+  become_user: root
+
+- name: Template docker-compose configuration
+  template:
+    src: env.j2
+    dest: /home/mongochemdev/girder/.env
+    owner: mongochemdev
+    group: mongochemdev
+
+- name: Bring up girder stack
+  docker_service:
+    project_src: /home/mongochemdev/girder
+    pull: yes
+    state: present
+
+- name: Pull girder image
+  docker_image:
+    name: openchemistry/girder:oc
+    force: yes

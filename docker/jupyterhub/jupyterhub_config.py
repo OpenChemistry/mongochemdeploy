@@ -33,6 +33,19 @@ spawn_cmd += " --NotebookApp.contents_manager_class='girder_jupyter.contents.gir
 spawn_cmd += " --GirderFileManager.api_url=%s" % girder_api_url
 spawn_cmd += " --GirderFileManager.root=user/{login}/Private/oc/notebooks"
 
+# Set environment variables needs by the openchemistry package
+# TODO using dict comprehension
+vars = [
+    ('OC_SITE', 'beta'),
+    ('GIRDER_HOST', 'localhost'),
+    ('GIRDER_PORT', '8080'),
+    ('GIRDER_API_ROOT', 'api/v1'),
+    ('GIRDER_SCHEME', 'http')
+]
+
+for (name, default) in vars:
+    c.DockerSpawner.environment.update({name: os.environ.get(name, default)})
+
 c.DockerSpawner.extra_create_kwargs.update({ 'command': spawn_cmd })
 
 # Connect containers to this Docker network

@@ -1,6 +1,7 @@
 version: '2'
 services:
   girder:
+    image: openchemistry/girder:oc
     build:
       context: .
       dockerfile: girder/Dockerfile
@@ -9,6 +10,7 @@ services:
      - assetstore:/assetstore
 
   nginx:
+      image: openchemistry/nginx:oc
       build:
        context: nginx
        dockerfile: Dockerfile
@@ -21,6 +23,7 @@ services:
       image: rabbitmq
 
   celery_command:
+    image: openchemistry/celery_command:oc
     build:
       context: .
       dockerfile: celery/Dockerfile
@@ -31,6 +34,7 @@ services:
       - 'rabbitmq'
 
   celery_monitor:
+    image: openchemistry/celery_monitor:oc
     build:
       context: .
       dockerfile: celery/Dockerfile
