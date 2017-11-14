@@ -38,6 +38,8 @@ services:
     build:
       context: .
       dockerfile: celery/Dockerfile
+    env_file:
+      - celery/celery.env
     command: celery worker --app=cumulus -b ${RABBITMQ_URL} -n monitor -Q monitor --config=cumulus.celery.monitorconfig --loglevel=INFO
     depends_on:
       - 'rabbitmq'
