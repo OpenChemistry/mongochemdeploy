@@ -54,6 +54,7 @@ services:
       GIRDER_PORT: ${GIRDER_PORT}
       OC_SITE: ${OC_SITE}
       ORIGIN: ${ORIGIN}
+      JUPYTERHUB_BASE_URL: ${JUPYTERHUB_BASE_URL}
     env_file:
       - secrets/postgres.env
     command:
