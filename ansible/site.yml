@@ -72,8 +72,8 @@
     - role: mongochemclient
       become: yes
       become_user: mongochemdev
-      tags:
-        - mongochemclient
+  tags:
+    - mongochemclient
 
 - hosts: mongo
   vars:
@@ -128,8 +128,10 @@
       become_user: root
   tags: nginx
 
-#- hosts: local
-#  roles:
-#    - role: girder
+- hosts: girder_configure
+  roles:
+    - role: girder
+      delegate_to: localhost
+  tags: girder_configure
 
 
