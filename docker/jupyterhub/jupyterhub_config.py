@@ -3,6 +3,7 @@
 
 # Configuration file for JupyterHub
 import os
+import six
 
 c = get_config()
 
@@ -34,17 +35,16 @@ spawn_cmd += " --GirderFileManager.api_url=%s" % girder_api_url
 spawn_cmd += " --GirderFileManager.root=user/{login}/Private/oc/notebooks"
 
 # Set environment variables needs by the openchemistry package
-# TODO using dict comprehension
-vars = [
-    ('OC_SITE', 'beta'),
-    ('GIRDER_HOST', 'localhost'),
-    ('GIRDER_PORT', '8080'),
-    ('GIRDER_API_ROOT', 'api/v1'),
-    ('GIRDER_SCHEME', 'http')
-]
-
-for (name, default) in vars:
-    c.DockerSpawner.environment.update({name: os.environ.get(name, default)})
+env_vars = {
+    'OC_SITE': 'beta',
+    'GIRDER_HOST': 'localhost',
+    'GIRDER_PORT': '8080',
+    'GIRDER_API_ROOT': 'api/v1',
+    'GIRDER_SCHEME': 'http',
+    'JUPYTERHUB_BASE_URL': None
+}
+env_vars = { k: os.environ.get(k, v) if os.environ.get(k, v) else v  for k, v in six.iteritems(env_vars) }
+c.DockerSpawner.environment.update(env_vars)
 
 c.DockerSpawner.extra_create_kwargs.update({ 'command': spawn_cmd })
 
