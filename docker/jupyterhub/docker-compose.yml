@@ -55,6 +55,7 @@ services:
       OC_SITE: ${OC_SITE}
       ORIGIN: ${ORIGIN}
       JUPYTERHUB_BASE_URL: ${JUPYTERHUB_BASE_URL}
+      APP_BASE_URL: ${APP_BASE_URL}
     env_file:
       - secrets/postgres.env
     command:
