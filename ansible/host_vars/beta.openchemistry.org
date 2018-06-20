@@ -2,7 +2,8 @@ oc_site: 'beta'
 girder_host: '{{inventory_hostname}}'
 girder_internal_host: 'localhost'
 girder_internal_port: 8080
+girder_internal_api_root: 'api/v1'
 girder_port: 443
 girder_api_root: 'api/v1'
 girder_internal_scheme: 'http'
-girder_internal_scheme: 'https'
+girder_scheme: 'https'
