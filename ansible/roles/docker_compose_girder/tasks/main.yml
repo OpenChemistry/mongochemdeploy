@@ -13,20 +13,13 @@
   become: yes
   become_user: root
 
-- name: Template docker-compose configuration
-  template:
-    src: env.j2
-    dest: /home/mongochemdev/girder/.env
-    owner: mongochemdev
-    group: mongochemdev
+- name: Pull girder image
+  docker_image:
+    name: openchemistry/girder:oc
+    force: yes
 
 - name: Bring up girder stack
   docker_service:
     project_src: /home/mongochemdev/girder
     pull: yes
     state: present
-
-- name: Pull girder image
-  docker_image:
-    name: openchemistry/girder:oc
-    force: yes

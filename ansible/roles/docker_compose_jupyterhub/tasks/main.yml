@@ -27,6 +27,10 @@
     owner: mongochemdev
     group: mongochemdev
 
+- name: Pull jupyterlab image
+  docker_image:
+    name: openchemistry/jupyterlab:latest
+    force: yes
 
 - name: Bring up jupyterhub stack
   docker_service:
@@ -34,7 +38,3 @@
     pull: yes
     state: present
 
-- name: Pull jupyterlab image
-  docker_image:
-    name: openchemistry/jupyterlab:latest
-    force: yes
