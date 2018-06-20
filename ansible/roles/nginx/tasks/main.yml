@@ -1,7 +1,15 @@
 - name: Copy over site configuration ( SSL )
+  template: src="../files/mongochem-ssl.j2" dest=/etc/nginx/sites-available/mongochem mode=611 owner=root
+  notify:
+    - restart nginx
+  when: ssl
+
+- name: Copy over site configuration
   template: src="../files/mongochem.j2" dest=/etc/nginx/sites-available/mongochem mode=611 owner=root
   notify:
     - restart nginx
+  when: not ssl
+
 
 - name: Disable default configuration
   file: dest=/etc/nginx/sites-enabled/default state=absent
