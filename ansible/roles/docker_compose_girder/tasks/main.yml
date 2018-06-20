@@ -3,6 +3,13 @@
     src: ../../docker/girder
     dest: /home/mongochemdev/
 
+- name: Template girder configuration
+  template:
+    src: env.j2
+    dest: /home/mongochemdev/girder/.env
+    owner: mongochemdev
+    group: mongochemdev
+
 - name: Change ownership to mongochemdev
   file:
     path: /home/mongochemdev/girder
