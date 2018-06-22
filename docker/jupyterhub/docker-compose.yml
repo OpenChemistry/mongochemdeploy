@@ -59,7 +59,7 @@ services:
       - secrets/postgres.env
     command:
       jupyterhub --debug -f /srv/jupyterhub/jupyterhub_config.py
-
+    dns: 8.8.8.8
 volumes:
   data:
   db:
