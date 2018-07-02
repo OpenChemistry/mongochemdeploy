@@ -4,6 +4,12 @@
     shell: /bin/bash
   tags: users
 
+- name: Adding docker group
+  group:
+    name: docker
+    state: present
+
+
 - name: Adding mongochemdev to docker group
   user:
     name: mongochemdev

@@ -1,4 +1,5 @@
 oc_site: 'NERSC'
+nersc: yes
 girder_host: '{{inventory_hostname}}'
 girder_internal_host: 'portal-auth.nersc.gov'
 girder_port: 443
