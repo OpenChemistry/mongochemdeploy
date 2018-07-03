@@ -1,0 +1,13 @@
+- name: Create Girder monogchemdev user
+  girder:
+    host: "{{girder_host}}"
+    port: "{{girder_port}}"
+    scheme: "{{girder_scheme}}"
+    apiRoot: "{{girder_api_root}}"
+    user:
+      firstName: "mongochemdev"
+      lastName: "mongochemdev"
+      login: "mongochemdev"
+      password: "{{ mongochemdev_password }}"
+      email: "mongochemdev@kitware.com"
+    state: present

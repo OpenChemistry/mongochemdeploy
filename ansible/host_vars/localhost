@@ -1,0 +1,9 @@
+dev: yes
+girder_host: localhost
+girder_port: 8080
+girder_api_root: '/api/v1'
+girder_scheme: 'http'
+mongochem_password: letmein
+mongochemdev_password: letmein
+cumulus_password: letmein
+
