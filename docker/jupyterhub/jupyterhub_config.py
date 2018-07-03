@@ -66,6 +66,7 @@ c.DockerSpawner.debug = True
 c.JupyterHub.hub_ip = 'jupyterhub'
 c.JupyterHub.hub_port = 8080
 c.JupyterHub.base_url = '/jupyterhub'
+c.JupyterHub.hub_connect_ip = 'jupyterhub'
 
 # TLS config
 #c.JupyterHub.port = 443
