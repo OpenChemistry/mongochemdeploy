@@ -83,6 +83,8 @@
     plugins:
       - notebooks
     state: present
+  notify:
+    - restart girder
 
 - name: Create filesystem assetstore
   girder:
