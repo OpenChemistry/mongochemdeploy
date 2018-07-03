@@ -3,7 +3,7 @@ services:
   girder:
     image: openchemistry/girder:oc
     build:
-      context: .
+      context: ${GIRDER_DOCKER_DIR}
       dockerfile: girder/Dockerfile
     command: -d ${MONGODB_URL}
     volumes:
@@ -12,7 +12,7 @@ services:
   nginx:
       image: openchemistry/nginx:oc
       build:
-       context: nginx
+       context: ${GIRDER_DOCKER_DIR}/nginx
        dockerfile: Dockerfile
       ports:
           - 8080:80
@@ -25,10 +25,10 @@ services:
   celery_command:
     image: openchemistry/celery_command:oc
     build:
-      context: .
+      context: ${GIRDER_DOCKER_DIR}
       dockerfile: celery/Dockerfile
     env_file:
-      - celery/celery.env
+      - ${GIRDER_DOCKER_DIR}/celery/celery.env
     command: celery worker --app=cumulus -b ${RABBITMQ_URL} -n command --config=cumulus.celery.commandconfig --loglevel=INFO
     depends_on:
       - 'rabbitmq'
@@ -36,10 +36,10 @@ services:
   celery_monitor:
     image: openchemistry/celery_monitor:oc
     build:
-      context: .
+      context: ${GIRDER_DOCKER_DIR}
       dockerfile: celery/Dockerfile
     env_file:
-      - celery/celery.env
+      - ${GIRDER_DOCKER_DIR}/celery/celery.env
     command: celery worker --app=cumulus -b ${RABBITMQ_URL} -n monitor -Q monitor --config=cumulus.celery.monitorconfig --loglevel=INFO
     depends_on:
       - 'rabbitmq'
