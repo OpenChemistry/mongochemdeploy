@@ -1,0 +1,21 @@
+version: '2'
+services:
+  mongo:
+    image: mongo:latest
+    volumes:
+     - mongo:/data/db
+  nginx-dev:
+    image: openchemistry/nginx:dev
+    build:
+      context: dev/nginx
+      dockerfile: Dockerfile
+    ports:
+      - 8888:80
+    depends_on:
+      - 'girder'
+      - 'hub'
+
+volumes:
+    mongo:
+
+
