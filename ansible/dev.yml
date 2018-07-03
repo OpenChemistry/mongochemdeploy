@@ -1,0 +1,9 @@
+- hosts: 127.0.0.1
+  connection: local
+
+- hosts: girder_setup
+  roles:
+    - role: girder
+  tags: girder_setup
+
+

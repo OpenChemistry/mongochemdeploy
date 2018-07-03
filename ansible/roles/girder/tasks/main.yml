@@ -106,3 +106,6 @@
 
 - include: oauth-auth.yml
   when: beta is defined
+
+- include: dev.yml
+  when: dev is defined
