@@ -13,6 +13,7 @@
 
 - name: Wait until server restarts
   wait_for:
+    host="{{girder_host}}"
     port="{{girder_port}}"
     delay=5
 
@@ -55,6 +56,7 @@
 
 - name: Wait until server restarts
   wait_for:
+    host="{{girder_host}}"
     port="{{girder_port}}"
     delay=5
 

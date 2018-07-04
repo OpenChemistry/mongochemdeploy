@@ -7,13 +7,22 @@ services:
   nginx-dev:
     image: openchemistry/nginx:dev
     build:
-      context: dev/nginx
+      context: nginx
       dockerfile: Dockerfile
     ports:
       - 8888:80
     depends_on:
       - 'girder'
       - 'hub'
+  ansible:
+    image: openchemistry/ansible
+    build:
+      context: ansible
+      dockerfile: Dockerfile
+    depends_on:
+      - 'girder'
+    volumes:
+     - ../../ansible:/ansible
 
 volumes:
     mongo:
