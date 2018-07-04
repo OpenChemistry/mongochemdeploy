@@ -1,3 +1,14 @@
+#- name: Wait for HTTP 200
+#  uri:
+#    url: "http://{{girder_host}}:{{girder_port}}/api/v1/molecules"
+#    status_code: 200
+#  retries: 30
+#  delay: 5
+#  register: result
+#  until: result.failed is not defined
+#  changed_when: false
+
+
 - name: Create Girder monogchemdev user
   girder:
     host: "{{girder_host}}"
