@@ -8,6 +8,7 @@ services:
     command: -d ${MONGODB_URL}
     volumes:
      - assetstore:/assetstore
+     - keys:/keys
 
   nginx:
       image: openchemistry/nginx:oc
@@ -32,6 +33,8 @@ services:
     command: celery worker --app=cumulus -b ${RABBITMQ_URL} -n command --config=cumulus.celery.commandconfig --loglevel=INFO
     depends_on:
       - 'rabbitmq'
+    volumes:
+     - keys:/keys
 
   celery_monitor:
     image: openchemistry/celery_monitor:oc
@@ -43,7 +46,10 @@ services:
     command: celery worker --app=cumulus -b ${RABBITMQ_URL} -n monitor -Q monitor --config=cumulus.celery.monitorconfig --loglevel=INFO
     depends_on:
       - 'rabbitmq'
+    volumes:
+     - keys:/keys
 
 volumes:
     assetstore:
+    keys:
 
