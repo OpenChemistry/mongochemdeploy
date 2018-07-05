@@ -14,17 +14,28 @@ services:
     depends_on:
       - 'girder'
       - 'hub'
+
   ansible:
     image: openchemistry/ansible
     build:
-      context: ansible
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ansible/Dockerfile
     depends_on:
       - 'girder'
     volumes:
      - ../../ansible:/ansible
 
+  gridengine:
+    image: openchemistry/gridengine
+    build:
+      context: gridengine
+      dockerfile: Dockerfile
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:rw"
+      - job_data:/data
+
 volumes:
-    mongo:
+  mongo:
+  job_data:
 
 
