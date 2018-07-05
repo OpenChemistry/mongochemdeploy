@@ -87,3 +87,10 @@ def down(ctx):
 @click.pass_context
 def pull(ctx):
    _execute_command('pull', ctx.args)
+
+@main.command('build', short_help='Build images for stack.', help='Build images for stack.',
+              context_settings=dict(allow_extra_args=True, ignore_unknown_options=True))
+@click.pass_context
+def build(ctx):
+   _execute_command('build', ctx.args)
+
