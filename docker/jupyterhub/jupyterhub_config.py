@@ -30,9 +30,9 @@ girder_api_url = os.environ.get('GIRDER_API_URL', 'http://localhost:8080/api/v1'
 spawn_cmd = os.environ.get('DOCKER_SPAWN_CMD', "start-singleuser.sh")
 spawn_cmd += ' --NotebookApp.allow_origin=%s' % os.environ['ORIGIN']
 spawn_cmd += " --SingleUserNotebookApp.default_url=/lab"
-spawn_cmd += " --NotebookApp.contents_manager_class='girder_jupyter.contents.girderfilemanager.GirderFileManager'"
-spawn_cmd += " --GirderFileManager.api_url=%s" % girder_api_url
-spawn_cmd += " --GirderFileManager.root=user/{login}/Private/oc/notebooks"
+spawn_cmd += " --NotebookApp.contents_manager_class='girder_jupyter.contents.manager.GirderContentsManager'"
+spawn_cmd += " --GirderContentsManager.api_url=%s" % girder_api_url
+spawn_cmd += " --GirderContentsManager.root=user/{login}/Private/oc/notebooks"
 
 # Set environment variables needs by the openchemistry package
 env_vars = {
