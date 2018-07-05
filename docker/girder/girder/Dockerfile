@@ -30,7 +30,7 @@ RUN git clone https://github.com/openchemistry/avogadrolibs.git /avogadrolibs/so
     -DUSE_QT:BOOL=NO -DUSE_OPENGL:BOOL=NO ../source && \
   cmake --build . && \
   mkdir -p /usr/lib/python3.4/site-packages/ && \
-  cp /avogadrolibs/build/lib/* /usr/local/lib/python3.4/dist-packages/ && \
+  cp /avogadrolibs/build/lib/* /usr/local/lib/python3.5/dist-packages/ && \
   rm -rf /avogadrolibs/source
 
 # Install cumulus
