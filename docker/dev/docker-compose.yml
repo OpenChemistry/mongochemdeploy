@@ -1,0 +1,41 @@
+version: '2'
+services:
+  mongo:
+    image: mongo:latest
+    volumes:
+     - mongo:/data/db
+  nginx-dev:
+    image: openchemistry/nginx:dev
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    ports:
+      - 8888:80
+    depends_on:
+      - 'girder'
+      - 'hub'
+
+  ansible:
+    image: openchemistry/ansible
+    build:
+      context: .
+      dockerfile: ansible/Dockerfile
+    depends_on:
+      - 'girder'
+    volumes:
+     - ../../ansible:/ansible
+
+  gridengine:
+    image: openchemistry/gridengine
+    build:
+      context: gridengine
+      dockerfile: Dockerfile
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:rw"
+      - job_data:/data
+
+volumes:
+  mongo:
+  job_data:
+
+
