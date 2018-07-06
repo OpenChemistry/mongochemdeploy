@@ -7,8 +7,8 @@ services:
   nginx-dev:
     image: openchemistry/nginx:dev
     build:
-      context: nginx
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: nginx/Dockerfile
     ports:
       - 8888:80
     depends_on:

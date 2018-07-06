@@ -12,4 +12,7 @@ RUN git clone https://github.com/OpenChemistry/mongochemclient && \
 FROM nginx
 COPY --from=build /mongochemclient/build /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
-COPY nginx.girder.conf /etc/nginx/conf.d/girder.conf
+COPY nginx/nginx.girder.conf /etc/nginx/conf.d/girder.conf
+COPY wait-for-it.sh /wait-for-it.sh
+
+ENTRYPOINT ["/wait-for-it.sh", "-t", "30", "hub:8000",  "--", "nginx", "-g", "daemon off;"]
