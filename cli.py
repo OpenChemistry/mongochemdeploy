@@ -66,6 +66,7 @@ def _generate_command(subcommand):
 
 def _execute_command(subcommand, args):
     env = _load_dev_env()
+    env['PATH'] = os.environ['PATH']
     env.update(DOCKER_BASE_DIRS)
     cwd = os.path.join(REPO_DIR, 'docker', 'dev')
     cmd = _generate_command(subcommand)
