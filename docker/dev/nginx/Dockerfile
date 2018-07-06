@@ -1,11 +1,10 @@
-FROM node:8.0 AS BUILD
+FROM node:8.0 AS build
 
 RUN apt-get update && apt-get -y install \
   git
 
 RUN git clone https://github.com/OpenChemistry/mongochemclient && \
   cd mongochemclient && \
-  git checkout workaround && \
   npm install && \
   npm run build
 
