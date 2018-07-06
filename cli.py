@@ -40,7 +40,9 @@ BASE_COMPOSE_FILES = [
 def _override_files(vars):
     files = []
     for n in vars:
-        files.append('docker-compose.%s.yml' % n.lower())
+        file = 'docker-compose.%s.yml' % n.lower()
+        if os.path.exists(os.path.join(REPO_DIR, 'docker', 'dev', file)):
+            files.append(file)
 
     return files
 
