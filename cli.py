@@ -70,7 +70,13 @@ def _execute_command(subcommand, args):
     cwd = os.path.join(REPO_DIR, 'docker', 'dev')
     cmd = _generate_command(subcommand)
     cmd += args
-    subprocess.call(cmd, cwd=cwd, env=env)
+    p = None
+    try:
+        print('Executing: %s' % ' '.join(cmd))
+        p = subprocess.Popen(cmd, cwd=cwd, env=env)
+        p.communicate()
+    except KeyboardInterrupt:
+        p.communicate()
 
 @main.command('up', short_help='Bring up stack.', help='Bring up stack.',
               context_settings=dict(allow_extra_args=True, ignore_unknown_options=True))
