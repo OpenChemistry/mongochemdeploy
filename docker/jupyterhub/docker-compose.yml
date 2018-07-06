@@ -54,6 +54,9 @@ services:
       GIRDER_PORT: ${GIRDER_PORT}
       OC_SITE: ${OC_SITE}
       ORIGIN: ${ORIGIN}
+      # For dev
+      OPENCHEMISTRYPY: ${OPENCHEMISTRYPY}
+      JUPTERLAB_APP_DIR: ${JUPTERLAB_APP_DIR}
       JUPYTERHUB_BASE_URL: ${JUPYTERHUB_BASE_URL}
     env_file:
       - ${JUPYTERHUB_DOCKER_DIR}/secrets/postgres.env

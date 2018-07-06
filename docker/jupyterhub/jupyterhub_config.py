@@ -27,6 +27,18 @@ c.DockerSpawner.network_name = network_name
 c.DockerSpawner.extra_host_config = { 'network_mode': network_name }
 girder_api_url = os.environ.get('GIRDER_API_URL', 'http://localhost:8080/api/v1')
 
+c.DockerSpawner.volumes = {}
+
+# This is for dev deployment
+if 'OPENCHEMISTRYPY' in os.environ and os.environ['OPENCHEMISTRYPY'] != '':
+    c.DockerSpawner.volumes[os.environ['OPENCHEMISTRYPY']] = '/home/jovyan/openchemistrypy'
+
+if 'JUPYTERLAB_CJSON' in os.environ and os.environ['JUPTERLAB_CJSON'] != '':
+    c.DockerSpawner.volumes[os.environ['JUPTERLAB_CJSON']] = '/home/jovyan/jupyterlab_cjson'
+
+if 'JUPTERLAB_APP_DIR' in os.environ and os.environ['JUPTERLAB_APP_DIR'] != '':
+    c.DockerSpawner.volumes[os.environ['JUPTERLAB_APP_DIR']] = '/opt/conda/share/jupyter/lab'
+
 spawn_cmd = os.environ.get('DOCKER_SPAWN_CMD', "start-singleuser.sh")
 spawn_cmd += ' --NotebookApp.allow_origin=%s' % os.environ['ORIGIN']
 spawn_cmd += " --SingleUserNotebookApp.default_url=/lab"
