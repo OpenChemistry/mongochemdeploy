@@ -9,16 +9,9 @@ services:
     volumes:
      - assetstore:/assetstore
      - keys:/keys
+    ports:
+      - 8080:8080
 
-  nginx:
-      image: openchemistry/nginx:oc
-      build:
-       context: ${GIRDER_DOCKER_DIR}/nginx
-       dockerfile: Dockerfile
-      ports:
-          - 8080:80
-      depends_on:
-        - 'girder'
 
   rabbitmq:
       image: rabbitmq
