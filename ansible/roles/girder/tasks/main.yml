@@ -122,7 +122,7 @@
   when: nersc is defined
 
 - include: oauth-auth.yml
-  when: beta is defined
+  when: oauth_google_client_id is defined
 
 - include: dev.yml
   when: dev is defined
