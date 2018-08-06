@@ -1,0 +1,9 @@
+version: "2.0"
+services:
+  celery_command:
+    volumes:
+      - $OPENCHEMISTRYPY:/openchemistrypy
+  celery_monitor:
+    volumes:
+      - $OPENCHEMISTRYPY:/openchemistrypy
+
