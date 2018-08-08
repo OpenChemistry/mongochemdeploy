@@ -53,6 +53,7 @@ env_vars = {
     'GIRDER_PORT': '8080',
     'GIRDER_API_ROOT': 'api/v1',
     'GIRDER_SCHEME': 'http',
+    'APP_BASE_URL': os.environ.get('APP_BASE_URL'),
     'JUPYTERHUB_BASE_URL': os.environ.get('JUPYTERHUB_BASE_URL')
 }
 env_vars = { k: os.environ.get(k, v) if os.environ.get(k, v) else v  for k, v in six.iteritems(env_vars) }
