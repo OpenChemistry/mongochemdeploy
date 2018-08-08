@@ -79,6 +79,20 @@ def _execute_command(subcommand, args):
     except KeyboardInterrupt:
         p.communicate()
 
+def _pull_extra_images():
+    """Pull extra images that docker-compose will not pull."""
+    cmd = ["docker", "pull"]
+    extra_images = ["openchemistry/jupyterlab"]
+    cmd += extra_images
+    p = None
+    try:
+        print('Pulling JupyterLab docker image')
+        print('Executing: %s' % ' '.join(cmd))
+        p = subprocess.Popen(cmd)
+        p.communicate()
+    except KeyboardInterrupt:
+        p.communicate()
+
 @main.command('up', short_help='Bring up stack.', help='Bring up stack.',
               context_settings=dict(allow_extra_args=True, ignore_unknown_options=True))
 @click.pass_context
@@ -96,6 +110,7 @@ def down(ctx):
 @click.pass_context
 def pull(ctx):
    _execute_command('pull', ctx.args)
+   _pull_extra_images()
 
 @main.command('build', short_help='Build images for stack.', help='Build images for stack.',
               context_settings=dict(allow_extra_args=True, ignore_unknown_options=True))
