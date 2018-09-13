@@ -127,9 +127,6 @@
     - role: geerlingguy.nginx
       become: yes
       become_user: root
-    - role: geerlingguy.certbot
-      become: yes
-      become_user: root
     - role: nginx
       become: yes
       become_user: root
