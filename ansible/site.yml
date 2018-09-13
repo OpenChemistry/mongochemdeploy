@@ -43,7 +43,7 @@
       become: yes
       become_user: root
       apt_repository:
-        repo: "deb https://deb.nodesource.com/node_6.x {{ ansible_distribution_release }} main"
+        repo: "deb https://deb.nodesource.com/node_10.x {{ ansible_distribution_release }} main"
 
     - name: Update package manager
       become: yes
