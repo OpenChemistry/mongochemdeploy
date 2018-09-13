@@ -93,7 +93,7 @@
     status_code: 200
   register: result
   until: result.json.status == 'created' or result.json.status == 'running'
-  retries: 10
+  retries: 15
   delay: 1
 
 - name: Refresh cluster so we have the public key
