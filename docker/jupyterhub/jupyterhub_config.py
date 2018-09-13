@@ -27,12 +27,24 @@ c.DockerSpawner.network_name = network_name
 c.DockerSpawner.extra_host_config = { 'network_mode': network_name }
 girder_api_url = os.environ.get('GIRDER_API_URL', 'http://localhost:8080/api/v1')
 
+c.DockerSpawner.volumes = {}
+
+# This is for dev deployment
+if 'OPENCHEMISTRYPY' in os.environ and os.environ['OPENCHEMISTRYPY'] != '':
+    c.DockerSpawner.volumes[os.environ['OPENCHEMISTRYPY']] = '/home/jovyan/openchemistrypy'
+
+if 'JUPYTERLAB_CJSON' in os.environ and os.environ['JUPTERLAB_CJSON'] != '':
+    c.DockerSpawner.volumes[os.environ['JUPTERLAB_CJSON']] = '/home/jovyan/jupyterlab_cjson'
+
+if 'JUPTERLAB_APP_DIR' in os.environ and os.environ['JUPTERLAB_APP_DIR'] != '':
+    c.DockerSpawner.volumes[os.environ['JUPTERLAB_APP_DIR']] = '/opt/conda/share/jupyter/lab'
+
 spawn_cmd = os.environ.get('DOCKER_SPAWN_CMD', "start-singleuser.sh")
 spawn_cmd += ' --NotebookApp.allow_origin=%s' % os.environ['ORIGIN']
 spawn_cmd += " --SingleUserNotebookApp.default_url=/lab"
-spawn_cmd += " --NotebookApp.contents_manager_class='girder_jupyter.contents.girderfilemanager.GirderFileManager'"
-spawn_cmd += " --GirderFileManager.api_url=%s" % girder_api_url
-spawn_cmd += " --GirderFileManager.root=user/{login}/Private/oc/notebooks"
+spawn_cmd += " --NotebookApp.contents_manager_class='girder_jupyter.contents.manager.GirderContentsManager'"
+spawn_cmd += " --GirderContentsManager.api_url=%s" % girder_api_url
+spawn_cmd += " --GirderContentsManager.root=user/{login}/Private/oc/notebooks"
 
 # Set environment variables needs by the openchemistry package
 env_vars = {
@@ -41,6 +53,7 @@ env_vars = {
     'GIRDER_PORT': '8080',
     'GIRDER_API_ROOT': 'api/v1',
     'GIRDER_SCHEME': 'http',
+    'APP_BASE_URL': os.environ.get('APP_BASE_URL'),
     'JUPYTERHUB_BASE_URL': os.environ.get('JUPYTERHUB_BASE_URL')
 }
 env_vars = { k: os.environ.get(k, v) if os.environ.get(k, v) else v  for k, v in six.iteritems(env_vars) }
@@ -66,6 +79,7 @@ c.DockerSpawner.debug = True
 c.JupyterHub.hub_ip = 'jupyterhub'
 c.JupyterHub.hub_port = 8080
 c.JupyterHub.base_url = '/jupyterhub'
+c.JupyterHub.hub_connect_ip = 'jupyterhub'
 
 # TLS config
 #c.JupyterHub.port = 443

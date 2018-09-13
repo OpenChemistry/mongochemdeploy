@@ -83,6 +83,25 @@
     plugins:
       - notebooks
     state: present
+  notify:
+    - restart girder
+
+- name: restart girder
+  girder:
+    host: "{{girder_host}}"
+    port: "{{girder_port}}"
+    scheme: "{{girder_scheme}}"
+    apiRoot: "{{girder_api_root}}"
+    username: "mongochem"
+    password: "{{ mongochem_password }}"
+    put:
+      path: "system/restart"
+
+- name: Wait until server restarts
+  wait_for:
+    host="{{girder_host}}"
+    port="{{girder_port}}"
+    delay=5
 
 - name: Create filesystem assetstore
   girder:
@@ -103,4 +122,7 @@
   when: nersc is defined
 
 - include: oauth-auth.yml
-  when: beta is defined
+  when: oauth_google_client_id is defined
+
+- include: dev.yml
+  when: dev is defined

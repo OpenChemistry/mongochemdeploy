@@ -43,7 +43,7 @@
       become: yes
       become_user: root
       apt_repository:
-        repo: "deb https://deb.nodesource.com/node_6.x {{ ansible_distribution_release }} main"
+        repo: "deb https://deb.nodesource.com/node_10.x {{ ansible_distribution_release }} main"
 
     - name: Update package manager
       become: yes
@@ -125,9 +125,6 @@
     girder_api_url: "{{girder_internal_url}}/{{girder_internal_api_root|default(girder_internal_api_root)}}"
   roles:
     - role: geerlingguy.nginx
-      become: yes
-      become_user: root
-    - role: geerlingguy.certbot
       become: yes
       become_user: root
     - role: nginx

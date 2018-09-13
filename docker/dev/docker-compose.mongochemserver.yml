@@ -1,0 +1,7 @@
+version: "2.0"
+services:
+  girder:
+    volumes:
+      - $MONGOCHEMSERVER/girder/molecules:/girder/plugins/molecules
+      - $MONGOCHEMSERVER/girder/notebooks:/girder/plugins/notebooks
+

@@ -4,19 +4,20 @@ USER root
 
 RUN apt-get update && apt-get -y install git
 
+USER jovyan
+
 RUN /opt/conda/bin/pip install jupyterhub==0.7.2
 
-RUN /opt/conda/bin/pip install jupyterlab==0.28.14
+RUN /opt/conda/bin/pip install jupyterlab==0.34.9
 
 RUN  /opt/conda/bin/pip install git+https://github.com/girder/girder_jupyterhub.git@master
 
 RUN  /opt/conda/bin/pip install git+https://github.com/girder/girder_jupyter.git@master
 
-RUN  /opt/conda/bin/pip install git+https://github.com/OpenChemistry/openchemistrypy@master
+RUN  git clone https://github.com/OpenChemistry/openchemistrypy.git openchemistrypy && \
+  /opt/conda/bin/pip install -e openchemistrypy
 
-USER jovyan
-
-RUN  git clone https://github.com/cjh1/jupyterlab_cjson.git && \
+RUN git clone https://github.com/OpenChemistry/jupyterlab_cjson.git && \
   cd jupyterlab_cjson && \
   /opt/conda/bin/pip install -e . && \
   cd labextension && \

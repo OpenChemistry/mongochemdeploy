@@ -16,7 +16,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       PGDATA: ${DB_VOLUME_CONTAINER}
     env_file:
-      - secrets/postgres.env
+      - ${JUPYTERHUB_DOCKER_DIR}/secrets/postgres.env
     volumes:
       - "db:${DB_VOLUME_CONTAINER}"
 
@@ -25,7 +25,7 @@ services:
       - hub-db
     restart: always
     build:
-      context: .
+      context: ${JUPYTERHUB_DOCKER_DIR}
       dockerfile: Dockerfile.jupyterhub
     image: openchemistry/jupyterhub:oc
     container_name: jupyterhub
@@ -54,9 +54,13 @@ services:
       GIRDER_PORT: ${GIRDER_PORT}
       OC_SITE: ${OC_SITE}
       ORIGIN: ${ORIGIN}
+      # For dev
+      OPENCHEMISTRYPY: ${OPENCHEMISTRYPY}
+      JUPTERLAB_APP_DIR: ${JUPTERLAB_APP_DIR}
       JUPYTERHUB_BASE_URL: ${JUPYTERHUB_BASE_URL}
+      APP_BASE_URL: ${APP_BASE_URL}
     env_file:
-      - secrets/postgres.env
+      - ${JUPYTERHUB_DOCKER_DIR}/secrets/postgres.env
     command:
       jupyterhub --debug -f /srv/jupyterhub/jupyterhub_config.py
     dns: 8.8.8.8
