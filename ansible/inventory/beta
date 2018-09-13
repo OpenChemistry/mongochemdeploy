@@ -1,17 +1,17 @@
 [nginx]
-52.25.123.39
+beta.openchemistry.org
 
 [mongo]
-52.25.123.39
+beta.openchemistry.org
 
 [jupyterhub]
-52.25.123.39
+beta.openchemistry.org
 
 [girder]
-52.25.123.39
+beta.openchemistry.org
 
 [mongochemclient]
-52.25.123.39
+beta.openchemistry.org
 
 [girder_configure]
-52.25.123.39
+beta.openchemistry.org
