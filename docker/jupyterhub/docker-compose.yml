@@ -57,7 +57,7 @@ services:
       # For dev
       OPENCHEMISTRYPY: ${OPENCHEMISTRYPY}
       JUPTERLAB_APP_DIR: ${JUPTERLAB_APP_DIR}
-      JUPYTERHUB_BASE_URL: ${JUPYTERHUB_BASE_URL}
+      OC_JUPYTERHUB_URL: ${OC_JUPYTERHUB_URL}
       APP_BASE_URL: ${APP_BASE_URL}
     env_file:
       - ${JUPYTERHUB_DOCKER_DIR}/secrets/postgres.env

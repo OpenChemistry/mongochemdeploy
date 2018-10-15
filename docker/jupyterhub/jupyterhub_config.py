@@ -54,7 +54,7 @@ env_vars = {
     'GIRDER_API_ROOT': 'api/v1',
     'GIRDER_SCHEME': 'http',
     'APP_BASE_URL': os.environ.get('APP_BASE_URL'),
-    'JUPYTERHUB_BASE_URL': os.environ.get('JUPYTERHUB_BASE_URL')
+    'OC_JUPYTERHUB_URL': os.environ.get('OC_JUPYTERHUB_URL')
 }
 env_vars = { k: os.environ.get(k, v) if os.environ.get(k, v) else v  for k, v in six.iteritems(env_vars) }
 c.DockerSpawner.environment.update(env_vars)
