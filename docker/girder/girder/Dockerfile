@@ -22,7 +22,7 @@ RUN apt-get update && apt-get -y install \
   libpython3-dev
 
 # Build avogadrolibs
-RUN git clone https://github.com/openchemistry/avogadrolibs.git /avogadrolibs/source && \
+RUN git clone --branch 1.91.0 https://github.com/openchemistry/avogadrolibs.git /avogadrolibs/source && \
   mkdir /avogadrolibs/build && \
   cd /avogadrolibs/build && \
   cmake -DCMAKE_BUILD_TYPE:STRING=Release -DUSE_PYTHON:BOOL=YES -DENABLE_TESTING:BOOL=NO \
