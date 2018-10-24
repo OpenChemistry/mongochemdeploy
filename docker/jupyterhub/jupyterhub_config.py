@@ -4,6 +4,9 @@
 # Configuration file for JupyterHub
 import os
 import six
+import warnings
+import sys
+
 
 c = get_config()
 
@@ -88,8 +91,14 @@ c.JupyterHub.hub_connect_ip = 'jupyterhub'
 # Authenticate users with Girder
 c.JupyterHub.authenticator_class = 'girder_jupyterhub.auth.GirderAuthenticator'
 
-import sys
 c.GirderAuthenticator.api_url = girder_api_url
+c.GirderAuthenticator.enable_auth_state = True
+if 'JUPYTERHUB_CRYPT_KEY' not in os.environ:
+    warnings.warn(
+        "Need JUPYTERHUB_CRYPT_KEY env for persistent auth_state.\n"
+        "    export JUPYTERHUB_CRYPT_KEY=$(openssl rand -hex 32)"
+    )
+    c.CryptKeeper.keys = [ os.urandom(32) ]
 
 # Persist hub data on volume mounted inside container
 data_dir = os.environ.get('DATA_VOLUME_CONTAINER', '/data')
