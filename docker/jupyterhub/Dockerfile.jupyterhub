@@ -1,10 +1,10 @@
-FROM jupyterhub/jupyterhub:0.7.2
+FROM jupyterhub/jupyterhub:0.9.4
 
 # Install dockerspawner, postgres
 RUN /opt/conda/bin/conda install psycopg2=2.7 && \
     /opt/conda/bin/conda clean -tipsy && \
     /opt/conda/bin/pip install \
-    dockerspawner==0.8.*
+    dockerspawner==0.10.0
 
 RUN  /opt/conda/bin/pip install git+https://github.com/girder/girder_jupyterhub.git@master
 
