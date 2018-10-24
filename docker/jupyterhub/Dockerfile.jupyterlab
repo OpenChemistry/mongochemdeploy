@@ -10,9 +10,9 @@ RUN /opt/conda/bin/pip install jupyterhub==0.7.2
 
 RUN /opt/conda/bin/pip install jupyterlab==0.34.9
 
-RUN  /opt/conda/bin/pip install git+https://github.com/girder/girder_jupyterhub.git@master
+RUN  /opt/conda/bin/pip install girder-jupyterhub
 
-RUN  /opt/conda/bin/pip install git+https://github.com/girder/girder_jupyter.git@master
+RUN  /opt/conda/bin/pip install girder-jupyter
 
 RUN  git clone https://github.com/OpenChemistry/openchemistrypy.git openchemistrypy && \
   /opt/conda/bin/pip install -e openchemistrypy
