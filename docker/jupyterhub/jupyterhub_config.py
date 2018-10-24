@@ -25,6 +25,7 @@ network_name = os.environ['DOCKER_NETWORK_NAME']
 c.DockerSpawner.use_internal_ip = True
 c.DockerSpawner.network_name = network_name
 c.DockerSpawner.extra_host_config = { 'network_mode': network_name }
+c.DockerSpawner.remove = True
 girder_api_url = os.environ.get('GIRDER_API_URL', 'http://localhost:8080/api/v1')
 
 c.DockerSpawner.volumes = {}
@@ -70,8 +71,6 @@ c.DockerSpawner.use_internal_ip = True
 # We follow the same convention.
 # Mount the real user's Docker volume on the host to the notebook user's
 # notebook directory in the container
-# Remove containers once they are stopped
-c.DockerSpawner.remove_containers = True
 # For debugging arguments passed to spawned containers
 c.DockerSpawner.debug = True
 
