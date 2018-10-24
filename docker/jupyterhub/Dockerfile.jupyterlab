@@ -6,7 +6,7 @@ RUN apt-get update && apt-get -y install git
 
 USER jovyan
 
-RUN /opt/conda/bin/pip install jupyterhub==0.7.2
+RUN /opt/conda/bin/pip install jupyterhub==0.9.4
 
 RUN /opt/conda/bin/pip install jupyterlab==0.34.9
 
