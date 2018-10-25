@@ -5,7 +5,6 @@
 import os
 import six
 import warnings
-import sys
 
 
 c = get_config()
