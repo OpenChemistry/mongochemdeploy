@@ -4,6 +4,8 @@
 # Configuration file for JupyterHub
 import os
 import six
+import warnings
+
 
 c = get_config()
 
@@ -25,6 +27,7 @@ network_name = os.environ['DOCKER_NETWORK_NAME']
 c.DockerSpawner.use_internal_ip = True
 c.DockerSpawner.network_name = network_name
 c.DockerSpawner.extra_host_config = { 'network_mode': network_name }
+c.DockerSpawner.remove = True
 girder_api_url = os.environ.get('GIRDER_API_URL', 'http://localhost:8080/api/v1')
 
 c.DockerSpawner.volumes = {}
@@ -54,7 +57,7 @@ env_vars = {
     'GIRDER_API_ROOT': 'api/v1',
     'GIRDER_SCHEME': 'http',
     'APP_BASE_URL': os.environ.get('APP_BASE_URL'),
-    'JUPYTERHUB_BASE_URL': os.environ.get('JUPYTERHUB_BASE_URL')
+    'OC_JUPYTERHUB_URL': os.environ.get('OC_JUPYTERHUB_URL')
 }
 env_vars = { k: os.environ.get(k, v) if os.environ.get(k, v) else v  for k, v in six.iteritems(env_vars) }
 c.DockerSpawner.environment.update(env_vars)
@@ -70,8 +73,6 @@ c.DockerSpawner.use_internal_ip = True
 # We follow the same convention.
 # Mount the real user's Docker volume on the host to the notebook user's
 # notebook directory in the container
-# Remove containers once they are stopped
-c.DockerSpawner.remove_containers = True
 # For debugging arguments passed to spawned containers
 c.DockerSpawner.debug = True
 
@@ -89,8 +90,14 @@ c.JupyterHub.hub_connect_ip = 'jupyterhub'
 # Authenticate users with Girder
 c.JupyterHub.authenticator_class = 'girder_jupyterhub.auth.GirderAuthenticator'
 
-import sys
 c.GirderAuthenticator.api_url = girder_api_url
+c.GirderAuthenticator.enable_auth_state = True
+if 'JUPYTERHUB_CRYPT_KEY' not in os.environ:
+    warnings.warn(
+        "Need JUPYTERHUB_CRYPT_KEY env for persistent auth_state.\n"
+        "    export JUPYTERHUB_CRYPT_KEY=$(openssl rand -hex 32)"
+    )
+    c.CryptKeeper.keys = [ os.urandom(32) ]
 
 # Persist hub data on volume mounted inside container
 data_dir = os.environ.get('DATA_VOLUME_CONTAINER', '/data')
