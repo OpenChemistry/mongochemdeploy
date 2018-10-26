@@ -1,5 +1,8 @@
 version: "2.0"
 services:
+  girder:
+    volumes:
+      - $OPENCHEMISTRYPY:/openchemistrypy
   celery_command:
     volumes:
       - $OPENCHEMISTRYPY:/openchemistrypy
