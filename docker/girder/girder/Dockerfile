@@ -22,7 +22,7 @@ RUN apt-get update && apt-get -y install \
   libopenbabel-dev
 
 # Enable proxy support
-COPY girder/girder.local.conf /girder/girder/conf/girder.local.cfg
+COPY girder.local.conf /girder/girder/conf/girder.local.cfg
 
 # Install mongochemserver plugins
 RUN git clone https://github.com/OpenChemistry/mongochemserver.git /mongochemserver && \
