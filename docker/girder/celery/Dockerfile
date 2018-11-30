@@ -19,6 +19,7 @@ RUN chown -R celery  /cumulus
 
 # Install openchemistry
 RUN git clone https://github.com/OpenChemistry/openchemistrypy.git /openchemistrypy && \
+  pip install -e /openchemistrypy && \
   chown -R celery  /openchemistrypy
 
 USER celery
