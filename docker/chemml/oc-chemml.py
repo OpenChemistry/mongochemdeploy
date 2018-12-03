@@ -41,10 +41,30 @@ cls = OrganicLorentzLorenz()
 cls.load(summary=True)
 pred = cls.predict(smiles)
 
+calculated_properties = {
+    "refractiveIndex": {
+        "label": "LL refractive index",
+        "value": pred[0],
+        "units": ""
+    },
+    "polarizability": {
+        "label": "Polarizability",
+        "value": pred[1],
+        "units": "Bohr^3"
+    },
+    "density": {
+        "label": "Density",
+        "value": pred[2],
+        "units": "Kg/m^3"
+    }
+}
+
+cjson['calculatedProperties'] = calculated_properties
+
 if input_file.lower().endswith('.in'):
     output_file = input_file[:-3] + '.out'
 else:
     output_file = input_file + '.out'
 
 with open(output_file, 'w') as f:
-    json.dump(pred, f)
+    json.dump(cjson, f)
