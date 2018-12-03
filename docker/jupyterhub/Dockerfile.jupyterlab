@@ -14,13 +14,11 @@ RUN  /opt/conda/bin/pip install girder-jupyterhub
 
 RUN  /opt/conda/bin/pip install girder-jupyter
 
-RUN  git clone https://github.com/OpenChemistry/openchemistrypy.git openchemistrypy && \
+RUN git clone https://github.com/OpenChemistry/openchemistrypy.git openchemistrypy && \
   /opt/conda/bin/pip install -e openchemistrypy
 
 RUN git clone https://github.com/OpenChemistry/jupyterlab_cjson.git && \
   cd jupyterlab_cjson && \
-  /opt/conda/bin/pip install -e . && \
-  cd labextension && \
   npm install && \
   npm run build && \
   jupyter labextension link .
