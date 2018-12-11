@@ -17,6 +17,9 @@ COPY config.json /cumulus/cumulus/conf/config.json
 
 RUN chown -R celery  /cumulus
 
+# Install Avogadro
+RUN pip install avogadro
+
 # Install openchemistry
 RUN git clone https://github.com/OpenChemistry/openchemistrypy.git /openchemistrypy && \
   chown -R celery  /openchemistrypy
