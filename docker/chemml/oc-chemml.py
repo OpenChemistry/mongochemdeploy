@@ -19,8 +19,8 @@ from avogadro.io import FileFormatManager
 def avo_convert_str(str_data, in_format, out_format):
     mol = Molecule()
     conv = FileFormatManager()
-    conv.readString(mol, str_data, in_format)
-    return conv.writeString(mol, out_format)
+    conv.read_string(mol, str_data, in_format)
+    return conv.write_string(mol, out_format)
 
 def cjson_to_smiles(cjson):
     cml = avo_convert_str(json.dumps(cjson), 'cjson', 'cml')
