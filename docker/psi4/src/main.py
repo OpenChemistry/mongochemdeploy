@@ -27,11 +27,15 @@ def describe_callback(ctx, param, value):
 @click.option('--output', '-o', 'output_file',
               type=click.Path(exists=False, dir_okay=False, resolve_path=True),
               required=True,
-              help='The path to the file that will contain the calculation output.')
-def main(geometry_file, parameters_file, output_file):
+              help='The path to the file that will contain the converted calculation output.')
+@click.option('--scratch', '-s', 'scratch_dir',
+              type=click.Path(exists=False, dir_okay=True, file_okay=False, resolve_path=True),
+              required=True,
+              help='The path to the directory that will be used as scratch space while running the calculation.')
+def main(geometry_file, parameters_file, output_file, scratch_dir):
     with open(parameters_file) as f:
         params = json.load(f)
-    run.run_calculation(geometry_file, output_file, params)
+    run.run_calculation(geometry_file, output_file, params, scratch_dir)
 
 
 if __name__ == '__main__':
