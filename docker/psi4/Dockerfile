@@ -1,7 +1,7 @@
 FROM conda/miniconda3:latest
 
 RUN apt-get update && \
-  apt-get install -y gcc && \
+  apt-get install -y gcc git && \
   rm -rf /var/lib/apt/lists/*
 
 RUN conda update --all && \
@@ -10,6 +10,8 @@ RUN conda update --all && \
 RUN pip install avogadro
 RUN pip install click
 RUN pip install jinja2
+RUN pip install openchemistry
+RUN pip install git+https://github.com/cclib/cclib
 
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
