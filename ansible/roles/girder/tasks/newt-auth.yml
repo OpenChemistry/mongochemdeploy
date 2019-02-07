@@ -9,7 +9,7 @@
     plugins:
       - newt
     state: present
-    notify: restart girder
+  notify: restart girder
 
 - name: Wait until server restarts
   wait_for:

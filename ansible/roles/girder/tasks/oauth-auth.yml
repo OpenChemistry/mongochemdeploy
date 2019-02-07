@@ -7,7 +7,7 @@
     password: "{{ mongochem_password }}"
     plugins:
       - oauth
-  state: present
+    state: present
   notify: restart girder
 
 - name: restart girder
