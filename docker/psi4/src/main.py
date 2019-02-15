@@ -1,6 +1,7 @@
 import click
 import sys
 import json
+
 import describe
 import run
 
@@ -9,7 +10,7 @@ def describe_callback(ctx, param, value):
         return
     # Print the description object and stop execution of the container if --describe option is passed
     description = json.dumps(describe.get_description(), indent=2)
-    print(description, file=sys.stdout)
+    click.echo(description, file=sys.stdout)
     ctx.exit()
 
 @click.command()
