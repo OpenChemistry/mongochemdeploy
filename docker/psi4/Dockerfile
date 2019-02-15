@@ -7,15 +7,11 @@ RUN apt-get update && \
 RUN conda update --all && \
   conda install psi4=1.2 psi4-rt=1.2 python=3.6 -c psi4
 
-RUN pip install avogadro
-RUN pip install click
-RUN pip install jinja2
-RUN pip install openchemistry
-RUN pip install git+https://github.com/cclib/cclib
-
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
 COPY src/* /app/
+
+RUN pip install -r /app/requirements.txt
 
 ENTRYPOINT ["python", "/app/main.py"]
