@@ -16,8 +16,6 @@ RUN pip install git+https://github.com/cclib/cclib
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
-WORKDIR /app
+COPY src/* /app/
 
-COPY src/* ./
-
-ENTRYPOINT ["python", "main.py"]
+ENTRYPOINT ["python", "/app/main.py"]
