@@ -9,10 +9,10 @@ RUN yum install -y centos-release-scl && \
 
 COPY entrypoint.sh /entrypoint.sh
 
-ENV LD_LIBRARY_PATH /opt/rh/python27/root/usr/lib64
+RUN ln -s /usr/bin/python2.6 /usr/local/bin/python
 
-RUN ln -fs /opt/rh/python27/root/usr/bin/python /usr/bin/python && \
-  ln -s /usr/bin/python /usr/local/bin/python
+RUN yum update -y && \
+  yum install -y singularity-runtime singularity
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 CMD ["/usr/bin/supervisord"]
