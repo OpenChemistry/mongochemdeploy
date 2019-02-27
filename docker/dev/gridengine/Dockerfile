@@ -7,8 +7,6 @@ RUN yum install -y yum-utils && \
 RUN yum install -y centos-release-scl && \
   yum install -y python27 docker-io
 
-COPY entrypoint.sh /entrypoint.sh
-
 RUN ln -s /usr/bin/python2.6 /usr/local/bin/python
 
 # Install singularity
@@ -45,5 +43,7 @@ RUN cd /go/src/github.com/sylabs/singularity/builddir/ && \
   make && \
   make install
 
-ENTRYPOINT [ "/entrypoint.sh" ]
+COPY entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT  [  "/entrypoint.sh" ]
 CMD ["/usr/bin/supervisord"]
