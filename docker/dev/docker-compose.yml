@@ -26,6 +26,7 @@ services:
      - ../../ansible:/ansible
 
   gridengine:
+    privileged: true
     image: openchemistry/gridengine
     build:
       context: gridengine
