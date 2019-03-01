@@ -6,7 +6,7 @@ DOCKER_GROUP=docker
 
 if [ -S ${DOCKER_SOCKET} ]; then
     DOCKER_GID=$(stat -c '%g' ${DOCKER_SOCKET})
-    groupadd -for -g ${DOCKER_GID} ${DOCKER_GROUP}
+    groupmod -g ${DOCKER_GID} ${DOCKER_GROUP}
     usermod -aG ${DOCKER_GROUP} testuser
 fi
 
