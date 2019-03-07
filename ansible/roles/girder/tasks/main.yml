@@ -98,6 +98,20 @@
   notify:
     - restart girder
 
+- name: Enable app plugin
+  girder:
+    host: "{{girder_host}}"
+    port: "{{girder_port}}"
+    scheme: "{{girder_scheme}}"
+    apiRoot: "{{girder_api_root}}"
+    username: "mongochem"
+    password: "{{ mongochem_password }}"
+    plugins:
+      - app
+    state: present
+  notify:
+    - restart girder
+
 - name: restart girder
   girder:
     host: "{{girder_host}}"
@@ -129,6 +143,23 @@
       root: "/assetstore"
       current: true
     state: present
+
+- name: Configure app configuration
+  girder:
+    host: "{{girder_host}}"
+    port: "{{girder_port}}"
+    scheme: "{{girder_scheme}}"
+    username: "mongochem"
+    password: "{{ mongochem_password }}"
+    setting:
+      key: "{{item.key}}"
+      value: "{{item.value}}"
+    state: present
+  with_items:
+    - {
+      "key": "app.features.notebooks",
+      "value": "{{ app_feature_notesbooks | default(true) }}"
+    }
 
 - include: newt-auth.yml
   when: nersc is defined
