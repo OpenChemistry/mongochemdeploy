@@ -1,0 +1,16 @@
+geometry nocenter noautosym
+  {{xyz_structure}}
+end
+
+start
+basis
+  * library {{basis}}
+end
+
+dft
+  xc {{functional}}
+  mult {{multiplicity}}
+  maxiter 2000
+end
+
+task dft gradient
