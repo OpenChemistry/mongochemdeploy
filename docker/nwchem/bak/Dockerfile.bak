@@ -1,0 +1,68 @@
+# Image inspired by https://github.com/OpenChemistry/NWChem-Json/blob/master/Dockerfile
+FROM debian:buster
+
+MAINTAINER Muammar El Khatib <melkhatibr@lbl.gov>
+
+ENV         NWCHEM_TOP="/opt/nwchem"
+
+RUN apt-get update && \
+    apt-get install -y gcc gfortran && \
+    apt-get install -y gfortran libopenblas-dev libopenmpi-dev \
+    openmpi-bin tcsh make ssh patch curl git && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR     /opt
+RUN         git clone https://github.com/wadejong/NWChem-Json nwchem
+
+ENV         LARGE_FILES=TRUE
+ENV         TCGRSH="/usr/bin/ssh"
+ENV         NWCHEM_TARGET=LINUX64
+ENV         NWCHEM_MODULES="all"
+ENV         BLASOPT="-L/usr/lib/x86_64-linux-gnu/openblas/e -lopenblas"
+ENV         LIBRARY_PATH="$LIBRARY_PATH:/usr/lib/x86_64-linux-gnu/openblas/"
+ENV         USE_MPI=y
+ENV         USE_MPIF=y
+ENV         USE_MPIF4=y
+ENV         MPI_LOC="/usr/lib/x86_64-linux-gnu/openmpi/lib/"
+ENV         MPI_INCLUDE="/usr/lib/x86_64-linux-gnu/openmpi/include/"
+ENV         LIBMPI="-lmpi -lopen-rte -lopen-pal -ldl -lmpi_f77 -lpthread"
+ENV         LIBRARY_PATH="$LIBRARY_PATH:/usr/lib/x86_64-linux-gnu/openmpi/lib/"
+ENV         MRCC_METHODS=y
+#ENV         CCSDTQ=y
+#ENV         CCSDTLR=y
+ENV         FC=gfortran
+
+WORKDIR     ${NWCHEM_TOP}/src
+RUN         rm -f */dependencies \
+            && rm -f */*/dependencies \
+            && make clean \
+            && make nwchem_config
+
+WORKDIR     ${NWCHEM_TOP}/src
+RUN         make -j `nproc --all` ; exit 0
+
+WORKDIR     ${NWCHEM_TOP}/src/util
+RUN         make ; make && cp *.mod ../include
+
+WORKDIR     ${NWCHEM_TOP}/src
+RUN         make -j `nproc --all`
+
+WORKDIR     ${NWCHEM_TOP}/contrib
+RUN         ./getmem.nwchem
+
+ENV         NWCHEM_EXECUTABLE=${NWCHEM_TOP}/bin/LINUX64/nwchem
+ENV         NWCHEM_BASIS_LIBRARY=${NWCHEM_TOP}/src/basis/libraries/
+ENV         NWCHEM_NWPW_LIBRARY=${NWCHEM_TOP}/src/nwpw/libraryps/
+ENV         FFIELD=amber
+ENV         AMBER_1=${NWCHEM_TOP}/src/data/amber_s/
+ENV         AMBER_2=${NWCHEM_TOP}/src/data/amber_q/
+ENV         AMBER_3=${NWCHEM_TOP}/src/data/amber_x/
+ENV         AMBER_4=${NWCHEM_TOP}/src/data/amber_u/
+ENV         SPCE=${NWCHEM_TOP}/src/data/solvents/spce.rst
+ENV         CHARMM_S=${NWCHEM_TOP}/src/data/charmm_s/
+ENV         CHARMM_X=${NWCHEM_TOP}/src/data/charmm_x/
+ENV         PATH=$PATH:${NWCHEM_TOP}/bin/LINUX64
+
+WORKDIR     /data
+
+ENTRYPOINT  ["/opt/nwchem/bin/LINUX64/nwchem"]
