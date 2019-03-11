@@ -2,7 +2,7 @@ FROM        ubuntu:14.04
 
 LABEL maintainer="Muammar El khatib <melkhatibr@lbl.gov>, Chris Harris <chris.harris@kitware.com>"
 
-ENV 	    LC_ALL=C.UTF-8
+ENV         LC_ALL=C.UTF-8
 ENV         LANG=C.UTF-8
 ENV         NWCHEM_TOP="/opt/nwchem"
 
@@ -86,4 +86,4 @@ ENV         PATH=$PATH:${NWCHEM_TOP}/bin/LINUX64
 
 WORKDIR     /data
 
-ENTRYPOINT ["python3", "/app/main.py"]
+#ENTRYPOINT ["python3", "/app/main.py"]
