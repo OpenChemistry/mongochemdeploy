@@ -16,12 +16,12 @@ RUN         apt-get install -y software-properties-common \
             && apt-get update \
             && apt-get install -y gfortran-4.9 python3.6 python3.6-dev \
             && update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-4.9 60
-            #&& update-alternatives --install /usr/bin/python python /usr/bin/python3.6 100
 
 WORKDIR     /app/
 COPY        requirements.txt /app/
 RUN         curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
             && python3.6 get-pip.py \
+            && rm get-pip.py \
             && ln -s /usr/bin/python3.6 /usr/local/bin/python3 \
             #&& ln -s /usr/local/bin/pip3 /usr/local/bin/pip3 \
             && /usr/local/bin/pip3 install -r /app/requirements.txt
