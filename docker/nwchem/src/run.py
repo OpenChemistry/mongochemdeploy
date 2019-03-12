@@ -63,7 +63,7 @@ def run_calculation(geometry_file, output_file, params, scratch_dir):
     os.makedirs(scratch_dir, exist_ok=True)
     os.chdir(scratch_dir)
     raw_input_file = os.path.join(scratch_dir, 'raw.in')
-    raw_output_file = os.path.join(scratch_dir, 'raw.out')
+    raw_output_file = os.path.join(scratch_dir, 'raw.json')
 
     with open(raw_input_file, 'wb') as f:
         jinja2_env.get_template('nwchem.in.j2').stream(**context, xyz_structure=xyz_structure).dump(f, encoding='utf8')

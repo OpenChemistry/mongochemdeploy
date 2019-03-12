@@ -86,4 +86,4 @@ ENV         PATH=$PATH:${NWCHEM_TOP}/bin/LINUX64
 
 WORKDIR     /data
 
-#ENTRYPOINT ["python3", "/app/main.py"]
+ENTRYPOINT ["python3", "/app/main.py"]
