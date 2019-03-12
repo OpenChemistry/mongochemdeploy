@@ -51,6 +51,8 @@ def run_calculation(geometry_file, output_file, params, scratch_dir):
         'multiplicity': multiplicity,
         'basis': basis
     }
+    
+    context['functional'] = functional
 
     # Combine the input parameters and geometry into a concrete input file
     # that can be executed by the simulation code
