@@ -1,13 +1,13 @@
 {
   "name": "NwChem",
-  "version": "6.1",
+  "version": "6.6",
   "input": {
       "format": "xyz",
       "parameters": {
           "theory": {
               "type": "string",
-              "description": "The theory level: ks | hf",
-              "default": "hf"
+              "description": "The theory level: ks | scf",
+              "default": "scf"
           },
           "task": {
               "type": "string",

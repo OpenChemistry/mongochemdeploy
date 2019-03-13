@@ -17,16 +17,6 @@ RUN         apt-get install -y software-properties-common \
             && apt-get install -y gfortran-4.9 python3.6 python3.6-dev \
             && update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-4.9 60
 
-WORKDIR     /app/
-COPY        requirements.txt /app/
-RUN         curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
-            && python3.6 get-pip.py \
-            && rm get-pip.py \
-            && ln -s /usr/bin/python3.6 /usr/local/bin/python3 \
-            #&& ln -s /usr/local/bin/pip3 /usr/local/bin/pip3 \
-            && /usr/local/bin/pip3 install -r /app/requirements.txt
-COPY        src/* /app/
-
 WORKDIR     /opt
 RUN         git clone https://github.com/wadejong/NWChem-Json nwchem
 
@@ -83,6 +73,14 @@ ENV         CHARMM_S=${NWCHEM_TOP}/src/data/charmm_s/
 ENV         CHARMM_X=${NWCHEM_TOP}/src/data/charmm_x/
 ENV         PATH=$PATH:${NWCHEM_TOP}/bin/LINUX64
 
+WORKDIR     /app/
+COPY        requirements.txt /app/
+RUN         curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
+            && python3.6 get-pip.py \
+            && rm get-pip.py \
+            && ln -s /usr/bin/python3.6 /usr/local/bin/python3 \
+            && /usr/local/bin/pip3 install -r /app/requirements.txt
+COPY        src/* /app/
 
 WORKDIR     /data
 
