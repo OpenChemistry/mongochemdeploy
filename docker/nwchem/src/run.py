@@ -54,6 +54,11 @@ def run_calculation(geometry_file, output_file, params, scratch_dir):
         'basis': basis,
     }
 
+    if context['task'] == 'freq':
+        context['freq'] = 'task {} {}' .format(_theory, 'freq')
+    elif context['task'] == 'optimize':
+        context['optimize'] = task
+
     if _theory == 'dft':
         context['functional'] = functional
     else:
