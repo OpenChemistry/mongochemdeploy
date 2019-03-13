@@ -24,10 +24,11 @@ def run_calculation(geometry_file, output_file, params, scratch_dir):
     charge = params.get('charge', 0)
     multiplicity = params.get('multiplicity', 1)
 
-    if theory.lower() == 'ks':
+    theory = theory.lower()
+    if theory == 'ks':
         _theory = 'dft'
     else:
-        _theory = 'scf'
+        _theory = theory
 
     reference = theory.lower()
 
