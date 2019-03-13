@@ -16,6 +16,8 @@ services:
     - NET_BIND_SERVICE
     volumes:
     - web-certbot-webroot.oc:/usr/share/nginx/html
+    ports:
+    - 80:80
     group_add:
     - nginx
 volumes:
