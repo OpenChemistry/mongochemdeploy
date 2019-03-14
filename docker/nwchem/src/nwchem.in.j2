@@ -1,0 +1,17 @@
+geometry nocenter noautosym
+  {{xyz_structure}}
+end
+
+start
+basis
+  * library {{basis}}
+end
+
+{{theory}}
+  xc {{functional}}
+  mult {{multiplicity}}
+  maxiter 2000
+end
+
+task {{theory}} {{optimize}}
+{{freq}}

@@ -1,0 +1,4 @@
+avogadro
+click
+jinja2
+openchemistry
