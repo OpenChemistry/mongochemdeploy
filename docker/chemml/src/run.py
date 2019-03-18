@@ -44,7 +44,7 @@ def run_calculation(geometry_file, output_file):
         "density": pred[2]
     }
 
-    cjson['properties'] = properties
+    cjson.setdefault('properties', {}).update(properties)
 
     with open(output_file, 'w') as f:
         json.dump(cjson, f)
