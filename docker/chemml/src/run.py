@@ -25,25 +25,13 @@ def run_calculation(geometry_file, output_file):
     cls.load(summary=True)
     pred = cls.predict(smiles)
 
-    calculated_properties = {
-        "refractiveIndex": {
-            "label": "LL refractive index",
-            "value": pred[0],
-            "units": ""
-        },
-        "polarizability": {
-            "label": "Polarizability",
-            "value": pred[1],
-            "units": "Bohr^3"
-        },
-        "density": {
-            "label": "Density",
-            "value": pred[2],
-            "units": "Kg/m^3"
-        }
+    properties = {
+        "refractiveIndex": pred[0],
+        "polarizability": pred[1],
+        "density": pred[2]
     }
 
-    cjson['calculatedProperties'] = calculated_properties
+    cjson['properties'] = properties
 
     with open(output_file, 'w') as f:
         json.dump(cjson, f)
