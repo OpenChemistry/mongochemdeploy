@@ -1,0 +1,13 @@
+version: '2'
+services:
+  jena-fuseki:
+    image: stain/jena-fuseki:latest
+    volumes:
+     - jena-fuseki-data:/fuseki
+    ports:
+      - 3030:3030
+    env_file:
+      - ${JENA_DOCKER_DIR}/jena.env
+volumes:
+    jena-fuseki-data:
+

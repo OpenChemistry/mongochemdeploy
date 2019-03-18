@@ -1,0 +1,55 @@
+- name: Check for existing dataset
+  uri:
+    url: "{{ jena_url }}/$/datasets/{{ jena_dataset }}"
+    user: "{{ jena_admin_user }}"
+    password: "{{ jena_admin_password }}"
+    method: GET
+    status_code:
+      - 200
+      - 404
+  register: get_dataset
+
+- name: Create Jena dataset
+  uri:
+    url: "{{ jena_url }}/$/datasets"
+    user: "{{ jena_admin_user }}"
+    password: "{{ jena_admin_password }}"
+    method: POST
+    body_format: form-urlencoded
+    body:
+    - [ dbName, "{{ jena_dataset }}"  ]
+    - [ dbType, tdb ]
+  when: get_dataset.status == 404
+
+- name: Configure Jena settings
+  girder:
+    host: "{{girder_host}}"
+    port: "{{girder_port}}"
+    scheme: "{{girder_scheme}}"
+    username: "mongochem"
+    password: "{{ mongochem_password }}"
+    setting:
+      key: "{{item.key}}"
+      value: "{{item.value}}"
+    state: present
+  with_items:
+    - {
+      "key": "app.features.notebooks",
+      "value": "{{ app_feature_notesbooks | default(true) }}"
+    }
+    - {
+       "key": "molecules.jena.url",
+       "value": "{{ jena_url | default('http://jena-fuseki:3030')}}"
+    }
+    - {
+       "key": "molecules.jena.user",
+       "value": "{{ jena_admin_user | default(admin) }}"
+    }
+    - {
+       "key": "molecules.jena.password",
+       "value": "{{ jena_admin_password  }}"
+    }
+    - {
+       "key": "molecules.jena.dataset",
+       "value": "{{ jena_dataset | default(openchemistry) }}"
+    }

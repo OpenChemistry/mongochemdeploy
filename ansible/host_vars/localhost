@@ -6,4 +6,7 @@ girder_scheme: 'http'
 mongochem_password: letmein
 mongochemdev_password: letmein
 cumulus_password: letmein
-
+jena_admin_user: admin
+jena_admin_password: letmein
+jena_url: http://jena-fuseki:3030
+jena_dataset: openchemistry
