@@ -1,2 +1,5 @@
 [girder_setup]
 localhost
+
+[jena]
+localhost

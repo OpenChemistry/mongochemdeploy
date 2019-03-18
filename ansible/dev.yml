@@ -6,4 +6,9 @@
     - role: girder
   tags: girder_setup
 
-
+- hosts: jena
+  vars:
+    ansible_python_interpreter: "/usr/local/bin/python"
+  connection: local
+  roles:
+    - role: jena
