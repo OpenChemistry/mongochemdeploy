@@ -2,6 +2,8 @@ import json
 from chemml.models.keras.trained import OrganicLorentzLorenz
 
 from openbabel import OBMol, OBConversion
+from avogadro.core import Molecule
+from avogadro.io import FileFormatManager
 
 def ob_convert_str(str_data, in_format, out_format):
     mol = OBMol()
@@ -11,6 +13,17 @@ def ob_convert_str(str_data, in_format, out_format):
     conv.ReadString(mol, str_data)
 
     return (conv.WriteString(mol), conv.GetOutFormat().GetMIMEType())
+
+def avo_convert_str(str_data, in_format, out_format):
+    mol = Molecule()
+    conv = FileFormatManager()
+    conv.read_string(mol, str_data, in_format)
+    return conv.write_string(mol, out_format)
+
+def cjson_to_smiles(cjson):
+    cml = avo_convert_str(json.dumps(cjson), 'cjson', 'cml')
+    smiles, _mime = ob_convert_str(cml, 'cml', 'smiles')
+    return smiles
 
 def run_calculation(geometry_file, output_file):
     # In the future we can probably accept SMILES directly from the molecule

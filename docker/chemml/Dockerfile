@@ -5,8 +5,6 @@ RUN conda install -c conda-forge rdkit
 RUN conda install -c openbabel openbabel
 RUN conda install -c anaconda tensorflow
 
-RUN pip install avogadro
-
 RUN git clone https://github.com/hachmannlab/chemml.git
 RUN pip install -e ./chemml
 
