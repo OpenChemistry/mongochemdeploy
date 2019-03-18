@@ -23,25 +23,17 @@ def run_calculation(geometry_file, output_file, params, scratch_dir):
     charge = params.get('charge', 0)
     multiplicity = params.get('multiplicity', 1)
 
-    if theory.lower() == 'ks':
+    if theory.lower() == 'dft':
         _theory = functional
+        reference = 'ks'
     else:
         _theory = 'scf'
-    
-    reference = theory.lower()
+        reference = 'hf'
 
     if multiplicity == 1:
         reference = 'r' + reference
     else:
         reference = 'u' + reference
-
-    optimization = params.get('optimization', None)
-    vibrational = params.get('vibrational', None)
-    charge = params.get('charge', 0)
-    multiplicity = params.get('multiplicity', 1)
-    theory = params.get('theory', 'scf')
-    functional = params.get('functional', 'b3lyp')
-    basis = params.get('basis', 'cc-pvdz')
 
     context = {
         'task': task,

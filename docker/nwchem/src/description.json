@@ -6,8 +6,8 @@
       "parameters": {
           "theory": {
               "type": "string",
-              "description": "The theory level: ks | scf",
-              "default": "scf"
+              "description": "The theory level: hf | dft",
+              "default": "hf"
           },
           "task": {
               "type": "string",

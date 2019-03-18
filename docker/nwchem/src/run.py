@@ -25,9 +25,7 @@ def run_calculation(geometry_file, output_file, params, scratch_dir):
     multiplicity = params.get('multiplicity', 1)
 
     theory = theory.lower()
-    if theory == 'ks':
-        _theory = 'dft'
-    elif theory == 'hf':
+    if theory == 'hf':
         _theory = 'scf'
     else:
         _theory = theory
