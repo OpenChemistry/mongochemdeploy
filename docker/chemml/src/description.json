@@ -1,0 +1,12 @@
+{
+  "name": "ChemML",
+  "version": "0.5.0",
+  "input": {
+      "format": "cjson",
+      "parameters": {
+      }
+  },
+  "output": {
+      "format": "cjson"
+  }
+}
