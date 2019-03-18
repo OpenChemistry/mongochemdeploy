@@ -132,10 +132,26 @@
       become_user: root
   tags: nginx
 
+- hosts: jena
+  vars:
+    ansible_python_interpreter: "/usr/bin/python2.7"
+    girder_api_url: "{{girder_scheme}}://{{girder_host}}:{{girder_port}}/{{girder_api_root}}"
+  roles:
+    - role: docker_compose_jena
+      become: yes
+      become_user: mongochemdev
+  tags: jena
+
+
 - hosts: girder_configure
   roles:
     - role: girder
       delegate_to: localhost
   tags: girder_configure
 
+- hosts: jena
+  roles:
+    - role: jena
+      delegate_to: "{{ 'localhost' if delegate_local_jena is defined else omit }}"
+  tags: jena
 
