@@ -54,7 +54,7 @@
     username: "mongochem"
     password: "{{ mongochem_password }}"
     plugins:
-      - cumulus
+      - cumulus_plugin
       - sftp
       - newt
       - taskflow
