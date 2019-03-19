@@ -6,7 +6,7 @@
       "parameters": {
           "theory": {
               "type": "string",
-              "description": "The theory level: ks | hf",
+              "description": "The theory level: hf | dft",
               "default": "hf"
           },
           "task": {
