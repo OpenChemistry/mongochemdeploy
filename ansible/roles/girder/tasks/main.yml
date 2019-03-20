@@ -95,8 +95,6 @@
     plugins:
       - notebooks
     state: present
-  notify:
-    - restart girder
 
 - name: Enable app plugin
   girder:
@@ -109,8 +107,6 @@
     plugins:
       - app
     state: present
-  notify:
-    - restart girder
 
 - name: restart girder
   girder:
