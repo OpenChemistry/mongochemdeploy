@@ -158,7 +158,7 @@
   with_items:
     - {
       "key": "app.features.notebooks",
-      "value": "{{ app_feature_notesbooks | default(true) }}"
+      "value": "{{ app_feature_notebooks | default(true) }}"
     }
 
 - include: newt-auth.yml
