@@ -36,7 +36,7 @@ def run_calculation(geometry_file, output_file, params, scratch_dir):
         _multiplicity = multiplicity
 
     task = task.lower()
-    if task == 'frequency':
+    if task == 'frequencies':
         _task = 'task {0} {1}\ntask {0} {2}'.format(_theory, 'optimize', 'freq')
     elif task == 'optimize':
         _task = 'task {0} {1}'.format(_theory, 'optimize')
