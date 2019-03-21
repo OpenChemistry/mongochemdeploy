@@ -11,7 +11,7 @@
           },
           "task": {
               "type": "string",
-              "description": "The calculation task: energy | optimize | frequency",
+              "description": "The calculation task: energy | optimize | frequencies",
               "default": "energy"
           },
           "basis": {
