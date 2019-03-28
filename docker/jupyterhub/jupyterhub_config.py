@@ -53,6 +53,7 @@ spawn_cmd += " --GirderContentsManager.root=user/{login}/Private/oc/notebooks"
 env_vars = {
     'OC_SITE': 'beta',
     'GIRDER_HOST': 'localhost',
+    'GIRDER_PUBLIC_API_URL': None,
     'GIRDER_PORT': '8080',
     'GIRDER_API_ROOT': 'api/v1',
     'GIRDER_SCHEME': 'http',
