@@ -42,10 +42,7 @@ Developing MongoChemClient
 
 In order to visualize updates to the client before publishing, some extra steps may be needed.
 
-First, as mentioned in the section above, ```MONGOCHEMCLIENT``` in ```<repo>/dev/dev.env``` must 
-be set to the MongoChemClient source directory.
-
-Next, as the [MongoChemClient README](https://github.com/OpenChemistry/mongochemclient/blob/master/README.md) mentions,
+As the [MongoChemClient README](https://github.com/OpenChemistry/mongochemclient/blob/master/README.md) mentions,
 `npm` and `Node.js` are required. After obtaining them, install additional packages using `npm install` in the 
 root MongoChemClient directory as the README mentions, but building with `npm run build` will not be required here.
 
