@@ -55,7 +55,7 @@ Next, nginx needs to be installed. After installing, copy the [sample client sit
 Restart nginx.
 
 Now, when running `ocdeploy up`, run the command `npm run start` in the MongoChemClient directory as well.
-If `localhost:80` (or just `localhost`) is used instead of `localhost:8888`, the local MongoChemClient source
+If `localhost:9090` is used instead of `localhost:8888`, the local MongoChemClient source
 code will be used instead of that in the docker image. The client page will also update immediately upon any
 changes to the source in MongoChemClient.
 
