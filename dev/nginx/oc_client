@@ -27,8 +27,8 @@ map $http_upgrade $connection_upgrade {
 
 
 server {
-	listen 80 default_server;
-	listen [::]:80 default_server;
+	listen 9090 default_server;
+	listen [::]:9090 default_server;
 
 	# SSL configuration
 	#
