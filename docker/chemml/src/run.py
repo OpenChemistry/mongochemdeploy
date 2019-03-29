@@ -16,8 +16,9 @@ def run_calculation(geometry_file, output_file):
         "density": pred[2]
     }
 
-    # We will only output the properties
     cjson = {
+        'chemicalJson': 1,
+        'smiles': smiles,
         'properties': properties
     }
 
