@@ -1,7 +1,7 @@
-FROM node:8.0 AS build
+FROM node:10 AS build
 
 RUN apt-get update && apt-get -y install \
-  git || true
+  git
 
 RUN git clone https://github.com/OpenChemistry/mongochemclient && \
   cd mongochemclient && \
