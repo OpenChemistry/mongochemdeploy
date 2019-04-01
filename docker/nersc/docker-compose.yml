@@ -36,9 +36,12 @@ services:
       - app-keys.oc:/keys
     links:
       - db-mongodb
-      - app-rabbitmq
+      - app-rabbitmq:rabbitmq
+      - app-girder:girder
     depends_on:
       - db-mongodb
+    environment:
+      - GIRDER_PORT=8080 
 
   app-rabbitmq:
     image: rabbitmq
@@ -52,7 +55,7 @@ services:
       - NET_BIND_SERVICE 
 
   app-celery-command:
-    image: openchemistry/celery_worker:latest
+    image: openchemistry/celery_worker:dev
     labels:
       io.rancher.container.pull_image: always
     cap_drop:
@@ -64,16 +67,22 @@ services:
       - SETGID
       - NET_BIND_SERVICE
     links:
-      - app-rabbitmq
-      - app-girder
-    command: celery worker --app=cumulus -b amqp://guest:guest@app-rabbit/ -n command --config=cumulus.celery.commandconfig --loglevel=INFO
+      - app-rabbitmq:rabbitmq
+      - app-girder:girder
+    # We need the unset here as docker-compose injects a GIRDER_PORT env var as a result of the link property into the container environment.
+    # Girder then tries to reader as an int! Yes, this was hard to track down!
+    command: celery worker --app=cumulus -b amqp://guest:guest@rabbitmq/ -n command --config=cumulus.celery.commandconfig --loglevel=INFO
     depends_on:
       - app-rabbitmq
     volumes:
      - app-keys.oc:/keys
+    environment:
+     - GIRDER_PORT=8080
+     - OC_ACCOUNT=m2485
+      
 
   app-celery-monitor:
-    image: openchemistry/celery_worker:latest
+    image: openchemistry/celery_worker:dev
     labels:
       io.rancher.container.pull_image: always
     cap_drop:
@@ -85,13 +94,17 @@ services:
       - SETGID
       - NET_BIND_SERVICE
     links:
-      - app-rabbitmq
-      - app-girder
-    command: celery worker --app=cumulus -b amqp://guest:guest@app-rabbit/ -n monitor -Q monitor --config=cumulus.celery.monitorconfig --loglevel=INFO
+      - app-rabbitmq:rabbitmq
+      - app-girder:girder
+    # We need the unset here as docker-compose injects a GIRDER_PORT env var as a result of the link property into the container environment.
+    # Girder then tries to reader as an int! Yes, this was hard to track down!
+    command: celery worker --app=cumulus -b amqp://guest:guest@rabbitmq/ -n monitor -Q monitor --config=cumulus.celery.monitorconfig --loglevel=INFO
     depends_on:
       - app-rabbitmq
     volumes:
      - app-keys.oc:/keys
+    environment:
+     - GIRDER_PORT=8080
   
   app-mongochemclient:
     image: openchemistry/mongochemclient:latest
