@@ -35,7 +35,8 @@ services:
     links:
       - db-mongodb
       - app-rabbitmq:rabbitmq
-      - app-girder:girder
+    extra_hosts:
+      - "girder:127.0.0.1"
     depends_on:
       - db-mongodb
     environment:
@@ -53,7 +54,7 @@ services:
       - NET_BIND_SERVICE 
 
   app-celery-command:
-    image: openchemistry/celery_worker:dev2
+    image: openchemistry/celery_worker:dev7
     labels:
       io.rancher.container.pull_image: always
     cap_drop:
@@ -80,7 +81,7 @@ services:
       
 
   app-celery-monitor:
-    image: openchemistry/celery_worker:dev2
+    image: openchemistry/celery_worker:dev7
     labels:
       io.rancher.container.pull_image: always
     cap_drop:
