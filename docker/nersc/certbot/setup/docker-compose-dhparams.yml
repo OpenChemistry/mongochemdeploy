@@ -1,0 +1,17 @@
+version: '2'
+services:
+  web-dhparams-setup:
+    image:  girder/girder:2.x-maintenance-py3
+    cap_drop:
+      - ALL
+    volumes:
+      - web-certs.oc:/etc/letsencrypt
+      - web-certbot-webroot.oc:/data/letsencrypt
+    
+volumes:
+  web-certs.oc:
+    external: true
+    driver: rancher-nfs
+  web-certbot-webroot.oc:
+    external: true
+    driver: rancher-nfs
