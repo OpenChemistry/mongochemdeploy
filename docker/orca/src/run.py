@@ -38,7 +38,7 @@ def run_calculation(geometry_file, output_file, params, scratch_dir):
         _task = '{} {}'.format('Opt', 'Freq')
     elif task == 'optimize':
         _task = '{}'.format('Opt')
-    else: # single point energy
+    else:  # single point energy
         _task = ''
 
     context = {
@@ -67,7 +67,7 @@ def run_calculation(geometry_file, output_file, params, scratch_dir):
 
     with open(raw_input_file, 'wb') as f:
         jinja2_env.get_template('orca.in.j2').stream(**context,
-                xyz_structure=xyz_structure).dump(f, encoding='utf8')
+            xyz_structure=xyz_structure).dump(f, encoding='utf8')
 
     # Execute the code and write to output
     with open(raw_output_file, 'wb') as output:
@@ -123,7 +123,7 @@ def parse_orca_output(output_file):
     # Heavy atoms are those different from Hydrogen
     remove_atom_number = 1
     heavyAtomCount = len(list(filter((remove_atom_number).__ne__,
-                                      atom_numbers)))
+                                     atom_numbers)))
     molecular_mass = molecule.exactmass
 
     _json = {
@@ -135,13 +135,13 @@ def parse_orca_output(output_file):
             "elements": {
                 "number": atom_numbers
             },
-        "coords": {
+            "coords": {
                 "3d": coordinates
             }
-        },
+                 },
         "properties": {
-        "molecular mass": molecular_mass
-        }
+            "molecular mass": molecular_mass
+                      }
         }
 
     return _json
