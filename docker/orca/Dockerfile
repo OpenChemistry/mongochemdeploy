@@ -1,6 +1,6 @@
 FROM        ubuntu:19.04
 
-LABEL maintainer="Muammar El khatib <melkhatibr@lbl.gov>"
+LABEL       maintainer="Muammar El khatib <melkhatibr@lbl.gov>"
 
 ENV         LC_ALL=C.UTF-8
 ENV         LANG=C.UTF-8
@@ -10,7 +10,7 @@ ENV         ORCA_TARBALL=$tarball
 RUN         apt-get update \
             && apt-get -y upgrade && apt-get -y install xz-utils python3 \
             && apt-get -y install python3-pip openbabel libopenbabel-dev \
-            && apt-get -y install swig pkg-config\
+            && apt-get -y install swig pkg-config \
             && apt-get autoclean && apt-get autoremove
 
 WORKDIR     /opt
