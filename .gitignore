@@ -1,1 +1,2 @@
 ansible/host_vars/beta.openchemistry.org
+ansible/host_vars/nersc.openchemistry.org
