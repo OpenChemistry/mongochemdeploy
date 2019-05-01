@@ -37,6 +37,26 @@ container.
 
 Once ```<repo>/dev/dev.env``` has been update you can bring the stack back up using ```ocdeploy up```.
 
+Developing MongoChemClient
+--------------------------
+
+In order to visualize updates to the client before publishing, some extra steps may be needed.
+
+As the [MongoChemClient README](https://github.com/OpenChemistry/mongochemclient/blob/master/README.md) mentions,
+`npm` and `Node.js` are required. After obtaining them, install additional packages using `npm install` in the 
+root MongoChemClient directory as the README mentions, but building with `npm run build` will not be required here.
+
+Next, nginx needs to be installed. After installing, copy the [sample client site file](nginx/oc_client) into 
+`/etc/nginx/sites-available/`. Then remove the default soft link in `/etc/nginx/sites-enabled/`, and run
+`sudo ln -s /etc/nginx/sites-available/oc_client /etc/nginx/sites-enabled/` to enable the client site.
+Restart nginx.
+
+Now, when running `ocdeploy up`, run the command `npm run start` in the MongoChemClient directory as well.
+If `localhost:9090` is used instead of `localhost:8888`, the local MongoChemClient source
+code will be used instead of that in the docker image. The client page will also update immediately upon any
+changes to the source in MongoChemClient.
+
+
 Bringing down the stack
 -----------------------
 

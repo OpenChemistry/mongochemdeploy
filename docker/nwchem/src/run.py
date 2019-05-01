@@ -25,47 +25,32 @@ def run_calculation(geometry_file, output_file, params, scratch_dir):
     multiplicity = params.get('multiplicity', 1)
 
     theory = theory.lower()
-    if theory == 'ks':
-        _theory = 'dft'
-    else:
-        _theory = theory
-
-    reference = theory.lower()
-
-    if multiplicity == 1:
-        reference = 'r' + reference
-    else:
-        reference = 'u' + reference
-
-    optimization = params.get('optimization', None)
-    vibrational = params.get('vibrational', None)
-    charge = params.get('charge', 0)
-    multiplicity = params.get('multiplicity', 1)
-    theory = params.get('theory', 'scf')
-    functional = params.get('functional', 'b3lyp')
-    basis = params.get('basis', 'cc-pvdz')
-
-    context = {
-        'task': task,
-        'theory': _theory,
-        'reference': reference,
-        'charge': charge,
-        'multiplicity': multiplicity,
-        'basis': basis,
-    }
-
-    if context['task'] == 'freq':
-        context['freq'] = 'task {} {}' .format(_theory, 'freq')
-    elif context['task'] == 'optimize':
-        context['optimize'] = task
-
-    if _theory == 'dft':
-        context['functional'] = functional
-    else:
+    if theory == 'hf':
+        _theory = 'scf'
         # We update the multiplicity key when using scf. SCF accept names and
         # not numbers.
         multiplicities = {'1': 'singlet', '2': 'doublet', '3': 'triplet'}
-        context['multiplicity'] = multiplicities[str(multiplicity)]
+        _multiplicity = multiplicities.get(str(multiplicity), 'singlet')
+    else:
+        _theory = theory
+        _multiplicity = multiplicity
+
+    task = task.lower()
+    if task == 'frequencies':
+        _task = 'task {0} {1}\ntask {0} {2}'.format(_theory, 'optimize', 'freq')
+    elif task == 'optimize':
+        _task = 'task {0} {1}'.format(_theory, 'optimize')
+    else: # single point energy
+        _task = 'task {0}'.format(_theory)
+
+    context = {
+        'task': _task,
+        'theory': _theory,
+        'functional': functional,
+        'charge': charge,
+        'multiplicity': _multiplicity,
+        'basis': basis,
+    }
 
     # Combine the input parameters and geometry into a concrete input file
     # that can be executed by the simulation code

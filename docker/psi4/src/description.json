@@ -6,12 +6,12 @@
       "parameters": {
           "theory": {
               "type": "string",
-              "description": "The theory level: ks | hf",
+              "description": "The theory level: hf | dft",
               "default": "hf"
           },
           "task": {
               "type": "string",
-              "description": "The calculation task: energy | optimize | frequency",
+              "description": "The calculation task: energy | optimize | frequencies",
               "default": "energy"
           },
           "basis": {

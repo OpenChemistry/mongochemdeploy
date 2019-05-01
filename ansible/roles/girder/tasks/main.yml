@@ -60,19 +60,7 @@
       - taskflow
     state: present
 
-- name: Enable Queues plugin
-  girder:
-    host: "{{girder_host}}"
-    port: "{{girder_port}}"
-    scheme: "{{girder_scheme}}"
-    apiRoot: "{{girder_api_root}}"
-    username: "mongochem"
-    password: "{{ mongochem_password }}"
-    plugins:
-      - queues
-    state: present
-
-- name: Enable OC plugin
+- name: Enable OC plugins
   girder:
     host: "{{girder_host}}"
     port: "{{girder_port}}"
@@ -82,35 +70,10 @@
     password: "{{ mongochem_password }}"
     plugins:
       - molecules
-    state: present
-
-- name: Enable notebooks plugin
-  girder:
-    host: "{{girder_host}}"
-    port: "{{girder_port}}"
-    scheme: "{{girder_scheme}}"
-    apiRoot: "{{girder_api_root}}"
-    username: "mongochem"
-    password: "{{ mongochem_password }}"
-    plugins:
       - notebooks
-    state: present
-  notify:
-    - restart girder
-
-- name: Enable app plugin
-  girder:
-    host: "{{girder_host}}"
-    port: "{{girder_port}}"
-    scheme: "{{girder_scheme}}"
-    apiRoot: "{{girder_api_root}}"
-    username: "mongochem"
-    password: "{{ mongochem_password }}"
-    plugins:
+      - queues
       - app
     state: present
-  notify:
-    - restart girder
 
 - name: restart girder
   girder:
@@ -158,8 +121,30 @@
   with_items:
     - {
       "key": "app.features.notebooks",
-      "value": "{{ app_feature_notesbooks | default(true) }}"
+      "value": "{{ app_feature_notebooks | default(true) }}"
     }
+
+- name: Enable CORS requests
+  girder:
+    host: "{{girder_host}}"
+    port: "{{girder_port}}"
+    scheme: "{{girder_scheme}}"
+    username: "mongochem"
+    password: "{{ mongochem_password }}"
+    setting:
+      key: "{{item.key}}"
+      value: "{{item.value}}"
+    state: present
+  with_items:
+    - {
+      "key": "core.cors.allow_origin",
+      "value": "*"
+    }
+    - {
+      "key": "core.cors.allow_methods",
+      "value": "GET"
+    }
+  when: enable_cors is defined
 
 - include: newt-auth.yml
   when: nersc is defined
