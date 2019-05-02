@@ -1,0 +1,162 @@
+version: '2'
+services:
+  db-mongodb:
+    image: mongo:3.6
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - SETUID
+      - SETGID
+      - NET_BIND_SERVICE
+
+    volumes:
+        - db-mongodb.oc:/data/db
+
+  app-girder:
+    image: openchemistry/mongochemserver:dev
+    labels:
+      io.rancher.container.pull_image: always
+    retain_ip: true
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - SETUID
+      - SETGID
+      - NET_BIND_SERVICE
+
+    command: -d mongodb://db-mongodb:27017/girder
+    volumes:
+      - app-assetstore.oc:/assetstore
+      - app-keys.oc:/keys
+    links:
+      - db-mongodb
+      - app-rabbitmq:rabbitmq
+    extra_hosts:
+      - "girder:127.0.0.1"
+    depends_on:
+      - db-mongodb
+    environment:
+      - GIRDER_PORT=8080 
+
+  app-rabbitmq:
+    image: rabbitmq
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - SETUID
+      - SETGID
+      - NET_BIND_SERVICE 
+
+  app-celery-command:
+    image: openchemistry/celery_worker:latest
+    labels:
+      io.rancher.container.pull_image: always
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - SETUID
+      - SETGID
+      - NET_BIND_SERVICE
+    links:
+      - app-rabbitmq:rabbitmq
+      - app-girder:girder
+    # We need the unset here as docker-compose injects a GIRDER_PORT env var as a result of the link property into the container environment.
+    # Girder then tries to reader as an int! Yes, this was hard to track down!
+    command: celery worker --app=cumulus -b amqp://guest:guest@rabbitmq/ -n command --config=cumulus.celery.commandconfig --loglevel=INFO
+    depends_on:
+      - app-rabbitmq
+    volumes:
+     - app-keys.oc:/keys
+    environment:
+     - GIRDER_PORT=8080
+     - OC_ACCOUNT=m2485
+      
+
+  app-celery-monitor:
+    image: openchemistry/celery_worker:latest
+    labels:
+      io.rancher.container.pull_image: always
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - SETUID
+      - SETGID
+      - NET_BIND_SERVICE
+    links:
+      - app-rabbitmq:rabbitmq
+      - app-girder:girder
+    # We need the unset here as docker-compose injects a GIRDER_PORT env var as a result of the link property into the container environment.
+    # Girder then tries to reader as an int! Yes, this was hard to track down!
+    command: celery worker --app=cumulus -b amqp://guest:guest@rabbitmq/ -n monitor -Q monitor --config=cumulus.celery.monitorconfig --loglevel=INFO
+    depends_on:
+      - app-rabbitmq
+    volumes:
+     - app-keys.oc:/keys
+    environment:
+     - GIRDER_PORT=8080
+  
+  app-mongochemclient:
+    image: openchemistry/mongochemclient:latest
+    labels:
+      io.rancher.container.pull_image: always
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - SETUID
+      - SETGID
+      - NET_BIND_SERVICE
+    group_add:
+      - nginx
+
+  web-nginx:
+    image: openchemistry/nginx:oc
+# This is commented out as rancher will try to build and upload to S3
+#    build:
+#      context: .
+#      dockerfile: nginx/Dockerfile
+    labels:
+      io.rancher.container.pull_image: always
+      cron.schedule: 0  8  *  *  *
+      cron.action: restart
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - SETUID
+      - SETGID
+      - NET_BIND_SERVICE
+    group_add:
+      - nginx
+    volumes:
+      - web-certs.oc:/etc/letsencrypt
+      - web-certbot-webroot.oc:/data/letsencrypt
+    links:
+      - app-girder
+      - app-mongochemclient
+    depends_on:
+      - app-girder
+      - app-mongochemclient
+
+volumes:
+  app-assetstore.oc:
+    external: true
+    driver: rancher-nfs
+  app-keys.oc:
+    external: true
+    driver: rancher-nfs
+  db-mongodb.oc:
+    external: true
+    driver: rancher-nfs
