@@ -2,3 +2,5 @@ click
 jinja2
 openchemistry
 openbabel
+cclib
+numpy

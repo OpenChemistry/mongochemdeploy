@@ -3,9 +3,10 @@ import subprocess
 import jinja2
 import json
 import openbabel
+import cclib
 
 import openchemistry as oc
-from pybel import readfile, readstring
+from pybel import readfile
 
 
 def run_calculation(geometry_file, output_file, params, scratch_dir):
@@ -67,7 +68,8 @@ def run_calculation(geometry_file, output_file, params, scratch_dir):
 
     with open(raw_input_file, 'wb') as f:
         jinja2_env.get_template('orca.in.j2').stream(**context,
-            xyz_structure=xyz_structure).dump(f, encoding='utf8')
+                                                     xyz_structure=xyz_structure
+                                                     ).dump(f, encoding='utf8')
 
     # Execute the code and write to output
     with open(raw_output_file, 'wb') as output:
@@ -126,7 +128,7 @@ def parse_orca_output(output_file):
                                      atom_numbers)))
     molecular_mass = molecule.exactmass
 
-    _json = {
+    cjson = {
         "chemical json": 0,
         "name": molecule_formula,
         "inchi": inchi_text,
@@ -144,4 +146,48 @@ def parse_orca_output(output_file):
                       }
         }
 
-    return _json
+
+    energy = get_energy(output_file)
+
+    cjson['properties']['totalEnergy'] = energy
+
+    data = cclib.io.ccread(output_file)
+
+    if hasattr(data, 'gbasis'):
+        basis = oc.io.utils._cclib_to_cjson_basis(data.gbasis)
+        cjson['basisSet'] = basis
+
+    if hasattr(data, 'vibfreqs'):
+        vibfreqs = list(data.vibfreqs)
+        cjson.setdefault('vibrations', {})['frequencies'] = vibfreqs
+
+    if hasattr(data, 'vibdisps'):
+        vibdisps = _cclib_to_cjson_vibdisps(data.vibdisps)
+        cjson.setdefault('vibrations', {})['eigenVectors'] = vibdisps
+
+    # Add a placeholder intensities array
+    if 'vibrations' in cjson and 'frequencies' in cjson['vibrations']:
+        if 'intensities'  not in cjson['vibrations']:
+            cjson['vibrations']['intensities'] = [1 for i in
+                range(len(cjson['vibrations']['frequencies']))]
+        if 'modes'  not in cjson['vibrations']:
+            cjson['vibrations']['modes'] = [i + 1 for i in
+                    range(len(cjson['vibrations']['frequencies']))]
+    return cjson
+
+
+def get_energy(output_file):
+    """Get energy from orca output"""
+
+    output_file = open(output_file, 'r')
+    output_file = output_file.readlines()
+
+    energies = []
+
+    for line in output_file:
+        if 'Total Energy' in line:
+            energies.append(line.split())
+
+    energy = float(energies[-1][-2]) * oc.io.constants.EV_TO_J_MOL
+
+    return energy
