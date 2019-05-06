@@ -10,7 +10,7 @@ ENV         ORCA_TARBALL=$tarball
 RUN         apt-get update \
             && apt-get -y upgrade && apt-get -y install xz-utils python3 \
             && apt-get -y install python3-pip openbabel libopenbabel-dev \
-            && apt-get -y install swig pkg-config \
+            && apt-get -y install swig pkg-config git \
             && apt-get autoclean && apt-get autoremove
 
 WORKDIR     /opt
