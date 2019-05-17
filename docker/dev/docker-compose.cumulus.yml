@@ -2,7 +2,7 @@ version: "2.0"
 services:
   girder:
     volumes:
-      - $CUMULUS/girder/cumulus:/cumulus/girder/cumulus
-      - $CUMULUS/girder/taskflow:/cumulus/girder/taskflow
-      - $CUMULUS/girder/sftp:/cumulus/girder/sftp
-      - $CUMULUS/girder/newt:/cumulus/girder/newt
+      - $CUMULUS/girder/cumulus/cumulus_plugin:/cumulus/girder/cumulus/cumulus_plugin
+      - $CUMULUS/girder/taskflow/taskflow:/cumulus/girder/taskflow/taskflow
+      - $CUMULUS/girder/sftp/sftp:/cumulus/girder/sftp/sftp
+      - $CUMULUS/girder/newt/newt:/cumulus/girder/newt/newt

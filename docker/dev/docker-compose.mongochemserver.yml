@@ -2,7 +2,7 @@ version: "2.0"
 services:
   girder:
     volumes:
-      - $MONGOCHEMSERVER/girder/app:/mongochemserver/girder/app
-      - $MONGOCHEMSERVER/girder/notebooks:/mongochemserver/girder/notebooks
-      - $MONGOCHEMSERVER/girder/molecules:/mongochemserver/girder/molecules
-      - $MONGOCHEMSERVER/girder/queues:/mongochemserver/girder/queues
+      - $MONGOCHEMSERVER/girder/app/app:/mongochemserver/girder/app/app
+      - $MONGOCHEMSERVER/girder/notebooks/notebooks:/mongochemserver/girder/notebooks/notebooks
+      - $MONGOCHEMSERVER/girder/molecules/molecules:/mongochemserver/girder/molecules/molecules
+      - $MONGOCHEMSERVER/girder/queues/queues:/mongochemserver/girder/queues/queues
