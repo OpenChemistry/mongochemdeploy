@@ -1,0 +1,22 @@
+{
+  "name": "TorchANI",
+  "version": "0.4.2",
+  "input": {
+      "format": "cjson",
+      "parameters": {
+          "theory": {
+              "type": "string",
+              "description": "The ANI model: ani-1x | ani-1ccx",
+              "default": "ani-1ccx"
+          },
+          "task": {
+              "type": "string",
+              "description": "The calculation task: energy | optimize | frequencies",
+              "default": "energy"
+          }
+      }
+  },
+  "output": {
+      "format": "cjson"
+  }
+}
