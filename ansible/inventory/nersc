@@ -1,11 +1,2 @@
-[jupyterhub]
-nersc.openchemistry.org
-
-[mongochemclient]
-nersc.openchemistry.org
-
-[nginx]
-nersc.openchemistry.org
-
 [girder_configure]
 nersc.openchemistry.org
