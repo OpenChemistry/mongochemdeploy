@@ -1,31 +1,3 @@
-- name: Enable OAuth plugins
-  girder:
-    host: "{{girder_host}}"
-    port: "{{girder_port}}"
-    scheme: "{{girder_scheme}}"
-    username: "mongochem"
-    password: "{{ mongochem_password }}"
-    plugins:
-      - oauth
-  state: present
-
-- name: restart girder
-  girder:
-    host: "{{girder_host}}"
-    port: "{{girder_port}}"
-    scheme: "{{girder_scheme}}"
-    apiRoot: "{{girder_api_root}}"
-    username: "mongochem"
-    password: "{{ mongochem_password }}"
-    put:
-      path: "system/restart"
-
-- name: Wait until server restarts
-  wait_for:
-    host="{{girder_host}}"
-    port="{{girder_port}}"
-    delay=5
-
 - name: Configure OAuth plugins
   girder:
     host: "{{girder_host}}"
@@ -50,21 +22,3 @@
       "key": "oauth.providers_enabled",
       "value": ["google"]
     }
-
-- name: restart girder
-  girder:
-    host: "{{girder_host}}"
-    port: "{{girder_port}}"
-    scheme: "{{girder_scheme}}"
-    apiRoot: "{{girder_api_root}}"
-    username: "mongochem"
-    password: "{{ mongochem_password }}"
-    put:
-      path: "system/restart"
-
-- name: Wait until server restarts
-  wait_for:
-    host="{{girder_host}}"
-    port="{{girder_port}}"
-    delay=5
-

@@ -14,6 +14,11 @@ services:
     depends_on:
       - 'girder'
       - 'hub'
+      - 'client'
+
+
+  client:
+    image: openchemistry/mongochemclient:latest
 
   ansible:
     image: openchemistry/ansible
