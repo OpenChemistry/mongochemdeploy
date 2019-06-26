@@ -35,3 +35,8 @@ docker run -v $(pwd):/data openchemistry/nwchem:latest -g /data/geometry.xyz -p 
 
 After the docker container finishes, the output file will be located in
 the directory that was mounted. The output file is in `cjson` format.
+
+A json description of the image and some of the options may be obtained via:
+```
+docker run openchemistry/nwchem -d
+```

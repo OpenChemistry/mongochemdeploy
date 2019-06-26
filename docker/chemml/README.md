@@ -33,3 +33,8 @@ docker run -v $(pwd):/data openchemistry/chemml:latest -g /data/ethane.smi -o /d
 After the docker container finishes, the output file will be located in
 the directory that was mounted. The output file is in `cjson` format,
 and it should contain the predicted properties.
+
+A json description of the image and some of the options may be obtained via:
+```
+docker run openchemistry/chemml -d
+```
