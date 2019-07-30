@@ -2,7 +2,7 @@ version: '2'
 services:
   girder:
     image: openchemistry/mongochemserver:latest
-    command: -d ${MONGODB_URL}
+    command: -d ${MONGODB_URL} ${GIRDER_EXTRA_ARGS}
     volumes:
      - assetstore:/assetstore
      - keys:/keys
