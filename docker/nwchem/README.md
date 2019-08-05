@@ -1,11 +1,11 @@
-Running the Psi4 Docker Container
+Running the NWChem Docker Container
 =================================
 
-In order to run the Psi4 docker container, first download the
+In order to run the NWChem docker container, first download the
 docker image:
 
 ```
-docker pull openchemistry/psi4
+docker pull openchemistry/nwchem
 ```
 
 Two input files are required: a geometry file and a parameters file.
@@ -30,7 +30,7 @@ A complete example can be seen below:
 
 ```
 cd example/
-docker run -v $(pwd):/data openchemistry/psi4:latest -g /data/geometry.xyz -p /data/parameters.json -o /data/out.cjson -s /data/scratch
+docker run -v $(pwd):/data openchemistry/nwchem:latest -g /data/geometry.xyz -p /data/parameters.json -o /data/out.cjson -s /data/scratch
 ```
 
 After the docker container finishes, the output file will be located in
@@ -38,5 +38,5 @@ the directory that was mounted. The output file is in `cjson` format.
 
 A json description of the image and some of the options may be obtained via:
 ```
-docker run openchemistry/psi4 -d
+docker run openchemistry/nwchem -d
 ```

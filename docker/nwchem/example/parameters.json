@@ -1,0 +1,7 @@
+{
+  "theory": "hf",
+  "task": "energy",
+  "basis": "6-31g",
+  "charge": 0,
+  "multiplicity": 1
+}
