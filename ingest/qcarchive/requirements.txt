@@ -1,0 +1,4 @@
+qcfractal
+girder_client
+avogadro
+openbabel
