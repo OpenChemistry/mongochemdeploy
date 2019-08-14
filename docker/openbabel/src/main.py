@@ -14,14 +14,14 @@ def convert(output_format):
 
     The output format is specified in the path. The input format and
     the data are specified in the body (in json format) as the keys
-    "input_format" and "data", respectively.
+    "format" and "data", respectively.
 
     Some options may also be specified in the json body. The following
     options will be used in all cases other than the special ones:
 
         gen3d (bool): should we generate 3d coordinates?
-        add_hydrogens (bool): should we add hydrogens?
-        out_options (dict): what extra output options are there?
+        addHydrogens (bool): should we add hydrogens?
+        outOptions (dict): what extra output options are there?
 
     Special cases are:
         output_format:
@@ -32,10 +32,10 @@ def convert(output_format):
     Curl example:
     curl -X POST 'http://localhost:5000/convert/inchi' \
       -H "Content-Type: application/json" \
-      -d '{"input_format": "smiles", "data": "CCO"}'
+      -d '{"format": "smiles", "data": "CCO"}'
     """
     json_data = request.get_json()
-    input_format = json_data['input_format']
+    input_format = json_data['format']
     data = json_data['data']
 
     # Treat special cases with special functions
@@ -54,8 +54,8 @@ def convert(output_format):
 
     # Check for a few specific arguments
     gen3d = json_data.get('gen3d', False)
-    add_hydrogens = json_data.get('add_hydrogens', False)
-    out_options = json_data.get('out_options', {})
+    add_hydrogens = json_data.get('addHydrogens', False)
+    out_options = json_data.get('outOptions', {})
 
     return openbabel.convert_str(data, input_format, output_format,
                                  gen3d=gen3d, add_hydrogens=add_hydrogens,
