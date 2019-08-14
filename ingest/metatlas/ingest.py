@@ -2,6 +2,8 @@ import json
 import asyncio
 import logging
 import sys
+from pathlib import Path
+import signal
 
 from tqdm import tqdm
 import click
@@ -46,12 +48,47 @@ class AsyncGirderClient(object):
                     r.raise_for_status()
                 return await r.json()
 
+class BlockKeyboardInterrupt(object):
+    def __enter__(self):
+        self._signal = None
+        self._orignal_handler = signal.signal(signal.SIGINT, self._handler)
 
-async def ingest_molecule(gc, data):
-    return await gc.post('molecules',  raise_for_status=False, json=data)
+    def _handler(self, sig, frame):
+        self.signal = (sig, frame)
+
+    def __exit__(self, type, value, traceback):
+        signal.signal(signal.SIGINT, self._orignal_handler)
+        if self._signal is not None:
+            self._orignal_handler(*self._signal)
+
+def _ingested_log_file():
+    return Path.home() / '.oc-ingested-log'
+
+ingested = []
+def _save_ingested_log():
+    with _ingested_log_file().open('w') as fp:
+        json.dump(ingested, fp)
+
+
+async def ingest_molecule(gc, data, index):
+    if index not in ingested:
+        r = await gc.post('molecules',  raise_for_status=False, json=data)
+        ingested.append(index)
+
+        with BlockKeyboardInterrupt():
+            _save_ingested_log()
+
+        return r
 
 async def ingest(api_url, api_key, data_file, chunk_size):
+    global ingested
     logger = logging.getLogger('ingest')
+
+    if _ingested_log_file().exists():
+        logger.info('Retrying, loading ingest state from log.')
+        with _ingested_log_file().open() as fp:
+            ingested = json.load(fp)
+
     async with aiohttp.ClientSession() as session:
         gc = AsyncGirderClient(session, api_url)
         await gc.authenticate(api_key)
@@ -67,13 +104,17 @@ async def ingest(api_url, api_key, data_file, chunk_size):
         count = 0
         for i in range(0, len(documents), chunk_size):
             chunk = documents[i:i+chunk_size]
-            tasks = [ingest_molecule(gc, json.loads(data)) for data in chunk]
+            tasks = [ingest_molecule(gc, json.loads(data), i+j) for (j, data) in enumerate(chunk)]
             for f in asyncio.as_completed(tasks):
                 await f
                 count += 1
                 progress.update()
         progress.close()
+
         logger.info('Ingest complete.')
+
+        if _ingested_log_file().exists():
+            _ingested_log_file().unlink()
 
 
 @click.command('metatlas')
