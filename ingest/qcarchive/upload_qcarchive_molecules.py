@@ -55,7 +55,7 @@ for i in range(num_records):
             'provenance': provenance
         }
 
-        print('Uploading to girder... (might take a while for big molecules)')
+        print('Uploading to girder...')
         gc.post('/molecules', json=params)
 
     except Exception as exc:
