@@ -10,3 +10,4 @@ jena_admin_user: admin
 jena_admin_password: letmein
 jena_url: http://jena-fuseki:3030
 jena_dataset: openchemistry
+openbabel_url: http://localhost:4040

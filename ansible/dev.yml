@@ -12,3 +12,10 @@
   connection: local
   roles:
     - role: jena
+
+- hosts: openbabel
+  vars:
+    ansible_python_interpreter: "/usr/local/bin/python"
+  connection: local
+  roles:
+    - role: openbabel

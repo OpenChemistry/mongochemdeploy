@@ -155,3 +155,8 @@
       delegate_to: "{{ 'localhost' if delegate_local_jena is defined else omit }}"
   tags: jena
 
+- hosts: openbabel
+  roles:
+    - role: openbabel
+      delegate_to: localhost
+  tags: openbabel
