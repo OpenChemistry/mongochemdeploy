@@ -2,5 +2,3 @@ version: '2'
 services:
   openbabel:
     image: openchemistry/openbabel:latest
-    ports:
-      - 4040:4040
