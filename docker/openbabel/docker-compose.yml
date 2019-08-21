@@ -1,0 +1,4 @@
+version: '2'
+services:
+  openbabel:
+    image: openchemistry/openbabel:latest
