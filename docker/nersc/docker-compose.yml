@@ -40,7 +40,7 @@ services:
     depends_on:
       - db-mongodb
     environment:
-      - GIRDER_PORT=8080 
+      - GIRDER_PORT=8080
 
   app-rabbitmq:
     image: rabbitmq
@@ -51,7 +51,7 @@ services:
       - DAC_OVERRIDE
       - SETUID
       - SETGID
-      - NET_BIND_SERVICE 
+      - NET_BIND_SERVICE
 
   app-celery-command:
     image: openchemistry/celery_worker:latest
@@ -78,7 +78,7 @@ services:
     environment:
      - GIRDER_PORT=8080
      - OC_ACCOUNT=m2485
-      
+
 
   app-celery-monitor:
     image: openchemistry/celery_worker:latest
@@ -104,7 +104,7 @@ services:
      - app-keys.oc:/keys
     environment:
      - GIRDER_PORT=8080
-  
+
   app-mongochemclient:
     image: openchemistry/mongochemclient:latest
     labels:
@@ -149,6 +149,20 @@ services:
     depends_on:
       - app-girder
       - app-mongochemclient
+
+  app-openbabel:
+    image: openchemistry/openbabel:latest
+    labels:
+      io.rancher.container.pull_image: always
+    retain_ip: true
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - SETUID
+      - SETGID
+      - NET_BIND_SERVICE
 
 volumes:
   app-assetstore.oc:
