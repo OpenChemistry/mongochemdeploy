@@ -3,3 +3,6 @@ localhost
 
 [jena]
 localhost
+
+[openbabel]
+localhost
