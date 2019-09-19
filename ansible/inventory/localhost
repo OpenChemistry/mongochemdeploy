@@ -6,3 +6,6 @@ localhost
 
 [openbabel]
 localhost
+
+[avogadro]
+localhost
