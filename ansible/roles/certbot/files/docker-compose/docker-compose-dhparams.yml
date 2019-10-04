@@ -1,0 +1,12 @@
+version: '3'
+services:
+  dhparams-setup:
+    image:  centurylink/openssl
+    command: /usr/bin/openssl dhparam -out /etc/letsencrypt/ssl-dhparams.pem 2048
+    volumes:
+      - certbot-certs:/etc/letsencrypt
+      - certbot-webroot:/data/letsencrypt
+
+volumes:
+  certbot-certs:
+  certbot-webroot:

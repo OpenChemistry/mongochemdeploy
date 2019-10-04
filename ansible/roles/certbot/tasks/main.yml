@@ -1,0 +1,92 @@
+- name: Create temporary directory for cerbot setup
+  tempfile:
+    state: directory
+  register: certbot_setup
+
+- name: Set certbot NGINX config path
+  set_fact:
+      certbot_nginx_config_path: "{{ certbot_setup.path }}/nginx.conf"
+
+- name: Template nginx.conf
+  template:
+    src: nginx/nginx.conf.j2
+    dest: "{{ certbot_nginx_config_path }}"
+
+- name: Template docker-compose nginx setup
+  template:
+    src: docker-compose/docker-compose-nginx.yml.j2
+    dest: "{{ certbot_setup.path }}/docker-compose-nginx.yml"
+    owner: mongochemdev
+    group: mongochemdev
+
+- name: Bring up nginx container
+  docker_compose:
+    project_name: "{{ docker_compose_project_name }}"
+    project_src:  "{{ certbot_setup.path }}"
+    files:
+      - docker-compose-nginx.yml
+    state: present
+
+- name: Copy docker-compose dhparams setup
+  copy:
+    src: docker-compose/docker-compose-dhparams.yml
+    dest: "{{ certbot_setup.path }}/docker-compose-dhparams.yml"
+    owner: mongochemdev
+    group: mongochemdev
+
+  # We call docker-compose directly here, we need to wait until the certs have
+  # been generated.
+#- name: Call docker-compose to generate dhparams
+#  command:
+#    cmd: "docker-compose -p {{ docker_compose_project_name }} -f {{ certbot_setup.path }}/docker-compose-dhparams.yml up"
+#  register: dhparams
+
+#- debug: msg="{{ dhparams.stdout }}"
+
+- name: Template docker-compose cerbot setup
+  template:
+    src: docker-compose/docker-compose-certbot.yml.j2
+    dest: "{{ certbot_setup.path }}/docker-compose-cerbot.yml"
+    owner: mongochemdev
+    group: mongochemdev
+
+# We call docker-compose directly here, we need to wait until the certs have
+# been generated.
+#- name: Call docker-compose to generate certs
+#  command:
+#    cmd: "docker-compose -p {{ docker_compose_project_name }} -f {{ certbot_setup.path }}/docker-compose-cerbot.yml up"
+#  register: certbot
+
+#- debug: msg="{{ certbot.stdout }}"
+
+- name: Template docker-compose certbot renewal setup
+  copy:
+    src: docker-compose/docker-compose-renew.yml
+    dest: /home/mongochemdev/docker-compose-certbot-renew.yml
+    owner: mongochemdev
+    group: mongochemdev
+
+- name: Add entry to crontab to renew cert periodically
+  cron:
+    name: "Cert renewal"
+    user: mongochemdev
+    minute: "0"
+    hour: "7"
+    job: "docker-compose -p {{ docker_compose_project_name }} -f /home/mongochemdev/docker-compose-certbot-renew.yml up"
+
+- name: Add entry to crontab to restart nginx
+  cron:
+    name: "Restart nginx"
+    user: mongochemdev
+    minute: "0"
+    hour: "8"
+    job: "docker restart {{ docker_compose_project_name }}_nginx_1"
+
+- name: Bring down nginx container
+  docker_compose:
+    project_name: "{{ docker_compose_project_name }}"
+    project_src:  "{{ certbot_setup.path }}"
+    files:
+      - docker-compose-nginx.yml
+    state: absent
+
