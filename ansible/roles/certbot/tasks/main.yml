@@ -41,7 +41,7 @@
 #    cmd: "docker-compose -p {{ docker_compose_project_name }} -f {{ certbot_setup.path }}/docker-compose-dhparams.yml up"
 #  register: dhparams
 
-#- debug: msg="{{ dhparams.stdout }}"
+- debug: msg="{{ dhparams.stdout }}"
 
 - name: Template docker-compose cerbot setup
   template:
@@ -57,7 +57,7 @@
 #    cmd: "docker-compose -p {{ docker_compose_project_name }} -f {{ certbot_setup.path }}/docker-compose-cerbot.yml up"
 #  register: certbot
 
-#- debug: msg="{{ certbot.stdout }}"
+- debug: msg="{{ certbot.stdout }}"
 
 - name: Template docker-compose certbot renewal setup
   copy:
