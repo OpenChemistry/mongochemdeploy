@@ -16,7 +16,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       PGDATA: ${DB_VOLUME_CONTAINER}
     env_file:
-      - ${JUPYTERHUB_DOCKER_DIR}/secrets/postgres.env
+      - ${JUPYTERHUB_DOCKER_DIR}secrets/postgres.env
     volumes:
       - "db:${DB_VOLUME_CONTAINER}"
 
@@ -61,7 +61,7 @@ services:
       OC_JUPYTERHUB_URL: ${OC_JUPYTERHUB_URL}
       APP_BASE_URL: ${APP_BASE_URL}
     env_file:
-      - ${JUPYTERHUB_DOCKER_DIR}/secrets/postgres.env
+      - ${JUPYTERHUB_DOCKER_DIR}secrets/postgres.env
     command:
       jupyterhub --debug -f /srv/jupyterhub/jupyterhub_config.py
     dns: 8.8.8.8
