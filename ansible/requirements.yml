@@ -1,7 +1,2 @@
-- src: https://github.com/Stouts/Stouts.mongodb
-  version: 2.3.4
-- src: geerlingguy.nginx
-- src: geerlingguy.certbot
 - src: girder.girder
-- src: angstwad.docker_ubuntu
-  version: v3.5.0
+- src: geerlingguy.docker
