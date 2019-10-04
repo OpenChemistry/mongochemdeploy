@@ -12,5 +12,5 @@
   with_items:
     - {
       "key": "molecules.avogadro.url",
-      "value": "{{ avogadro_url | default('http://avogadro:5000') }}"
+      "value": "{{ avogadro_url | default('http://avogadro:5001') }}"
     }
