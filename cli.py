@@ -17,7 +17,8 @@ DOCKER_BASE_DIRS = {
     'DEV_DOCKER_DIR': os.path.join(REPO_DIR, 'docker', 'dev'),
     'GIRDER_DOCKER_DIR': os.path.join(REPO_DIR, 'docker', 'girder'),
     'JENA_DOCKER_DIR': os.path.join(REPO_DIR, 'docker', 'jena'),
-    'OPENBABEL_DOCKER_DIR': os.path.join(REPO_DIR, 'docker', 'openbabel')
+    'OPENBABEL_DOCKER_DIR': os.path.join(REPO_DIR, 'docker', 'openbabel'),
+    'AVOGADRO_DOCKER_DIR': os.path.join(REPO_DIR, 'docker', 'avogadro')
 }
 
 def _load_dev_env():
@@ -38,7 +39,8 @@ BASE_COMPOSE_FILES = [
     '../girder/docker-compose.yml',
     '../jupyterhub/docker-compose.yml',
     '../jena/docker-compose.yml',
-    '../openbabel/docker-compose.yml'
+    '../openbabel/docker-compose.yml',
+    '../avogadro/docker-compose.yml'
 ]
 
 def _override_files(vars):

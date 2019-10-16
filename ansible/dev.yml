@@ -19,3 +19,10 @@
   connection: local
   roles:
     - role: openbabel
+
+- hosts: avogadro
+  vars:
+    ansible_python_interpreter: "/usr/local/bin/python"
+  connection: local
+  roles:
+    - role: avogadro

@@ -160,3 +160,9 @@
     - role: openbabel
       delegate_to: localhost
   tags: openbabel
+
+- hosts: avogadro
+  roles:
+    - role: avogadro
+      delegate_to: localhost
+  tags: avogadro
