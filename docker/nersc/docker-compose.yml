@@ -15,7 +15,7 @@ services:
         - db-mongodb.oc:/data/db
 
   app-girder:
-    image: openchemistry/mongochemserver:dev
+    image: openchemistry/mongochemserver:latest
     labels:
       io.rancher.container.pull_image: always
     retain_ip: true
