@@ -1,0 +1,21 @@
+version: '2'
+services:
+  certbot-setup:
+    image: certbot/certbot
+    cap_drop:
+      - ALL
+    volumes:
+      - certbot-certs:/etc/letsencrypt
+      - certbot-webroot:/data/letsencrypt
+    command:
+      - certonly
+      - "--webroot"
+      - "-m chris.harris@kitware.com"
+      - "--agree-tos"
+      - "--no-eff-email"
+      - "--webroot-path=/data/letsencrypt"
+      - "-d {{ inventory_hostname }}"
+
+volumes:
+  certbot-certs:
+  certbot-webroot:

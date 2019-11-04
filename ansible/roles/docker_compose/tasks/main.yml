@@ -1,0 +1,75 @@
+- name: Create temporary directory for openchemistry setup
+  tempfile:
+    state: directory
+  register: docker_compose
+
+- name: Template NGINX configuration that will be used by NGINX container
+  template:
+    src: nginx/nginx.conf
+    dest: "{{ nginx_config }}"
+    owner: mongochemdev
+    group: mongochemdev
+
+- name: Copy over docker-compose files
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: mongochemdev
+    group: mongochemdev
+  with_items:
+      - { src: "{{ playbook_dir }}/../docker/girder/docker-compose.yml", dest: "{{ docker_compose.path }}/docker-compose-girder.yml" }
+      - { src: "{{ playbook_dir }}/../docker/jupyterhub/docker-compose.yml", dest: "{{ docker_compose.path }}/docker-compose-jupyterhub.yml" }
+      - { src: "{{ playbook_dir }}/../docker/jena/docker-compose.yml", dest: "{{ docker_compose.path }}/docker-compose-jena.yml" }
+      - { src: "{{ playbook_dir }}/../docker/openbabel/docker-compose.yml", dest: "{{ docker_compose.path }}/docker-compose-openbabel.yml" }
+      - { src: "{{ playbook_dir }}/../docker/avogadro/docker-compose.yml", dest: "{{ docker_compose.path }}/docker-compose-avogadro.yml" }
+
+- name: Template docker-compose
+  template:
+    src: docker-compose/docker-compose.yml
+    dest: "{{ docker_compose.path }}/docker-compose.yml"
+    owner: mongochemdev
+    group: mongochemdev
+
+- name: Template the .env file
+  template:
+    src: docker-compose/env.j2
+    dest: "{{ docker_compose.path }}/.env"
+    owner: mongochemdev
+    group: mongochemdev
+
+- name: Ensures secrets directory exists
+  file: path={{ docker_compose.path }}/secrets state=directory
+
+- name: Template jena.env
+  template:
+    src: docker-compose/jena.env.j2
+    dest: "{{ docker_compose.path }}/jena.env"
+    owner: mongochemdev
+    group: mongochemdev
+
+- name: Template secrets/postgres.env
+  template:
+    src: docker-compose/postgres.env.j2
+    dest: "{{ docker_compose.path }}/secrets/postgres.env"
+    owner: mongochemdev
+    group: mongochemdev
+
+- name: Bring up the stack
+  docker_compose:
+    project_name: "{{ docker_compose_project_name }}"
+    project_src: "{{ docker_compose.path }}"
+    pull: yes
+    build: no
+    files:
+      - "docker-compose-girder.yml"
+      - "docker-compose-jupyterhub.yml"
+      - "docker-compose-jena.yml"
+      - "docker-compose-openbabel.yml"
+      - "docker-compose-avogadro.yml"
+      - "docker-compose.yml"
+    state: present
+
+- name: Pull the jupyterlab image
+  docker_image:
+    name: openchemistry/jupyterlab
+    source: pull

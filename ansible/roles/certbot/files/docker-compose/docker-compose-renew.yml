@@ -1,0 +1,14 @@
+version: '3'
+services:
+  certbot-renew:
+    image: certbot/certbot
+    volumes:
+      - certbot-certs:/etc/letsencrypt
+      - certbot-webroot:/data/letsencrypt
+    command:
+      - renew
+      - "--webroot-path=/data/letsencrypt"
+
+volumes:
+  certbot-certs:
+  certbot-webroot:

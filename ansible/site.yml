@@ -1,168 +1,78 @@
 - hosts: all
   gather_facts: no
-
   tasks:
-  - name: Install python 2
-    raw: test -e /usr/bin/python || (apt -y update && apt install -y python2.7)
+  - name: Install python
+    raw: test -e /usr/bin/python3 || (apt -y update && apt install -y python3)
     become: yes
     become_user: root
-    tags: bootstrap
-
-- hosts: all
-  vars:
-    ansible_python_interpreter: "/usr/bin/python2.7"
-
-  pre_tasks:
-    - name: Update packages
-      apt:
-        only_upgrade: yes
-        update_cache: yes
-      become: yes
-      become_user: root
+  - name: Update packages
+    apt:
+      only_upgrade: yes
+      update_cache: yes
+    become: yes
+    become_user: root
+  - name: Install pip
+    apt:
+      name: python3-pip
+    become: yes
+    become_user: root
   roles:
     - role: users
       become: yes
       become_user: root
 
-- hosts: mongochemclient
+- hosts: docker-compose
   vars:
-    ansible_python_interpreter: "/usr/bin/python2.7"
-
-  pre_tasks:
-    - name: Create base application directory
-      become: yes
-      become_user: root
-      file: dest=/opt/mongochem mode=755 owner=mongochemdev group=mongochemdev state=directory
-
-    - name: Add PPA key for nodejs
-      become: yes
-      become_user: root
-      command: "apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 68576280"
-
-    - name: Add PPA for nodejs
-      become: yes
-      become_user: root
-      apt_repository:
-        repo: "deb https://deb.nodesource.com/node_10.x {{ ansible_distribution_release }} main"
-
-    - name: Update package manager
-      become: yes
-      become_user: root
-      apt: update_cache=yes
-
-    - name: Install nodejs
-      become: yes
-      become_user: root
-      apt:
-        name: nodejs
-
-    - name: Update npm
-      become: yes
-      become_user: root
-      command: "npm install -g npm@4"
-
-    - name: Install base packages
-      become: yes
-      become_user: root
-      apt: name={{ item }} state=present
-      with_items:
-        - git
-
+    - docker_users:
+        - mongochemdev
   roles:
-    - role: mongochemclient
-      become: yes
-      become_user: mongochemdev
-  tags:
-    - mongochemclient
-
-- hosts:
-    - jupyterhub
-    - girder
-  vars:
-    ansible_python_interpreter: "/usr/bin/python2.7"
-  roles:
-    - role: angstwad.docker_ubuntu
+    - role: geerlingguy.docker
       become: yes
       become_user: root
-  tags: docker
+  tasks:
+  - name: Install docker_compose
+    pip:
+      name:
+        - docker-compose
+        - docker
+        - PyYAML
+    become: yes
+    become_user: root
 
-- hosts: mongo
-  vars:
-    ansible_python_interpreter: "/usr/bin/python2.7"
-    mongodb_conf_bind_ip: "localhost,{{ansible_docker0.ipv4.address}}"
+- hosts: certbot
   roles:
-    - role: Stouts.mongodb
-      mongodb_conf_journal: yes
-      become: yes
-      become_user: root
-  tags: mongo
+    - role: certbot
+  become: yes
+  become_user: mongochemdev
 
-- hosts: jupyterhub
-  vars:
-    ansible_python_interpreter: "/usr/bin/python2.7"
-    girder_api_url: "{{girder_scheme}}://{{girder_host}}:{{girder_port}}/{{girder_api_root}}"
+- hosts: docker-compose
   roles:
-    - role: docker_compose_jupyterhub
-      become: yes
-      become_user: mongochemdev
-  tags: jupyterhub
+    - role: docker_compose
+  become: yes
+  become_user: mongochemdev
 
-- hosts: girder
-  vars:
-    ansible_python_interpreter: "/usr/bin/python2.7"
-    girder_api_url: "{{girder_scheme}}://{{girder_host}}:{{girder_port}}/{{girder_api_root}}"
-  roles:
-    - role: docker_compose_girder
-      become: yes
-      become_user: mongochemdev
-  tags: girder
+- hosts: docker-compose
+  tasks:
+  - name: Install girder_client
+    pip:
+      name:
+        - girder_client
+    become: yes
+    become_user: root
 
-- hosts: nginx
-  vars:
-    ansible_python_interpreter: "/usr/bin/python2.7"
-    certbot_install_from_source: yes
-    girder_url: "{{girder_internal_scheme|default(girder_scheme)}}://{{girder_internal_host|default(girder_host)}}:{{girder_internal_port|default(girder_port)}}"
-    girder_api_url: "{{girder_internal_url}}/{{girder_internal_api_root|default(girder_internal_api_root)}}"
-  roles:
-    - role: geerlingguy.nginx
-      become: yes
-      become_user: root
-    - role: nginx
-      become: yes
-      become_user: root
-  tags: nginx
-
-- hosts: jena
-  vars:
-    ansible_python_interpreter: "/usr/bin/python2.7"
-    girder_api_url: "{{girder_scheme}}://{{girder_host}}:{{girder_port}}/{{girder_api_root}}"
-  roles:
-    - role: docker_compose_jena
-      become: yes
-      become_user: mongochemdev
-  tags: jena
-
-
-- hosts: girder_configure
+- hosts: docker-compose
   roles:
     - role: girder
-      delegate_to: localhost
-  tags: girder_configure
 
-- hosts: jena
+- hosts: docker-compose
   roles:
     - role: jena
-      delegate_to: "{{ 'localhost' if delegate_local_jena is defined else omit }}"
-  tags: jena
 
-- hosts: openbabel
+- hosts: docker-compose
   roles:
     - role: openbabel
-      delegate_to: localhost
-  tags: openbabel
 
-- hosts: avogadro
+- hosts: docker-compose
   roles:
     - role: avogadro
-      delegate_to: localhost
-  tags: avogadro
+

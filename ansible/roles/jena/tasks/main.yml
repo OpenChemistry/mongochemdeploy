@@ -1,6 +1,6 @@
 - name: Check for existing dataset
   uri:
-    url: "{{ jena_url }}/$/datasets/{{ jena_dataset }}"
+    url: "{{ jena_config_url }}/$/datasets/{{ jena_dataset }}"
     user: "{{ jena_admin_user }}"
     password: "{{ jena_admin_password }}"
     method: GET
@@ -11,7 +11,7 @@
 
 - name: Create Jena dataset
   uri:
-    url: "{{ jena_url }}/$/datasets"
+    url: "{{ jena_config_url }}/$/datasets"
     user: "{{ jena_admin_user }}"
     password: "{{ jena_admin_password }}"
     method: POST
