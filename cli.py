@@ -13,12 +13,12 @@ REPO_DIR = os.path.dirname(__file__)
 # These need to be set in the environment so they can be used in the docker-compose
 # files.
 DOCKER_BASE_DIRS = {
-    'JUPYTERHUB_DOCKER_DIR': os.path.join(REPO_DIR, 'docker', 'jupyterhub'),
-    'DEV_DOCKER_DIR': os.path.join(REPO_DIR, 'docker', 'dev'),
-    'GIRDER_DOCKER_DIR': os.path.join(REPO_DIR, 'docker', 'girder'),
-    'JENA_DOCKER_DIR': os.path.join(REPO_DIR, 'docker', 'jena'),
-    'OPENBABEL_DOCKER_DIR': os.path.join(REPO_DIR, 'docker', 'openbabel'),
-    'AVOGADRO_DOCKER_DIR': os.path.join(REPO_DIR, 'docker', 'avogadro')
+    'JUPYTERHUB_DOCKER_DIR': os.path.join(REPO_DIR, 'docker', 'jupyterhub/'),
+    'DEV_DOCKER_DIR': os.path.join(REPO_DIR, 'docker', 'dev/'),
+    'GIRDER_DOCKER_DIR': os.path.join(REPO_DIR, 'docker', 'girder/'),
+    'JENA_DOCKER_DIR': os.path.join(REPO_DIR, 'docker', 'jena/'),
+    'OPENBABEL_DOCKER_DIR': os.path.join(REPO_DIR, 'docker', 'openbabel/'),
+    'AVOGADRO_DOCKER_DIR': os.path.join(REPO_DIR, 'docker', 'avogadro/')
 }
 
 def _load_dev_env():

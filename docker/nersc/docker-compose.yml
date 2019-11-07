@@ -15,7 +15,7 @@ services:
         - db-mongodb.oc:/data/db
 
   app-girder:
-    image: openchemistry/mongochemserver:dev
+    image: openchemistry/mongochemserver:latest
     labels:
       io.rancher.container.pull_image: always
     retain_ip: true
@@ -163,6 +163,21 @@ services:
       - SETUID
       - SETGID
       - NET_BIND_SERVICE
+
+  app-avogadro:
+    image: openchemistry/avogadro:latest
+    labels:
+      io.rancher.container.pull_image: always
+    retain_ip: true
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - SETUID
+      - SETGID
+      - NET_BIND_SERVICE
+
 
 volumes:
   app-assetstore.oc:

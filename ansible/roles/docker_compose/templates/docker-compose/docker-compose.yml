@@ -1,0 +1,29 @@
+version: '2'
+services:
+  mongo:
+    image: mongo:latest
+    volumes:
+     - mongo:/data/db
+
+  mongochemclient:
+    image: openchemistry/mongochemclient:latest
+
+  nginx:
+    image: nginx
+    volumes:
+      - certbot-certs:/etc/letsencrypt
+      - certbot-webroot:/data/letsencrypt
+      - "{{nginx_config}}:/etc/nginx/nginx.conf"
+    ports:
+      - 443:443
+      - 80:80
+    depends_on:
+      - girder
+      - mongochemclient
+      - hub
+volumes:
+  mongo:
+  certbot-certs:
+  certbot-webroot:
+
+

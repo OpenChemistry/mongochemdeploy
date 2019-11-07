@@ -7,15 +7,13 @@ services:
      - assetstore:/assetstore
      - keys:/keys
     ports:
-      - 8080:8080
+      - 127.0.0.1:8080:8080
 
   rabbitmq:
       image: rabbitmq
 
   celery_command:
     image: openchemistry/celery_worker:latest
-    env_file:
-      - ${GIRDER_DOCKER_DIR}/celery/celery.env
     command: celery worker --app=cumulus -b ${RABBITMQ_URL} -n command --config=cumulus.celery.commandconfig --loglevel=INFO
     depends_on:
       - 'rabbitmq'
@@ -24,8 +22,6 @@ services:
 
   celery_monitor:
     image: openchemistry/celery_worker:latest
-    env_file:
-      - ${GIRDER_DOCKER_DIR}/celery/celery.env
     command: celery worker --app=cumulus -b ${RABBITMQ_URL} -n monitor -Q monitor --config=cumulus.celery.monitorconfig --loglevel=INFO
     depends_on:
       - 'rabbitmq'

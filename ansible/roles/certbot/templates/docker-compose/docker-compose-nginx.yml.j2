@@ -1,0 +1,14 @@
+version: '2'
+services:
+  nginx:
+    image: nginx
+    volumes:
+    - certbot-webroot:/usr/share/nginx/html
+    - {{certbot_nginx_config_path}}:/etc/nginx/conf.d/nginx.conf
+    ports:
+    - 80:80
+    group_add:
+    - nginx
+volumes:
+  certbot-webroot:
+

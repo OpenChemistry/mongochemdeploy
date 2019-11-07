@@ -1,2 +1,4 @@
 ansible/host_vars/beta.openchemistry.org
 ansible/host_vars/nersc.openchemistry.org
+ansible/roles/docker_compose/templates/nginx/
+ansible/host_vars/data.openchemistry.org

@@ -4,6 +4,9 @@ services:
     image: mongo:latest
     volumes:
      - mongo:/data/db
+    ports:
+     # We expose this port on the host to allow dump/restor of data from the host.
+     - 127.0.0.1:27020:27017
   nginx-dev:
     image: openchemistry/nginx:dev
     build:
