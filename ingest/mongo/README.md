@@ -19,7 +19,7 @@ pip install -r <path to mongochemdeploy repo>/ingest/mongo/requirements.txt
 
 ```
 
-# Dumping all data assoicated with a particular user
+# Dumping all data associated with a particular user
 
 ```bash
 
