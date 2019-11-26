@@ -23,7 +23,7 @@ pip install -r <path to mongochemdeploy repo>/ingest/mongo/requirements.txt
 
 ```bash
 
-python <path to mongochemdeploy repo>/ingest/mongo/dump.py -u monogdb://localhost:27020 -l <user login> -o <path to output archive>
+python <path to mongochemdeploy repo>/ingest/mongo/dump.py -u monogdb://localhost:27020 -l <user login> <path to output archive>
 
 ```
 
@@ -31,7 +31,7 @@ For example to export all data created by the user `mongochem` to `/tmp/data.tgz
 
 ```bash
 
-python <path to mongochemdeploy repo>/ingest/mongo/dump.py -u monogdb://localhost:27020 -l mongochem -o /tmp/data.tgz
+python <path to mongochemdeploy repo>/ingest/mongo/dump.py -u monogdb://localhost:27020 -l mongochem /tmp/data.tgz
 
 ```
 
