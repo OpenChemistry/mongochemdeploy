@@ -13,3 +13,4 @@ jena_config_url: http://jena-fuseki:3030
 jena_dataset: openchemistry
 openbabel_url: http://openbabel:5000
 avogadro_url: http://avogadro:5001
+app_deployment_site: development

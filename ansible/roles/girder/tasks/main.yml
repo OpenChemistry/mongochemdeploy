@@ -76,6 +76,10 @@
       "key": "app.features.notebooks",
       "value": "{{ app_feature_notebooks | default(true) }}"
     }
+    - {
+      "key": "app.deployment.site",
+      "value": "{{ app_deployment_site | default('') }}"
+    }
 
 - name: Enable CORS requests
   girder:
