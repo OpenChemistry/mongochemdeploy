@@ -23,9 +23,7 @@
 
 - name: Configure Jena settings
   girder:
-    host: "{{girder_host}}"
-    port: "{{girder_port}}"
-    scheme: "{{girder_scheme}}"
+    apiUrl: "{{ansible_girder_api_url}}"
     username: "mongochem"
     password: "{{ mongochem_password }}"
     setting:

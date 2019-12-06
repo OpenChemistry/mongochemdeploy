@@ -1,8 +1,10 @@
+oc_site: 'development'
 dev: yes
-girder_host: girder
-girder_port: 8080
-girder_api_root: '/api/v1'
-girder_scheme: 'http'
+oc_api_url: 'http://localhost:8888/api/v1'
+oc_internal_api_url: 'http://girder:8080/api/v1'
+oc_app_url: 'http://localhost:8888'
+oc_jupyterlab_url: 'http://hub:8000/jupyterhub'
+ansible_girder_api_url: 'http://girder:8080/api/v1'
 mongochem_password: letmein
 mongochemdev_password: letmein
 cumulus_password: letmein
@@ -13,4 +15,3 @@ jena_config_url: http://jena-fuseki:3030
 jena_dataset: openchemistry
 openbabel_url: http://openbabel:5000
 avogadro_url: http://avogadro:5001
-app_deployment_site: development

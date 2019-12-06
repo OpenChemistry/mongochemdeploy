@@ -28,7 +28,7 @@ c.DockerSpawner.use_internal_ip = True
 c.DockerSpawner.network_name = network_name
 c.DockerSpawner.extra_host_config = { 'network_mode': network_name }
 c.DockerSpawner.remove = True
-girder_api_url = os.environ.get('GIRDER_API_URL', 'http://localhost:8080/api/v1')
+girder_api_url = os.environ.get('OC_INTERNAL_API_URL', 'http://localhost:8080/api/v1')
 
 c.DockerSpawner.volumes = {}
 
@@ -43,24 +43,23 @@ if 'JUPTERLAB_APP_DIR' in os.environ and os.environ['JUPTERLAB_APP_DIR'] != '':
     c.DockerSpawner.volumes[os.environ['JUPTERLAB_APP_DIR']] = '/opt/conda/share/jupyter/lab'
 
 spawn_cmd = os.environ.get('DOCKER_SPAWN_CMD', "start-singleuser.sh")
-spawn_cmd += ' --NotebookApp.allow_origin=%s' % os.environ['ORIGIN']
+spawn_cmd += ' --NotebookApp.allow_origin=%s' % os.environ['OC_ORIGIN']
 spawn_cmd += " --SingleUserNotebookApp.default_url=/lab"
 spawn_cmd += " --NotebookApp.contents_manager_class='girder_jupyter.contents.manager.GirderContentsManager'"
 spawn_cmd += " --GirderContentsManager.api_url=%s" % girder_api_url
 spawn_cmd += " --GirderContentsManager.root=user/{login}/Private/oc/notebooks"
 
 # Set environment variables needs by the openchemistry package
-env_vars = {
-    'OC_SITE': 'beta',
-    'GIRDER_HOST': 'localhost',
-    'GIRDER_PUBLIC_API_URL': None,
-    'GIRDER_PORT': '8080',
-    'GIRDER_API_ROOT': 'api/v1',
-    'GIRDER_SCHEME': 'http',
-    'APP_BASE_URL': os.environ.get('APP_BASE_URL'),
-    'OC_JUPYTERHUB_URL': os.environ.get('OC_JUPYTERHUB_URL')
-}
-env_vars = { k: os.environ.get(k, v) if os.environ.get(k, v) else v  for k, v in six.iteritems(env_vars) }
+env_vars_keys = [
+    'OC_SITE',
+    'OC_ORIGIN',
+    'OC_API_URL',
+    'OC_INTERNAL_API_URL',
+    'OC_APP_URL',
+    'OC_JUPYTERHUB_URL'
+]
+
+env_vars = { k: os.environ.get(k) for k in env_vars_keys }
 c.DockerSpawner.environment.update(env_vars)
 
 c.DockerSpawner.extra_create_kwargs.update({ 'command': spawn_cmd })

@@ -1,9 +1,6 @@
 - name: Close registration
   girder:
-    host: "{{girder_host}}"
-    port: "{{girder_port}}"
-    scheme: "{{girder_scheme}}"
-    apiRoot: "{{girder_api_root}}"
+    apiUrl: "{{ansible_girder_api_url}}"
     username: "mongochem"
     password: "{{ mongochem_password }}"
     setting:
@@ -18,10 +15,7 @@
 
 - name: Allow NEWT users to login even though registration is closed
   girder:
-    host: "{{girder_host}}"
-    port: "{{girder_port}}"
-    scheme: "{{girder_scheme}}"
-    apiRoot: "{{girder_api_root}}"
+    apiUrl: "{{ansible_girder_api_url}}"
     username: "mongochem"
     password: "{{ mongochem_password }}"
     setting:

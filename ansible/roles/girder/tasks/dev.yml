@@ -11,10 +11,7 @@
 
 - name: Create Girder monogchemdev user
   girder:
-    host: "{{girder_host}}"
-    port: "{{girder_port}}"
-    scheme: "{{girder_scheme}}"
-    apiRoot: "{{girder_api_root}}"
+    apiUrl: "{{ansible_girder_api_url}}"
     user:
       firstName: "mongochemdev"
       lastName: "mongochemdev"
@@ -25,10 +22,7 @@
 
 - name: Authenticate with Girder
   girder:
-    host: "{{girder_host}}"
-    port: "{{girder_port}}"
-    scheme: "{{girder_scheme}}"
-    apiRoot: "{{girder_api_root}}"
+    apiUrl: "{{ansible_girder_api_url}}"
     username: "mongochemdev"
     password: "{{mongochemdev_password}}"
     get:
@@ -37,10 +31,7 @@
 
 - name: Get list of current clusters
   girder:
-    host: "{{girder_host}}"
-    port: "{{girder_port}}"
-    scheme: "{{girder_scheme}}"
-    apiRoot: "{{girder_api_root}}"
+    apiUrl: "{{ansible_girder_api_url}}"
     username: "mongochemdev"
     password: "{{mongochemdev_password}}"
     get:
@@ -52,10 +43,7 @@
 
 - name: Create cluster
   girder:
-    host: "{{girder_host}}"
-    port: "{{girder_port}}"
-    scheme: "{{girder_scheme}}"
-    apiRoot: "{{girder_api_root}}"
+    apiUrl: "{{ansible_girder_api_url}}"
     username: "mongochemdev"
     password: "{{mongochemdev_password}}"
     post:
@@ -89,7 +77,7 @@
     headers:
       Girder-Token: "{{ me.token }}"
     body_format: json
-    url: "{{girder_scheme}}://{{girder_host}}:{{girder_port}}{{girder_api_root}}/clusters/{{cluster._id}}/status"
+    url: "{{ansible_girder_api_url}}/clusters/{{cluster._id}}/status"
     status_code: 200
   register: result
   until: result.json.status == 'created' or result.json.status == 'running'
@@ -98,10 +86,7 @@
 
 - name: Refresh cluster so we have the public key
   girder:
-    host: "{{girder_host}}"
-    port: "{{girder_port}}"
-    scheme: "{{girder_scheme}}"
-    apiRoot: "{{girder_api_root}}"
+    apiUrl: "{{ansible_girder_api_url}}"
     token: "{{ me.token }}"
     get:
       path: "clusters/{{cluster._id}}"
@@ -122,10 +107,7 @@
 
 - name: Start cluster
   girder:
-    host: "{{girder_host}}"
-    port: "{{girder_port}}"
-    scheme: "{{girder_scheme}}"
-    apiRoot: "{{girder_api_root}}"
+    apiUrl: "{{ansible_girder_api_url}}"
     token: "{{ me.token }}"
     put:
       path: "clusters/{{cluster['_id']}}/start"
@@ -135,7 +117,7 @@
     headers:
       Girder-Token: "{{ me.token }}"
     body_format: json
-    url: "{{girder_scheme}}://{{girder_host}}:{{girder_port}}{{girder_api_root}}/clusters/{{cluster._id}}/status"
+    url: "{{ansible_girder_api_url}}/clusters/{{cluster._id}}/status"
     status_code: 200
   register: result
   until: result.json.status == 'running'
