@@ -1,0 +1,475 @@
+{
+  "simulation": {
+    "simulationEnvironment": {
+      "programRun": "NWChem",
+      "programVersion": "27327",
+      "runDate": "Fri Jan  3 15:41:59 2020",
+      "hostMachine": "fe73ee155112",
+      "processorCount": 4,
+      "inputFileName": "\/data\/scratch\/raw.in",
+      "inputFileData": "geometry nocenter noautosym;  C      2.47649   -0.98635    0.00082;  C      1.33879   -1.82065    0.00112;  C      0.05319   -1.25605    0.00112;  C     -1.18051   -1.92695    0.00072;  C     -2.38441   -1.19165   -0.00088;  C     -2.40561    0.21925   -0.00198;  C     -1.17181    0.85835   -0.00068;  C     -0.00421    0.10845    0.00082;  C      1.09569    0.95485    0.00062;  C      2.37909    0.42165    0.00082;  C      0.57819    2.37435   -0.00058;  C     -0.77771    2.31625   -0.00138;  H      3.46309   -1.44625    0.00042;  H      1.46039   -2.90065    0.00072;  H     -1.21151   -3.01325    0.00112;  H     -3.32851   -1.73325   -0.00168;  H     -3.33311    0.77845   -0.00428;  H      3.25729    1.05575    0.00032;  H      1.19199    3.26155   -0.00108;  H     -1.46671    3.14645   -0.00268;end;start;basis;  * library 3-21g;end;dft;  xc b3lyp;  mult 1;  maxiter 2000;end;task dft optimize"
+    },
+    "calculations": [
+      {
+        "calculationType": "geometryOptimization",
+        "id": "calculation.1",
+        "calculationResults": {},
+        "calculationSetup": {
+          "id": "calculationSetup.1",
+          "molecularCharge": 0.0E+0,
+          "molecularSpinMultiplicity": 1,
+          "numberOfElectrons": 80,
+          "waveFunctionTheory": "Density Functional Theory",
+          "waveFunctionType": "RHF",
+          "inputVectors": "atomic",
+          "molecule": {
+            "id": "Molecule.1",
+            "atoms": [
+              {
+                "id": "C.1.Mol1",
+                "elementLabel": "C",
+                "elementSymbol": "C",
+                "elementNumber": 6,
+                "elementName": "Carbon",
+                "cartesianCoordinates": {
+                  "value": [
+                    0.2476490000000001E+1,
+                    -0.9863500000000005E+0,
+                    0.8200000000000004E-3
+                  ],
+                  "units": "angstrom"
+                }
+              },
+              {
+                "id": "C.2.Mol1",
+                "elementLabel": "C",
+                "elementSymbol": "C",
+                "elementNumber": 6,
+                "elementName": "Carbon",
+                "cartesianCoordinates": {
+                  "value": [
+                    0.1338790000000001E+1,
+                    -0.1820650000000001E+1,
+                    0.1120000000000001E-2
+                  ],
+                  "units": "angstrom"
+                }
+              },
+              {
+                "id": "C.3.Mol1",
+                "elementLabel": "C",
+                "elementSymbol": "C",
+                "elementNumber": 6,
+                "elementName": "Carbon",
+                "cartesianCoordinates": {
+                  "value": [
+                    0.5319000000000003E-1,
+                    -0.1256050000000001E+1,
+                    0.1120000000000001E-2
+                  ],
+                  "units": "angstrom"
+                }
+              },
+              {
+                "id": "C.4.Mol1",
+                "elementLabel": "C",
+                "elementSymbol": "C",
+                "elementNumber": 6,
+                "elementName": "Carbon",
+                "cartesianCoordinates": {
+                  "value": [
+                    -0.1180510000000001E+1,
+                    -0.1926950000000001E+1,
+                    0.7200000000000003E-3
+                  ],
+                  "units": "angstrom"
+                }
+              },
+              {
+                "id": "C.5.Mol1",
+                "elementLabel": "C",
+                "elementSymbol": "C",
+                "elementNumber": 6,
+                "elementName": "Carbon",
+                "cartesianCoordinates": {
+                  "value": [
+                    -0.2384410000000001E+1,
+                    -0.1191650000000001E+1,
+                    -0.8800000000000005E-3
+                  ],
+                  "units": "angstrom"
+                }
+              },
+              {
+                "id": "C.6.Mol1",
+                "elementLabel": "C",
+                "elementSymbol": "C",
+                "elementNumber": 6,
+                "elementName": "Carbon",
+                "cartesianCoordinates": {
+                  "value": [
+                    -0.2405610000000001E+1,
+                    0.2192500000000001E+0,
+                    -0.1980000000000001E-2
+                  ],
+                  "units": "angstrom"
+                }
+              },
+              {
+                "id": "C.7.Mol1",
+                "elementLabel": "C",
+                "elementSymbol": "C",
+                "elementNumber": 6,
+                "elementName": "Carbon",
+                "cartesianCoordinates": {
+                  "value": [
+                    -0.1171810000000001E+1,
+                    0.8583500000000004E+0,
+                    -0.6800000000000004E-3
+                  ],
+                  "units": "angstrom"
+                }
+              },
+              {
+                "id": "C.8.Mol1",
+                "elementLabel": "C",
+                "elementSymbol": "C",
+                "elementNumber": 6,
+                "elementName": "Carbon",
+                "cartesianCoordinates": {
+                  "value": [
+                    -0.4210000000000003E-2,
+                    0.10845E+0,
+                    0.8200000000000004E-3
+                  ],
+                  "units": "angstrom"
+                }
+              },
+              {
+                "id": "C.9.Mol1",
+                "elementLabel": "C",
+                "elementSymbol": "C",
+                "elementNumber": 6,
+                "elementName": "Carbon",
+                "cartesianCoordinates": {
+                  "value": [
+                    0.1095690000000001E+1,
+                    0.9548500000000004E+0,
+                    0.6200000000000003E-3
+                  ],
+                  "units": "angstrom"
+                }
+              },
+              {
+                "id": "C.10.Mol1",
+                "elementLabel": "C",
+                "elementSymbol": "C",
+                "elementNumber": 6,
+                "elementName": "Carbon",
+                "cartesianCoordinates": {
+                  "value": [
+                    0.2379090000000001E+1,
+                    0.4216500000000002E+0,
+                    0.8200000000000004E-3
+                  ],
+                  "units": "angstrom"
+                }
+              },
+              {
+                "id": "C.11.Mol1",
+                "elementLabel": "C",
+                "elementSymbol": "C",
+                "elementNumber": 6,
+                "elementName": "Carbon",
+                "cartesianCoordinates": {
+                  "value": [
+                    0.5781900000000003E+0,
+                    0.2374350000000001E+1,
+                    -0.5800000000000002E-3
+                  ],
+                  "units": "angstrom"
+                }
+              },
+              {
+                "id": "C.12.Mol1",
+                "elementLabel": "C",
+                "elementSymbol": "C",
+                "elementNumber": 6,
+                "elementName": "Carbon",
+                "cartesianCoordinates": {
+                  "value": [
+                    -0.7777100000000003E+0,
+                    0.2316250000000001E+1,
+                    -0.1380000000000001E-2
+                  ],
+                  "units": "angstrom"
+                }
+              },
+              {
+                "id": "H.13.Mol1",
+                "elementLabel": "H",
+                "elementSymbol": "H",
+                "elementNumber": 1,
+                "elementName": "Hydrogen",
+                "cartesianCoordinates": {
+                  "value": [
+                    0.3463090000000002E+1,
+                    -0.1446250000000001E+1,
+                    0.4200000000000002E-3
+                  ],
+                  "units": "angstrom"
+                }
+              },
+              {
+                "id": "H.14.Mol1",
+                "elementLabel": "H",
+                "elementSymbol": "H",
+                "elementNumber": 1,
+                "elementName": "Hydrogen",
+                "cartesianCoordinates": {
+                  "value": [
+                    0.1460390000000001E+1,
+                    -0.2900650000000001E+1,
+                    0.7200000000000003E-3
+                  ],
+                  "units": "angstrom"
+                }
+              },
+              {
+                "id": "H.15.Mol1",
+                "elementLabel": "H",
+                "elementSymbol": "H",
+                "elementNumber": 1,
+                "elementName": "Hydrogen",
+                "cartesianCoordinates": {
+                  "value": [
+                    -0.1211510000000001E+1,
+                    -0.3013250000000002E+1,
+                    0.1120000000000001E-2
+                  ],
+                  "units": "angstrom"
+                }
+              },
+              {
+                "id": "H.16.Mol1",
+                "elementLabel": "H",
+                "elementSymbol": "H",
+                "elementNumber": 1,
+                "elementName": "Hydrogen",
+                "cartesianCoordinates": {
+                  "value": [
+                    -0.3328510000000001E+1,
+                    -0.1733250000000001E+1,
+                    -0.1680000000000001E-2
+                  ],
+                  "units": "angstrom"
+                }
+              },
+              {
+                "id": "H.17.Mol1",
+                "elementLabel": "H",
+                "elementSymbol": "H",
+                "elementNumber": 1,
+                "elementName": "Hydrogen",
+                "cartesianCoordinates": {
+                  "value": [
+                    -0.3333110000000002E+1,
+                    0.7784500000000003E+0,
+                    -0.4280000000000003E-2
+                  ],
+                  "units": "angstrom"
+                }
+              },
+              {
+                "id": "H.18.Mol1",
+                "elementLabel": "H",
+                "elementSymbol": "H",
+                "elementNumber": 1,
+                "elementName": "Hydrogen",
+                "cartesianCoordinates": {
+                  "value": [
+                    0.3257290000000002E+1,
+                    0.1055750000000001E+1,
+                    0.3200000000000001E-3
+                  ],
+                  "units": "angstrom"
+                }
+              },
+              {
+                "id": "H.19.Mol1",
+                "elementLabel": "H",
+                "elementSymbol": "H",
+                "elementNumber": 1,
+                "elementName": "Hydrogen",
+                "cartesianCoordinates": {
+                  "value": [
+                    0.1191990000000001E+1,
+                    0.3261550000000002E+1,
+                    -0.108E-2
+                  ],
+                  "units": "angstrom"
+                }
+              },
+              {
+                "id": "H.20.Mol1",
+                "elementLabel": "H",
+                "elementSymbol": "H",
+                "elementNumber": 1,
+                "elementName": "Hydrogen",
+                "cartesianCoordinates": {
+                  "value": [
+                    -0.1466710000000001E+1,
+                    0.3146450000000002E+1,
+                    -0.2680000000000001E-2
+                  ],
+                  "units": "angstrom"
+                }
+              }
+            ],
+            "symmetry": {
+              "groupName": "C1",
+              "groupIrrepName": [
+                "a"
+              ],
+              "groupClassName": [
+                "e"
+              ]
+            }
+          },
+          "basisSet": {
+            "id": "BasisSet.1",
+            "basisFunctions": [
+              {
+                "id": "C-orb",
+                "elementLabel": "C",
+                "elementType": "C",
+                "basisSetType": "orbitalBasis",
+                "basisSetName": "3-21g",
+                "basisSetHarmonicType": "cartesian",
+                "basisSetContraction": [
+                  {
+                    "id": "C-orbc1",
+                    "basisSetShell": "s",
+                    "basisSetExponent": [
+                      0.1722560000000001E+3,
+                      0.2591090000000002E+2,
+                      0.5533350000000004E+1
+                    ],
+                    "basisSetCoefficient": [
+                      0.2093132484980286E+1,
+                      0.2936751434884664E+1,
+                      0.1801737115365567E+1
+                    ]
+                  },
+                  {
+                    "id": "C-orbc2",
+                    "basisSetShell": "s",
+                    "basisSetExponent": [
+                      0.3664980000000003E+1,
+                      0.7705450000000006E+0
+                    ],
+                    "basisSetCoefficient": [
+                      -0.7473843397318201E+0,
+                      0.712661025209827E+0
+                    ]
+                  },
+                  {
+                    "id": "C-orbc3",
+                    "basisSetShell": "p",
+                    "basisSetExponent": [
+                      0.3664980000000003E+1,
+                      0.7705450000000006E+0
+                    ],
+                    "basisSetCoefficient": [
+                      0.1709177576095093E+1,
+                      0.8856220644356219E+0
+                    ]
+                  },
+                  {
+                    "id": "C-orbc4",
+                    "basisSetShell": "s",
+                    "basisSetExponent": [
+                      0.1958570000000001E+0
+                    ],
+                    "basisSetCoefficient": [
+                      0.2098284708790862E+0
+                    ]
+                  },
+                  {
+                    "id": "C-orbc5",
+                    "basisSetShell": "p",
+                    "basisSetExponent": [
+                      0.1958570000000001E+0
+                    ],
+                    "basisSetCoefficient": [
+                      0.185722260242082E+0
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "H-orb",
+                "elementLabel": "H",
+                "elementType": "H",
+                "basisSetType": "orbitalBasis",
+                "basisSetName": "3-21g",
+                "basisSetHarmonicType": "cartesian",
+                "basisSetContraction": [
+                  {
+                    "id": "H-orbc1",
+                    "basisSetShell": "s",
+                    "basisSetExponent": [
+                      0.5447178000000005E+1,
+                      0.8245470000000006E+0
+                    ],
+                    "basisSetCoefficient": [
+                      0.3971513205684681E+0,
+                      0.557919923332556E+0
+                    ]
+                  },
+                  {
+                    "id": "H-orbc2",
+                    "basisSetShell": "s",
+                    "basisSetExponent": [
+                      0.1831920000000001E+0
+                    ],
+                    "basisSetCoefficient": [
+                      0.1995675704838862E+0
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "exchangeCorrelationFunctional": [
+            "               B3LYP Method XC Potential",
+            {
+              "exchangeTermName": "Hartree-Fock (Exact) Exchange",
+              "exchangeTermFactor": 0.2E+0
+            },
+            {
+              "exchangeTermName": "Slater Exchange Functional",
+              "exchangeTermFactor": 0.8E+0,
+              "exchangeTermLocality": "local"
+            },
+            {
+              "exchangeTermName": "Becke 1988 Exchange Functional",
+              "exchangeTermFactor": 0.72E+0,
+              "exchangeTermLocality": "non-local"
+            },
+            {
+              "correlationTermName": "Lee-Yang-Parr Correlation Functional",
+              "correlationTermFactor": 0.8100000000000001E+0
+            },
+            {
+              "correlationTermName": "VWN I RPA Correlation Functional",
+              "correlationTermFactor": 0.19E+0,
+              "correlationTermLocality": "local"
+            }
+          ]
+        },
+        "molecularFormula": "C12H8"
+      }
+    ]
+  }
+}

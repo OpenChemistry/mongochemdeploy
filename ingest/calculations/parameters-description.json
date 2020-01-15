@@ -1,0 +1,52 @@
+{
+  "name": {
+    "type": "string",
+    "description": "The common name of the molecule.",
+    "required": "False"
+  },
+  "software": {
+    "type": "string",
+    "description": "The name of the software used to run the calculation.",
+    "required": "True"
+  },
+  "version": {
+    "type": "number",
+    "description": "The version of the software used to run the calculation.",
+    "required": "False"
+  },
+  "wikipediaUrl": {
+    "type": "string",
+    "description": "The url of the wikipedia page for the molecule.",
+    "required": "False"
+  },
+  "theory": {
+    "type": "string",
+    "description": "The theory level: hf | dft",
+    "required": "False"
+  },
+  "task": {
+    "type": "string",
+    "description": "The calculation task: energy | optimize | frequencies",
+    "required": "False"
+  },
+  "basis": {
+    "type": "string",
+    "description": "The basis set.",
+    "required": "False"
+  },
+  "functional": {
+    "type": "string",
+    "description": "The XC functional (if ks theory).",
+    "required": "False"
+  },
+  "charge": {
+    "type": "number",
+    "description": "The net charge of the system.",
+    "required": "False"
+  },
+  "multiplicity": {
+    "type": "number",
+    "description": "The spin multiplicity.",
+    "required": "False"
+  }
+}
