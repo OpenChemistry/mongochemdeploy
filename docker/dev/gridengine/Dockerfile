@@ -1,11 +1,14 @@
 FROM agaveapi/gridengine
 
-RUN yum install -y yum-utils && \
+# We need to install MAKEDEV first or the update fails with dep problems!
+RUN yum install -y MAKEDEV && \
+  yum --disablerepo="epel" update -y && \
+  yum install -y yum-utils && \
   yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo && \
   yum install -y docker-ce-cli
 
 RUN yum install -y centos-release-scl && \
-  yum install -y python27 docker-io
+  yum install -y python27
 
 RUN ln -s /usr/bin/python2.6 /usr/local/bin/python
 
