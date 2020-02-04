@@ -13,7 +13,7 @@ services:
       context: .
       dockerfile: nginx/Dockerfile
     ports:
-      - 8888:8888
+     - 127.0.0.1:8888:8888
     depends_on:
       - 'girder'
       - 'hub'
