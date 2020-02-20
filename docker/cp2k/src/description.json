@@ -1,0 +1,42 @@
+{
+  "name": "CP2K",
+  "version": "7.1",
+  "input": {
+      "format": "xyz",
+      "parameters": {
+          "theory": {
+              "type": "string",
+              "description": "The theory level: hf | dft",
+              "default": "hf"
+          },
+          "task": {
+              "type": "string",
+              "description": "The calculation task: energy | optimize | frequencies",
+              "default": "energy"
+          },
+          "basis": {
+              "type": "string",
+              "description": "The basis set.",
+              "default": "cc-pvdz"
+          },
+          "functional": {
+              "type": "string",
+              "description": "The XC functional (if ks theory).",
+              "default": "b3lyp"
+          },
+          "charge": {
+              "type": "number",
+              "description": "The net charge of the system.",
+              "default": 0
+          },
+          "multiplicity": {
+              "type": "number",
+              "description": "The spin multiplicity.",
+              "default": 1
+          }
+      }
+  },
+  "output": {
+      "format": "cjson"
+  }
+}

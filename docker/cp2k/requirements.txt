@@ -1,0 +1,5 @@
+click
+jinja2
+mendeleev==0.5.2
+openchemistry
+-e git+git://github.com/cclib/cclib.git#egg=cclib
