@@ -1,6 +1,6 @@
 {
   "name": "TorchANI",
-  "version": "0.4.2",
+  "version": "1.2",
   "input": {
       "format": "cjson",
       "parameters": {

@@ -3,6 +3,8 @@ services:
   girder:
     image: openchemistry/mongochemserver:latest
     command: -d ${MONGODB_URL} ${GIRDER_EXTRA_ARGS}
+    depends_on:
+     - 'mongo'
     volumes:
      - assetstore:/assetstore
      - keys:/keys
