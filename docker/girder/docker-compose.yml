@@ -1,7 +1,7 @@
 version: '2'
 services:
   girder:
-    image: openchemistry/mongochemserver:latest
+    image: openchemistry/mongochemserver:1.0
     command: -d ${MONGODB_URL} ${GIRDER_EXTRA_ARGS}
     depends_on:
      - 'mongo'
@@ -12,10 +12,10 @@ services:
       - 127.0.0.1:8080:8080
 
   rabbitmq:
-      image: rabbitmq
+      image: rabbitmq:3.8.2
 
   celery_command:
-    image: openchemistry/celery_worker:latest
+    image: openchemistry/celery_worker:1.0
     command: celery worker --app=cumulus -b ${RABBITMQ_URL} -n command --config=cumulus.celery.commandconfig --loglevel=INFO
     depends_on:
       - 'rabbitmq'
@@ -23,7 +23,7 @@ services:
      - keys:/keys
 
   celery_monitor:
-    image: openchemistry/celery_worker:latest
+    image: openchemistry/celery_worker:1.0
     command: celery worker --app=cumulus -b ${RABBITMQ_URL} -n monitor -Q monitor --config=cumulus.celery.monitorconfig --loglevel=INFO
     depends_on:
       - 'rabbitmq'
