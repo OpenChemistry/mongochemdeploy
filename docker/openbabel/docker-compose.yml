@@ -1,4 +1,4 @@
 version: '2'
 services:
   openbabel:
-    image: openchemistry/openbabel:latest
+    image: openchemistry/openbabel:1.0

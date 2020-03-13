@@ -88,7 +88,7 @@ def _execute_command(subcommand, args):
 def _pull_extra_images():
     """Pull extra images that docker-compose will not pull."""
     cmd = ["docker", "pull"]
-    extra_images = ["openchemistry/jupyterlab"]
+    extra_images = ["openchemistry/jupyterlab:1.0"]
     cmd += extra_images
     p = None
     try:
