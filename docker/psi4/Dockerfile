@@ -12,7 +12,7 @@ RUN conda env create -f /app/environment.yml
 RUN conda pack -n psi4 -o /app/psi4.tar.gz
 RUN mkdir /psi4
 RUN tar -xzf /app/psi4.tar.gz -C /psi4
-RUN apk add --no-cache bash git
+RUN apk add --no-cache bash
 SHELL ["/bin/bash", "--login", "-c"]
 # Clean up for the prefix it will be used in, remove files we don't need.
 RUN source /psi4/bin/activate && \
