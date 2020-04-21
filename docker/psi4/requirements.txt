@@ -1,5 +1,0 @@
-avogadro
-click
-jinja2
-openchemistry
--e git+git://github.com/cclib/cclib.git#egg=cclib
