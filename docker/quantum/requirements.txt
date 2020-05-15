@@ -1,0 +1,9 @@
+scipy
+qiskit
+projectq
+avogadro
+click
+jinja2
+cmake
+pint
+pydantic
