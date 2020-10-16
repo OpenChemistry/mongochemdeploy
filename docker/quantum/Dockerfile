@@ -11,6 +11,8 @@ COPY requirements.txt /root/
 RUN apt-get update && \
   apt-get install -y libblas-dev liblapack-dev && \
   cd /root && \
+  # Needed for projectq
+  pip install pybind11 && \
   pip install -r requirements.txt && \
   wget https://github.com/psi4/psi4/archive/v1.3.2.tar.gz && \
   tar zxvf v1.3.2.tar.gz && \
