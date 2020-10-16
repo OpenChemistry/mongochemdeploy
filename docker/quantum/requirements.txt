@@ -7,3 +7,4 @@ jinja2
 cmake
 pint
 pydantic
+deepdiff # Need for psi4
