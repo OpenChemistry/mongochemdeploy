@@ -11,7 +11,6 @@ services:
   hub-db:
     image: postgres:9.6.17
     container_name: jupyterhub-db
-    restart: always
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       PGDATA: ${DB_VOLUME_CONTAINER}
@@ -23,7 +22,6 @@ services:
   hub:
     depends_on:
       - hub-db
-    restart: always
     build:
       context: ${JUPYTERHUB_DOCKER_DIR}
       dockerfile: Dockerfile.jupyterhub
