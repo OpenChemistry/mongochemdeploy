@@ -1,0 +1,42 @@
+&GLOBAL
+  PROJECT {{project}}
+  RUN_TYPE {{run_type}}
+  PRINT_LEVEL LOW
+&END GLOBAL
+&FORCE_EVAL
+  METHOD Quickstep
+  &SUBSYS
+    {{kinds}}
+    {{cell}}
+    {{coords}}
+  &END SUBSYS
+  &DFT
+    BASIS_SET_FILE_NAME  BASIS_SET
+    POTENTIAL_FILE_NAME  GTH_POTENTIALS
+    &QS
+      EPS_DEFAULT 1.0E-10
+    &END QS
+    &MGRID
+      NGRIDS 4
+      CUTOFF 300
+      REL_CUTOFF 60
+    &END MGRID
+    &XC
+      &XC_FUNCTIONAL PADE
+      &END XC_FUNCTIONAL
+    &END XC
+    &SCF
+      SCF_GUESS ATOMIC
+      EPS_SCF 1.0E-7
+      MAX_SCF 300
+      &DIAGONALIZATION  ON
+        ALGORITHM STANDARD
+      &END DIAGONALIZATION
+      &MIXING  T
+        METHOD BROYDEN_MIXING
+        ALPHA 0.4
+        NBROYDEN 8
+      &END MIXING
+    &END SCF
+  &END DFT
+&END FORCE_EVAL
