@@ -12,21 +12,21 @@ import tenacity
 import coloredlogs
 
 
-class AsyncGirderClient(object):
+class AsyncGirderClient:
 
-    def __init__(self, session, api_url):
+    def __init__(self, api_url):
         self._ratelimit_semaphore = asyncio.Semaphore(15)
         self._api_url = api_url.rstrip('/')
-        self._session = session
 
     async def authenticate(self, api_key):
         params = {'key': api_key}
-        async with self._session.post('%s/api_key/token' % (self._api_url), params=params) as r:
-            r.raise_for_status()
-            auth = await r.json()
-        self._headers = {
-            'Girder-Token': auth['authToken']['token']
-        }
+        async with aiohttp.ClientSession() as session:
+            async with session.post('%s/api_key/token' % (self._api_url), params=params) as r:
+                r.raise_for_status()
+                auth = await r.json()
+            self._headers = {
+                'Girder-Token': auth['authToken']['token']
+            }
 
     @tenacity.retry(retry=tenacity.retry_if_exception_type(aiohttp.client_exceptions.ServerConnectionError),
                     wait=tenacity.wait_exponential(max=10),
@@ -41,14 +41,15 @@ class AsyncGirderClient(object):
             headers.update(self._headers)
 
         async with self._ratelimit_semaphore:
-            async with self._session.post('%s/%s' % (self._api_url, path),
+            async with aiohttp.ClientSession() as session:
+                async with session.post('%s/%s' % (self._api_url, path),
                                         headers=headers, params=params,
                                         **kwargs) as r:
-                if raise_for_status:
-                    r.raise_for_status()
-                return await r.json()
+                    if raise_for_status:
+                        r.raise_for_status()
+                    return await r.json()
 
-class BlockKeyboardInterrupt(object):
+class BlockKeyboardInterrupt:
     def __enter__(self):
         self._signal = None
         self._orignal_handler = signal.signal(signal.SIGINT, self._handler)
@@ -89,32 +90,31 @@ async def ingest(api_url, api_key, data_file, chunk_size):
         with _ingested_log_file().open() as fp:
             ingested = json.load(fp)
 
-    async with aiohttp.ClientSession() as session:
-        gc = AsyncGirderClient(session, api_url)
-        await gc.authenticate(api_key)
+    gc = AsyncGirderClient(api_url)
+    await gc.authenticate(api_key)
 
-        logger.info('Loading %s.' % data_file.name)
-        documents = json.loads(data_file.read())
-        logger.info('File contains %d molecules.' % len(documents))
+    logger.info('Loading %s.' % data_file.name)
+    documents = json.loads(data_file.read())
+    logger.info('File contains %d molecules.' % len(documents))
 
-        logger.info('Ingesting in batches of %d' % chunk_size)
+    logger.info('Ingesting in batches of %d' % chunk_size)
 
-        progress = tqdm(total=len(documents), unit=' structures')
-        # Process in chunks so don't run out of memory
-        count = 0
-        for i in range(0, len(documents), chunk_size):
-            chunk = documents[i:i+chunk_size]
-            tasks = [ingest_molecule(gc, json.loads(data), i+j) for (j, data) in enumerate(chunk)]
-            for f in asyncio.as_completed(tasks):
-                await f
-                count += 1
-                progress.update()
-        progress.close()
+    progress = tqdm(total=len(documents), unit=' structures')
+    # Process in chunks so don't run out of memory
+    count = 0
+    for i in range(0, len(documents), chunk_size):
+        chunk = documents[i:i+chunk_size]
+        tasks = [ingest_molecule(gc, json.loads(data), i+j) for (j, data) in enumerate(chunk)]
+        for f in asyncio.as_completed(tasks):
+            await f
+            count += 1
+            progress.update()
+    progress.close()
 
-        logger.info('Ingest complete.')
+    logger.info('Ingest complete.')
 
-        if _ingested_log_file().exists():
-            _ingested_log_file().unlink()
+    if _ingested_log_file().exists():
+        _ingested_log_file().unlink()
 
 
 @click.command('metatlas')
