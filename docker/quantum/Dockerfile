@@ -5,7 +5,8 @@ FROM python:3.7
 #USER 0
 #ENV PATH /opt/conda/bin/:$PATH
 
-COPY requirements.txt /root/
+COPY src/* /app/
+COPY requirements.txt /app/
 
 # Update apt, install blas/lapack for psi4, then Python deps, and then build.
 RUN apt-get update && \
@@ -13,7 +14,7 @@ RUN apt-get update && \
   cd /root && \
   # Needed for projectq
   pip install pybind11 && \
-  pip install -r requirements.txt && \
+  pip install -r /app/requirements.txt && \
   wget https://github.com/psi4/psi4/archive/v1.3.2.tar.gz && \
   tar zxvf v1.3.2.tar.gz && \
   mkdir build && \
@@ -26,4 +27,4 @@ RUN apt-get update && \
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
-ENTRYPOINT ["/usr/bin/bash", "/app/main.py"]
+ENTRYPOINT ["python", "/app/main.py"]

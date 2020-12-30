@@ -8,3 +8,4 @@ cmake
 pint
 pydantic
 deepdiff # Need for psi4
+pyscf
