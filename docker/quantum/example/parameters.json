@@ -2,5 +2,11 @@
   "basis": "sto3g",
   "charge": 0,
   "multiplicity": 1,
-  "orbital_reduction": [4, 10]
+  "orbital_reduction": [4, 10],
+  "optimization":{
+    "theory": "hf",
+    "basis": "6-31g",
+    "charge": 0,
+    "multiplicity": 1
+  }
 }

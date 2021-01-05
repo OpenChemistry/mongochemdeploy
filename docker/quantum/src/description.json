@@ -23,6 +23,33 @@
                 "type": "array",
                 "description": "Complexity of the calculation",
                 "default": [4, 10]
+            },
+            "optimization": {
+                "theory": {
+                    "type": "string",
+                    "description": "The theory level: hf | dft",
+                    "default": "hf"
+                },
+                "basis": {
+                    "type": "string",
+                    "description": "The basis set.",
+                    "default": "cc-pvdz"
+                },
+                "functional": {
+                    "type": "string",
+                    "description": "The XC functional (if ks theory).",
+                    "default": "b3lyp"
+                },
+                "charge": {
+                    "type": "number",
+                    "description": "The net charge of the system.",
+                    "default": 0
+                },
+                "multiplicity": {
+                    "type": "number",
+                    "description": "The spin multiplicity.",
+                    "default": 1
+                }
             }
         }
     },
