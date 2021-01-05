@@ -55,17 +55,21 @@ def run_calculation(geometry_file, output_file, params, scratch_dir):
   # Read in the geometry from the geometry file
   # This container expects the geometry file to be in .xyz format
   with open(geometry_file) as f:
-      # remove the first two lines in the xyz file
-      # (i.e. number of atom and optional comment)
-      xyz_structure = f.readlines()[2:]
-      # restructure geometry as 2D array
-      ## TODO: can use named tuple or data class?
-      geom = []
-      for line in xyz_structure:
-        data = [i for i in line.split(' ') if i]
-        name = data[0]
-        vals = [float(v) for v in data[1:]]
-        geom.append([name, vals])
+    atoms, comment, *xyz_structure = f.read().splitlines()
+
+  # Warn the user that molecule should have 3 or fewer atoms
+  # TODO: Add warning
+
+  # Optimize geometry if input has been provided
+  if params.get('optimization', {}):
+    coords, geom, psi4_energy = optimize_geometry(xyz_structure, params)
+  else:
+    geom, coords = [], []
+    for atom in xyz_structure:
+      name, vals = atom.split(' ', 1)
+      vals = [val for val in vals.split(' ') if val]
+      coords.extend(vals)
+      geom.append([name, vals])
 
   # Read the input parameters
   basis = params.get('basis', 'cc-pvdz')
