@@ -1,4 +1,5 @@
 import json
+import psi4
 
 from qiskit import BasicAer
 from qiskit.aqua import QuantumInstance
@@ -7,6 +8,48 @@ from qiskit.chemistry.drivers import PySCFDriver, UnitsType, Molecule
 from qiskit.chemistry.transformations import FermionicTransformation, FermionicQubitMappingType
 from qiskit.aqua.algorithms import NumPyMinimumEigensolver, VQE
 from qiskit.chemistry.algorithms.ground_state_solvers import GroundStateEigensolver
+
+
+def optimize_geometry(geometry, params):
+  opt = params.get('optimization', {})
+
+  # Get parameters for optimization
+  # Use qiskit parameters if no optimization values are provided
+  theory = opt.get('theory', params.get('theory', 'hf'))
+  basis = opt.get('basis', params.get('basis', 'cc-pvdz'))
+  functional = opt.get('functional', params.get('functional', 'b3lyp'))
+  charge = opt.get('charge', params.get('charge', 0))
+  multiplicity = opt.get('multiplicity', params.get('multiplicty', 1))
+
+  if theory.lower() == 'dft':
+      _theory = functional
+      reference = 'ks'
+  else:
+      _theory = 'scf'
+      reference = 'hf'
+
+  if multiplicity == 1:
+      reference = 'r' + reference
+  else:
+      reference = 'u' + reference
+
+  # Create molecule
+  geometry.insert(0, f'{charge} {multiplicity}')
+  mol = psi4.geometry(('\n').join(geometry))
+
+  # Optimize geometry
+  psi4.set_options({'reference': reference})
+  psi4.core.be_quiet()
+  energy = psi4.optimize(f'{_theory}/{basis}', molecule=mol)
+  results = mol.to_dict()
+
+  coords = results['geom']
+  geom = []
+  for elem, coord in zip(results['elem'], coords.reshape(-1, 3)):
+    geom.append([elem, coord])
+
+  return list(coords), geom, energy
+
 
 def run_calculation(geometry_file, output_file, params, scratch_dir):
   # Read in the geometry from the geometry file
