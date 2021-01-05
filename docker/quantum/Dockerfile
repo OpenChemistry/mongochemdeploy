@@ -24,6 +24,7 @@ RUN apt-get update && \
   cd / && rm -rf /root && mkdir /root && \
   rm -rf /var/lib/apt/lists/*
 
+ENV PYTHONPATH /usr/local/psi4/lib:$PYTHONPATH
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
