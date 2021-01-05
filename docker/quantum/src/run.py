@@ -101,9 +101,16 @@ def run_calculation(geometry_file, output_file, params, scratch_dir):
 
   cjson = {
     'chemicalJson': 1,
-    'geometry': geom,
-    'total_energies': res.total_energies[0]
+    'atoms': {
+      'coords': {
+        '3d': coords
+      }
+    },
+    'ground_state_energy': res.total_energies[0]
   }
+
+  if params.get('optimization', {}):
+    cjson['optimization_energy'] = psi4_energy
 
   with open(output_file, 'w') as f:
     json.dump(cjson, f)
