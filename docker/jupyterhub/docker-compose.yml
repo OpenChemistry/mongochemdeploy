@@ -9,9 +9,8 @@ version: "2"
 
 services:
   hub-db:
-    image: postgres:latest
+    image: postgres:9.6.17
     container_name: jupyterhub-db
-    restart: always
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       PGDATA: ${DB_VOLUME_CONTAINER}
@@ -23,11 +22,10 @@ services:
   hub:
     depends_on:
       - hub-db
-    restart: always
     build:
       context: ${JUPYTERHUB_DOCKER_DIR}
       dockerfile: Dockerfile.jupyterhub
-    image: openchemistry/jupyterhub:oc
+    image: openchemistry/jupyterhub:1.0
     container_name: jupyterhub
     volumes:
       # Bind Docker socket on the host so we can connect to the daemon from

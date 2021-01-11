@@ -1,4 +1,4 @@
 click
 numpy
-torchvision_nightly
-ase
+torchvision==0.5.0
+ase==3.19.0

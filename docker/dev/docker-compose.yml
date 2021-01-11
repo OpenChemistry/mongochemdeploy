@@ -1,7 +1,8 @@
 version: '2'
 services:
   mongo:
-    image: mongo:latest
+    image: mongo:4.2.3
+
     volumes:
      - mongo:/data/db
     ports:
@@ -13,7 +14,7 @@ services:
       context: .
       dockerfile: nginx/Dockerfile
     ports:
-      - 8888:8888
+     - 127.0.0.1:8888:8888
     depends_on:
       - 'girder'
       - 'hub'
@@ -21,10 +22,10 @@ services:
 
 
   client:
-    image: openchemistry/mongochemclient:latest
+    image: openchemistry/mongochemclient:1.0
 
   ansible:
-    image: openchemistry/ansible
+    image: openchemistry/ansible:1.0
     build:
       context: .
       dockerfile: ansible/Dockerfile
@@ -35,7 +36,7 @@ services:
 
   gridengine:
     privileged: true
-    image: openchemistry/gridengine
+    image: openchemistry/gridengine:1.0
     build:
       context: gridengine
       dockerfile: Dockerfile

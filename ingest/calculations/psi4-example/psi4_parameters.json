@@ -1,0 +1,10 @@
+{
+  "theory": "dft",
+  "task": "optimize",
+  "basis": "3-21g",
+  "functional": "b3lyp",
+  "name": "Acenaphthylene",
+  "wikipediaUrl": "http://www.wikipedia.com/Acenaphthylene",
+  "software": "psi4",
+  "version": "1.2.1"
+}

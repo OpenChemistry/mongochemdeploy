@@ -4,10 +4,11 @@ services:
     image: mongo:latest
     volumes:
      - mongo:/data/db
+    restart: always
 
   mongochemclient:
     image: openchemistry/mongochemclient:latest
-
+    restart: always
   nginx:
     image: nginx
     volumes:
@@ -21,6 +22,35 @@ services:
       - girder
       - mongochemclient
       - hub
+    restart: always
+  jena-fuseki:
+    image: stain/jena-fuseki:latest
+    restart: always
+  girder:
+    image: openchemistry/mongochemserver:latest
+    restart: always
+  hub:
+    image: openchemistry/jupyterhub:oc
+    restart: always
+  hub-db:
+    image: postgres:latest
+    restart: always
+  celery_command:
+    image: openchemistry/celery_worker:latest
+    restart: always
+  celery_monitor:
+    image: openchemistry/celery_worker:latest
+    restart: always
+  rabbitmq:
+    image: rabbitmq
+    restart: always
+  openbabel:
+    image: openchemistry/openbabel:latest
+    restart: always
+  avogadro:
+    image: openchemistry/avogadro:latest
+    restart: always
+
 volumes:
   mongo:
   certbot-certs:

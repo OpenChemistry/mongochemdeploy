@@ -32,10 +32,6 @@
     state: present
   with_items:
     - {
-      "key": "app.features.notebooks",
-      "value": "{{ app_feature_notesbooks | default(true) }}"
-    }
-    - {
        "key": "molecules.jena.url",
        "value": "{{ jena_url | default('http://jena-fuseki:3030')}}"
     }

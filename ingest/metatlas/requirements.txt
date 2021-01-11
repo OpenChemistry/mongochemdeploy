@@ -1,0 +1,5 @@
+tqdm
+click
+aiohttp
+tenacity
+coloredlogs
