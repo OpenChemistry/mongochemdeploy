@@ -24,7 +24,7 @@ services:
       - hub-db
     build:
       context: ${JUPYTERHUB_DOCKER_DIR}/jupyterhub
-      dockerfile: jupyterhub/Dockerfile
+      dockerfile: Dockerfile
     image: openchemistry/jupyterhub:1.1
     container_name: jupyterhub
     volumes:
