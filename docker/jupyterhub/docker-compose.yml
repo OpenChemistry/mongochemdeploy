@@ -23,7 +23,7 @@ services:
     depends_on:
       - hub-db
     build:
-      context: ${JUPYTERHUB_DOCKER_DIR}/jupyterhub
+      context: ${JUPYTERHUB_DOCKER_DIR}jupyterhub
       dockerfile: Dockerfile
     image: openchemistry/jupyterhub:1.1
     container_name: jupyterhub

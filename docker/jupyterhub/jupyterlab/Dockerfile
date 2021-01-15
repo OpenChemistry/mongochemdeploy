@@ -6,9 +6,12 @@ RUN apt-get update && apt-get -y install git
 
 USER jovyan
 
-RUN /opt/conda/bin/pip install jupyterhub==0.9.4
+# Fix python to 3.7, the latest supported by the avogadro wheel
+RUN /opt/conda/bin/conda install python=3.7
 
-RUN /opt/conda/bin/pip install jupyterlab==1.1.3
+RUN /opt/conda/bin/pip install jupyterhub==1.3.0
+
+RUN /opt/conda/bin/pip install jupyterlab==3.0.4
 
 RUN  /opt/conda/bin/pip install girder-jupyterhub
 
