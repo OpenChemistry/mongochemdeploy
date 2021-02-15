@@ -39,8 +39,6 @@ services:
       - "girder:127.0.0.1"
     depends_on:
       - db-mongodb
-    environment:
-      - GIRDER_PORT=8080
 
   app-rabbitmq:
     image: rabbitmq
@@ -68,15 +66,12 @@ services:
     links:
       - app-rabbitmq:rabbitmq
       - app-girder:girder
-    # We need the unset here as docker-compose injects a GIRDER_PORT env var as a result of the link property into the container environment.
-    # Girder then tries to reader as an int! Yes, this was hard to track down!
     command: celery worker --app=cumulus -b amqp://guest:guest@rabbitmq/ -n command --config=cumulus.celery.commandconfig --loglevel=INFO
     depends_on:
       - app-rabbitmq
     volumes:
      - app-keys.oc:/keys
     environment:
-     - GIRDER_PORT=8080
      - OC_ACCOUNT=m2485
 
 
@@ -95,15 +90,11 @@ services:
     links:
       - app-rabbitmq:rabbitmq
       - app-girder:girder
-    # We need the unset here as docker-compose injects a GIRDER_PORT env var as a result of the link property into the container environment.
-    # Girder then tries to reader as an int! Yes, this was hard to track down!
     command: celery worker --app=cumulus -b amqp://guest:guest@rabbitmq/ -n monitor -Q monitor --config=cumulus.celery.monitorconfig --loglevel=INFO
     depends_on:
       - app-rabbitmq
     volumes:
      - app-keys.oc:/keys
-    environment:
-     - GIRDER_PORT=8080
 
   app-mongochemclient:
     image: openchemistry/mongochemclient:latest
