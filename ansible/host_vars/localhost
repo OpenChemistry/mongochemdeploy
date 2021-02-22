@@ -1,4 +1,4 @@
-oc_site: 'development'
+app_deployment_site: 'development'
 dev: yes
 oc_api_url: 'http://localhost:8888/api/v1'
 oc_internal_api_url: 'http://girder:8080/api/v1'
