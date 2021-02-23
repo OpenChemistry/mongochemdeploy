@@ -23,9 +23,9 @@ services:
     depends_on:
       - hub-db
     build:
-      context: ${JUPYTERHUB_DOCKER_DIR}
-      dockerfile: Dockerfile.jupyterhub
-    image: openchemistry/jupyterhub:1.0
+      context: ${JUPYTERHUB_DOCKER_DIR}jupyterhub
+      dockerfile: Dockerfile
+    image: openchemistry/jupyterhub:1.1
     container_name: jupyterhub
     volumes:
       # Bind Docker socket on the host so we can connect to the daemon from
@@ -58,8 +58,6 @@ services:
       JUPTERLAB_APP_DIR: ${JUPTERLAB_APP_DIR}
     env_file:
       - ${JUPYTERHUB_DOCKER_DIR}secrets/postgres.env
-    command:
-      jupyterhub --debug -f /srv/jupyterhub/jupyterhub_config.py
     dns: 8.8.8.8
 volumes:
   data:
