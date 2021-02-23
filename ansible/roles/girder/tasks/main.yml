@@ -64,7 +64,7 @@
     }
     - {
       "key": "app.deployment.site",
-      "value": "{{ app_deployment_site | default('') }}"
+      "value": "{{ oc_site | default('') }}"
     }
 
 - name: Enable CORS requests
