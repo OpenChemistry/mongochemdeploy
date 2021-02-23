@@ -1,0 +1,6 @@
+click
+jinja2
+openchemistry
+openbabel
+numpy
+-e git+git://github.com/cclib/cclib.git#egg=cclib

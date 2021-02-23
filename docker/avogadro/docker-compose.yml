@@ -1,6 +1,6 @@
 version: '2'
 services:
   avogadro:
-    image: openchemistry/avogadro:1.0
+    image: openchemistry/avogadro
     ports:
       - 5001:5000
