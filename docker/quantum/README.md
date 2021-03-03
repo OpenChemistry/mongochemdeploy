@@ -5,7 +5,7 @@ In order to run the Qiskit docker container, first build the
 docker image:
 
 ```
-docker build -t quantum:1.0 .
+docker build -t openchemistry/qiskit:1.0 .
 ```
 
 Two input files are required: a geometry file and a parameters file.
@@ -29,13 +29,13 @@ A complete example can be seen below:
 
 ```
 cd example/
-docker run -v $(pwd):/data quantum:1.0 -g /data/geometry.xyz -p /data/parameters.json -o /data/out.cjson -s /data/scratch
+docker run -v $(pwd):/data openchemistry/qiskit:1.0 -g /data/geometry.xyz -p /data/parameters.json -o /data/out.cjson -s /data/scratch
 ```
 
 Or to optimize the geometry with Psi4 before running the calculation:
 
 ```
-docker run -v $(pwd):/data quantum:1.0 -g /data/geometry.xyz -p /data/optimization_parameters.json -o /data/out.cjson -s /data/scratch
+docker run -v $(pwd):/data openchemistry/qiskit:1.0 -g /data/geometry.xyz -p /data/optimization_parameters.json -o /data/out.cjson -s /data/scratch
 ```
 
 After the docker container finishes, the output file will be located in
@@ -43,7 +43,7 @@ the example directory. The output file is in `cjson` format.
 
 A json description of the image and some of the options may be obtained via:
 ```
-docker run quantum:1.0 -d
+docker run openchemistry/qiskit:1.0 -d
 ```
 
 Register Image to Run Notebook
