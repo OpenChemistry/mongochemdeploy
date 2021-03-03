@@ -45,18 +45,3 @@ A json description of the image and some of the options may be obtained via:
 ```
 docker run openchemistry/qiskit:1.0 -d
 ```
-
-Register Image to Run Notebook
-=================================
-
-The easiest way:
-- Use the Girder API to register the local image:
-  - Visit http://localhost:8080/api/v1
-  - [GET cluster ID](http://localhost:8080/api/v1#!/clusters/clusters_find)
-  - [Register the local image](http://localhost:8080/api/v1#!/images/images_create)
-    - `type`: <strong>docker</strong>
-    - `repository`: <strong>quantum</strong>
-    - `tag`: <strong>1.0</strong>
-    - `digest`: <strong>123</strong> (can be any value)
-    - `clusterId`: (from GET /clusters)
-    - `size`: <strong>2</strong> (can be any value)
