@@ -1,0 +1,12 @@
+{
+  "name": "ChemML_train",
+  "version": "0.1.0",
+  "input": {
+      "format": "smiles",
+      "parameters": {
+      }
+  },
+  "output": {
+      "format": "cjson"
+  }
+}
