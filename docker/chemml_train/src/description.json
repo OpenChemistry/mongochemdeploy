@@ -1,0 +1,12 @@
+{
+  "name": "ChemML_train",
+  "version": "0.1.0",
+  "type": "training",
+  "input": {
+      "parameters": {
+      }
+  },
+  "output": {
+      "format": "tar"
+  }
+}
